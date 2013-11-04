@@ -4,6 +4,9 @@
 
 package interfacefactory;
 
+import interfacefactory.DataModel.Fs;
+import interfacefactory.DataModel.Wk;
+import interfacefactory.DataModel.Wd;
 import java.util.Random;
 
 /**
@@ -38,14 +41,6 @@ public class SystemGenerator {
     private final double k4MIN = -0.0085;
     /**@param k4MAX максимальное значение k для блока Wk4*/
     private final double k4MAX = -0.01;
-    /**@param T41MIN минимальное значение T1 для блока Wk4*/
-    private final double T41MIN = 0.2;
-    /**@param T41MAX максимальное значение T1 для блока Wk4*/
-    private final double T41MAX = 0.3;
-    /**@param T42MIN минимальное значение T2 для блока Wk4*/
-    private final double T42MIN = 0.002;
-    /**@param T42MAX максимальное значение T2 для блока Wk4*/
-    private final double T42MAX = 0.003;
     
     /**@param k5MIN минимальное значение k для блока Wk5*/
     private final double k5MIN = 0.07;
@@ -63,28 +58,61 @@ public class SystemGenerator {
     private Wd wd4;
     private Wk wk5;
     private Wk wk6;
+    private Fs fs;
+    private final int af_len = 22;
+    private final int[] w;
+    private double [] u = new double[af_len];
+    private double [] v = new double[af_len];
     
     public SystemGenerator() {
         Random rnd = new Random();
-        double k = (k1MAX-k1MIN)*rnd.nextDouble()+k1MIN;
+        double k = Math.rint(((k1MAX-k1MIN)*rnd.nextDouble()+k1MIN)*100)/100;
         double t1, t2;
         wk1 = new Wk(k, "E", "Y", 0, 1, 1);
-        k = (k2MAX-k2MIN)*rnd.nextDouble()+k2MIN;
+        k = Math.rint(((k2MAX-k2MIN)*rnd.nextDouble()+k2MIN)*100)/100;
         wk2 = new Wk(k, "Y", "Y", 1, 2, 2);
-        k = (k3MAX-k3MIN)*rnd.nextDouble()+k3MIN;
-        t1 = (T31MAX-T31MIN)*rnd.nextDouble()+T31MIN;
-        t2 = (T32MAX-T32MIN)*rnd.nextDouble()+T32MIN;
+        k = Math.rint(((k3MAX-k3MIN)*rnd.nextDouble()+k3MIN)*100)/100;
+        t1 = Math.rint(((T31MAX-T31MIN)*rnd.nextDouble()+T31MIN)*1000)/1000;
+        t2 = Math.rint(((T32MAX-T32MIN)*rnd.nextDouble()+T32MIN)*1000)/1000;
         wd3 = new Wd(k, t1, t2, "Y", "Y", 2, 3, 3);
-        k = (k4MAX-k4MIN)*rnd.nextDouble()+k4MIN;
-        t1 = (T41MAX-T41MIN)*rnd.nextDouble()+T41MIN;
-        t2 = (T42MAX-T42MIN)*rnd.nextDouble()+T42MIN;
+        k = Math.rint(((k4MAX-k4MIN)*rnd.nextDouble()+k4MIN)*10000)/10000;
         wd4 = new Wd(k, t1, t2, "F", "Y", 0, 4, 4);
-        k = (k5MAX-k5MIN)*rnd.nextDouble()+k5MIN;
+        k = Math.rint(((k5MAX-k5MIN)*rnd.nextDouble()+k5MIN)*1000)/1000;
         wk5 = new Wk(k, "Y", "Y", 0, 5, 5);
-        k = (k6MAX-k6MIN)*rnd.nextDouble()+k6MIN;
+        k = Math.rint(((k6MAX-k6MIN)*rnd.nextDouble()+k6MIN)*100)/100;
         wk6 = new Wk(k, "Y", "Y", 5, 6, 6);   
+        fs = new Fs(wk1, wk2, wd3, wk5, wk6);
+        w = new int[] {0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000,
+            1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000};
+        for (int i = 0; i < af_len; i++) {
+            u[i] = Math.rint(1000*fs.getU_w().calc_U(w[i]))/1000;
+            v[i] = Math.rint(10000*fs.getV_w().calc_V(w[i]))/10000; 
+        }
     }
 
+    /**@return длину массивов для построения графика АФЧХ*/
+    public int getAfLen() {
+        return af_len;
+    }
+    
+    /**@return значение частоты в массиве
+     @param x номер элемента в массиве*/
+    public int getW(int x) {
+        return w[x];
+    }
+    
+    /**@return значение действительной частотной функции в массиве
+     @param x номер элемента в массиве*/
+    public double getU(int x) {
+        return u[x];
+    }
+    
+    /**@return значение действительной частотной функции в массиве
+     @param x номер элемента в массиве*/
+    public double getV(int x) {
+        return v[x];
+    }
+    
     /** @return wk1 - передаточную функцию 1го блока*/
     public Wk getWk1() {
         return wk1;
@@ -113,5 +141,10 @@ public class SystemGenerator {
     /** @return wk6 - передаточную функцию 6го блока*/
     public Wk getWk6() {
         return wk6;
+    }
+
+    /** @return fs - передаточную функцию системы*/
+    public Fs getFs() {
+        return fs;
     }
 }

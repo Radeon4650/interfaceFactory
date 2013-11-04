@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 
 /**
  *
@@ -22,7 +23,20 @@ public class Page4interface {
         rootLayout = new VBox();
         rootLayout.setAlignment(Pos.CENTER_LEFT);
         rootLayout.getChildren().add(infoLab1);
-        rootLayout.getChildren().add(PromptSet.getPrompt("abridgedMulFormula"));
+        WebView wv = new WebView();
+        wv.getEngine().loadContent("<p><b>Умножаем и делим Ф(j&#x03C9) на "
+                + "комплексно сопряженное знаменателю выражение, чтобы "
+                + "избавиться от мнимой единицы в знаменателе:</b></p>"
+                + PromptSet.getPrompt("abridgedMulFormula")
+                + sg.getFs().printInMathMLwithComplConExpr()
+                + ";<br>"
+                + sg.getFs().printInMathMLwithUwVw()
+                + ".<p><b>Выделяем действительную U(&#x03C9) и мнимую "
+                + "V(&#x03C9) частотные функции:</b></p>"
+                + sg.getFs().getU_w().printInMathML() + ";\t"
+                + sg.getFs().getV_w().printInMathML() + "."
+        );
+        rootLayout.getChildren().add(wv);
     }
     
     public Node getRootLayout(){

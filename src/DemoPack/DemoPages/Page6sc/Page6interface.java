@@ -7,7 +7,9 @@ import interfacefactory.SystemGenerator;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 
 /**
  *
@@ -22,7 +24,18 @@ public class Page6interface {
         rootLayout = new VBox();
         rootLayout.setAlignment(Pos.CENTER_LEFT);
         rootLayout.getChildren().add(infoLab1);
-        rootLayout.getChildren().add(PromptSet.getPrompt("formula_passband"));
+        HBox box = new HBox();
+        box.getChildren().add(ChartCreation_page6.getChart(sg.getFs().getA_w()));
+
+        WebView wv = new WebView();
+        wv.getEngine().loadContent(PromptSet.getPrompt("formula_passband")
+                + "<p><b>Вычисляем полосу пропускания системы:</b></p>"
+                + sg.getFs().getA_w().printInMathMLApr()
+                + ";<br>"
+                + sg.getFs().getA_w().printInMathMLwPr() + "."
+        );
+        box.getChildren().add(wv);
+        rootLayout.getChildren().add(box);
     }
     
     public Node getRootLayout(){

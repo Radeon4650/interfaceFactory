@@ -8,6 +8,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 
 /**
  *
@@ -22,8 +23,19 @@ public class Page3interface {
         rootLayout = new VBox();
         rootLayout.setAlignment(Pos.CENTER_LEFT);
         rootLayout.getChildren().add(infoLab1);
-        rootLayout.getChildren().add(PromptSet.getPrompt("formula_Fs_t1t2"));
-        rootLayout.getChildren().add(PromptSet.getPrompt("replacementSjw"));
+        WebView wv = new WebView();
+        wv.getEngine().loadContent("<p><b>Записываем передаточную функцию замкнутой"
+                + " системы с использованием полученных постоянных времени:</b></p>"
+                + sg.getFs().printInMathMLWith_t1t2_s()
+                + ".<br>"
+                + PromptSet.getPrompt("formula_Fs_t1t2")
+                + PromptSet.getPrompt("replacementSjw")
+                + "<br><p><b>"
+                + "Получаем частотную передаточную функцию замкнутой САУ:</b></p>"
+                + sg.getFs().printInMathMLWith_t1t2_jw() + "."
+        );
+        rootLayout.getChildren().add(wv);
+        
     }
     
     public Node getRootLayout(){
