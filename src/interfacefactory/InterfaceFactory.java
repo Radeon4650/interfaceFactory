@@ -20,7 +20,7 @@ public class InterfaceFactory extends Application {
         DemoInterface demo = new DemoInterface();
         root.getChildren().add(demo.getdInterface());
         
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1000, 610);
         
         primaryStage.setTitle("Interface Factory Research");
         primaryStage.setScene(scene);

@@ -12,7 +12,7 @@ public class StructScheme {
     
     /**@return структурную схему САС для расчетов*/
     public static String getStructScheme() {
-        return "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:ev=\"http://www.w3.org/2001/xml-events\"\n" +
+        return "<svg width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:ev=\"http://www.w3.org/2001/xml-events\"\n" +
         "xmlns:v=\"http://schemas.microsoft.com/visio/2003/SVGExtensions/\" width=\"9.95092in\" height=\"3.08683in\"\n" +
         "viewBox=\"0 0 716.466 222.252\" xml:space=\"preserve\" color-interpolation-filters=\"sRGB\" class=\"st9\">\n" +
         "<v:documentProperties v:langID=\"1049\" v:viewMarkup=\"false\">\n" +

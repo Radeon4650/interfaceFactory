@@ -24,15 +24,18 @@ public class Page3interface {
         rootLayout.setAlignment(Pos.CENTER_LEFT);
         rootLayout.getChildren().add(infoLab1);
         WebView wv = new WebView();
-        wv.getEngine().loadContent("<p><b>Записываем передаточную функцию замкнутой"
+        wv.getEngine().loadContent("<html><body>"
+                + "<table width=\"100%\"><tr><td align = \"center\">"
+                + "<p><b>Записываем передаточную функцию замкнутой"
                 + " системы с использованием полученных постоянных времени:</b></p>"
                 + sg.getFs().printInMathMLWith_t1t2_s()
-                + ".<br>"
+                + ".<br></td><td width=\"33%\" align=\"left\">"
                 + PromptSet.getPrompt("formula_Fs_t1t2")
-                + PromptSet.getPrompt("replacementSjw")
-                + "<br><p><b>"
+                + "<br></td></tr><tr><td align = \"center\"><p><b>"
                 + "Получаем частотную передаточную функцию замкнутой САУ:</b></p>"
-                + sg.getFs().printInMathMLWith_t1t2_jw() + "."
+                + sg.getFs().printInMathMLWith_t1t2_jw() + ".</td><td>"
+                + PromptSet.getPrompt("replacementSjw")
+                + "</td></tr></table></body></html>"
         );
         rootLayout.getChildren().add(wv);
         

@@ -229,7 +229,9 @@ public class Fs {
                     + "<mi>&#x03C9</mi></mrow></mfenced>"
                     + "</mrow></mfrac><mo>=</mo>"
                     + u.substring(u.indexOf("=</mo>")+6, u.indexOf("</math>"))
-                    + "<mo>-</mo><mi>j</mi>"
+                    + "</mrow></math>"
+                    + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
+                    + "<mrow><mo>-</mo><mi>j</mi>"
                     + v.substring(v.indexOf("=-</mo>")+7, v.indexOf("</math>"))
                 + "</mrow></math>";
     }

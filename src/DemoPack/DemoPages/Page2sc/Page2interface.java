@@ -24,21 +24,22 @@ public class Page2interface {
         rootLayout.setAlignment(Pos.CENTER_LEFT);
         rootLayout.getChildren().add(infoLab1);
         WebView wv = new WebView();
-        wv.getEngine().loadContent("<p><b>Находим корни характеристического "
+        wv.getEngine().loadContent("<html><body>"
+                + "<table width=\"100%\"><tr><td align = \"center\">"
+                + "<p><b>Находим корни характеристического "
                 + "уравнения:</b></p>"
-                + sg.getFs().printChEquationInMathML()
-                + ";<br>"
+                + sg.getFs().printChEquationInMathML() + ";<br><br>"
+                + sg.getFs().printDInMathML() + ";<br><br>"
+                + sg.getFs().printS1inMathML() + ";<br><br>"
+                + sg.getFs().printS2inMathML() + ";<br>"
+                + "</td><td width=\"33%\" align=\"left\">"
                 + PromptSet.getPrompt("formula_sqEquation")
-                + "<br>" + sg.getFs().printDInMathML()
-                + ";<br>"
-                + sg.getFs().printS1inMathML()
-                + ";<br>"
-                + sg.getFs().printS2inMathML()
-                + ";<br>"
-                + PromptSet.getPrompt("formula_T1_T2")
+                +"</td></tr><tr><td align = \"center\">"
                 + "<p><b>Вычисляем постоянные времени:</b></p>"
-                + sg.getFs().printT1inMathML()
-                + ";\t"+sg.getFs().printT2inMathML()+".");
+                + sg.getFs().printT1inMathML() + ";\t"
+                + sg.getFs().printT2inMathML() + ".</td><td>"
+                + PromptSet.getPrompt("formula_T1_T2")
+                + "</td></tr></table></body></html>");
         rootLayout.getChildren().add(wv);
     }
     

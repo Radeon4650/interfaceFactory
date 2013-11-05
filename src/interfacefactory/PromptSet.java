@@ -46,8 +46,8 @@ public class PromptSet {
     /**@return подсказку для вычисления передаточной функции Ф(s)
      замкнутой системы по задающему воздействию */
     private static String formula_Fs() {
-         return "<p align=\"center\">Формула для вычисления передаточной функции "
-                + "замкнутой системы по задающему воздействию:</p>"
+         return "<p align=\"center\"><i>Формула для вычисления передаточной функции "
+                + "замкнутой системы по задающему воздействию:</i></p>"
                 + "<p align=\"center\">" 
                 + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>Ф</mi><mfenced><mi>s</mi></mfenced>"
@@ -71,7 +71,7 @@ public class PromptSet {
 
     /**@return формулу для решения квадратного уравнения */
     private static String formula_sqEquation() {
-        return "<p align=\"center\">Решение квадратных уравнений:</p>"+
+        return "<p align=\"center\"><i>Решение квадратных уравнений:</i></p>"+
                "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                 // D
                     + "<mrow><mi>D</mi><mo>=</mo>"
@@ -105,7 +105,7 @@ public class PromptSet {
 
     /**@return формулу для вычисления постоянных времени Т1 и Т2*/
     private static String formula_T1_T2() {
-        return "<p align=\"center\">Получение постоянных времени:</p>"+
+        return "<p align=\"center\"><i>Получение постоянных времени:</i></p>"+
                "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                 // T1
                     + "<mrow><msub><mi>T</mi><mn>1</mn></msub>"
@@ -130,7 +130,7 @@ public class PromptSet {
     /**@return подсказку для представления передаточной функции 
      с помощью постоянных времени Т1 и Т2*/
     private static String formula_Fs_t1t2() {
-        return "<p align=\"center\">Необходимо представить передаточную функцию в виде:</p>"
+        return "<p align=\"center\"><i>Необходимо представить передаточную функцию в виде:</i></p>"
                 + "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>Ф</mi>"
                     + "<mfenced><mi>s</mi></mfenced>"
@@ -160,7 +160,7 @@ public class PromptSet {
     /**@return подсказку о необходимости замены s->jw 
      при получении частотной передаточной функции*/
     private static String replacementSjw() {
-        return  "<p align=\"center\">Производим замену:</p>" +
+        return  "<p align=\"center\"><i>Производим замену:</i></p>" +
                 "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>s</mi>"
                     + "<mo>&#x2192</mo>"
@@ -171,7 +171,7 @@ public class PromptSet {
     /**@return формулу сокращенного умножения
      a^2 + b^2 = (a+b)*(a-b) */
     private static String abridgedMulFormula() {
-        return  "<p align=\"center\">Формула сокращенного умножения:</p>"+
+        return  "<p align=\"center\"><i>Формула сокращенного умножения:</i></p>"+
                 "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><msup><mi>a</mi><mn>2</mn></msup>"
                         + "<mo>-</mo>"
@@ -199,7 +199,7 @@ public class PromptSet {
 
     /**@return формулу вычисления функции АЧХ*/
     private static String formula_Aw () {
-        return  "<p align=\"center\">Формула для вычисления функции АЧХ:</p>"+
+        return  "<p align=\"center\"><i>Формула для вычисления функции АЧХ:</i></p>"+
                 "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>A</mi>"
                     + "<mfenced><mi>&#x03C9</mi></mfenced>"
@@ -214,7 +214,7 @@ public class PromptSet {
 
     /**@return формулу вычисления полосы пропускания*/
     private static String formula_passband() {
-        return  "<p align=\"center\">Формула вычисления полосы пропускания системы:</p>"+
+        return  "<p align=\"center\"><i>Формула вычисления полосы пропускания системы:</i></p>"+
                 "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>A</mi>"
                     + "<mfenced><msub><mi>&#x03C9</mi>"

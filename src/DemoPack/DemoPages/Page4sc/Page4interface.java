@@ -24,17 +24,22 @@ public class Page4interface {
         rootLayout.setAlignment(Pos.CENTER_LEFT);
         rootLayout.getChildren().add(infoLab1);
         WebView wv = new WebView();
-        wv.getEngine().loadContent("<p><b>Умножаем и делим Ф(j&#x03C9) на "
+        wv.getEngine().loadContent("<html><body>"
+                + "<table width=\"100%\"><tr><td align = \"center\">"
+                + "<p><b>Умножаем и делим Ф(j&#x03C9) на "
                 + "комплексно сопряженное знаменателю выражение, чтобы "
                 + "избавиться от мнимой единицы в знаменателе:</b></p>"
-                + PromptSet.getPrompt("abridgedMulFormula")
                 + sg.getFs().printInMathMLwithComplConExpr()
-                + ";<br>"
+                + ";<br><br>"
                 + sg.getFs().printInMathMLwithUwVw()
-                + ".<p><b>Выделяем действительную U(&#x03C9) и мнимую "
+                + ".<br></td><td width=\"33%\" align=\"left\">"
+                + PromptSet.getPrompt("abridgedMulFormula")
+                + "</td></tr><tr><td colspan =\"2\" align = \"center\"><br>"
+                + "<p><b>Выделяем действительную U(&#x03C9) и мнимую "
                 + "V(&#x03C9) частотные функции:</b></p>"
                 + sg.getFs().getU_w().printInMathML() + ";\t"
                 + sg.getFs().getV_w().printInMathML() + "."
+                + "</td></tr></table></body></html>"
         );
         rootLayout.getChildren().add(wv);
     }

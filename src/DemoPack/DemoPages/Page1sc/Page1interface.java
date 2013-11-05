@@ -25,21 +25,27 @@ public class Page1interface {
         rootLayout.getChildren().add(infoLab1);
             
         WebView wv = new WebView();
-        wv.getEngine().loadContent("<p><b>Структурная схема системы:</b></p>"
+        wv.getEngine().loadContent("<html><body>"
+                + "<table><tr><td align = \"center\">"
+                + "<p><b>Структурная схема системы:</b></p>"
                 + StructScheme.getStructScheme()
-                + "<br><p><b>Исходные данные:</b></p>"
+                + "</td><td width=\"33%\">"
+                + "<p><b>Исходные данные:</b></p>"
                 + sg.getWk1().printInMathML()+";\t"+ sg.getWk5().printInMathML()
                 + ";<br>"
                 + sg.getWk2().printInMathML()+";\t"+ sg.getWk6().printInMathML()
                 + ";<br>"
                 + sg.getWd3().printInMathML()
                 + ";<br>"
-                + sg.getWd4().printInMathML()                
-                + ".<br><p><b>Получаем передаточную функцию системы "
+                + sg.getWd4().printInMathML()
+                + ".</td></tr><tr><td align = \"center\">"                
+                + "<p><b>Получаем передаточную функцию системы "
                 + "по задающему воздействию:</b></p>"
-                + PromptSet.getPrompt("formula_Fs")+ PromptSet.fsEquation()
-                + ";<br>"
-                + sg.getFs().printInMathMLWith_abc_s()+".");
+                + PromptSet.fsEquation() + ";<br>"
+                + sg.getFs().printInMathMLWith_abc_s()
+                + ".</td><td valign=\"top\">"
+                + PromptSet.getPrompt("formula_Fs")
+                +"</td></tr></table></body></html>");
                  
         rootLayout.getChildren().add(wv);     
     }
