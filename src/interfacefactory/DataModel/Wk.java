@@ -69,7 +69,7 @@ public class Wk {
                     + "</mrow>"
                     + "</mfrac>"
                     + "<mo>=</mo>"
-                    + "<mn>"+String.valueOf(k)+"</mn>"
+                    + "<mn mathcolor='#00cc00' mathsize='1.2em'>"+String.valueOf(k)+"</mn>"
                     + "</mrow>"
                 + "</math>";
     }

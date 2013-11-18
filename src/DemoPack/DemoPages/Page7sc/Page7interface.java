@@ -1,7 +1,8 @@
 // Общий интерфейс page 7
 package DemoPack.DemoPages.Page7sc;
 
-import interfacefactory.SystemGenerator;
+import DemoPack.DemoSystemGenerator;
+import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -19,16 +20,20 @@ public class Page7interface {
 //    private TableView apfcTable;
     private VBox rootLayout;
     
-    public Page7interface (SystemGenerator sg) {
+    public Page7interface (DemoSystemGenerator sg, ResourceBundle lang) {
         infoLab1 = new Label("Test page 7");
-        String webContent = "<p><b>Рассчитываем значения действительной "
-                + "и мнимой частотной функции для различных значений частоты "
-                + "и заносим в таблицу:</b></p>"
+        String webContent = "<p><b>"
+                + lang.getString("Demo.p7.tableTopic")
+                + "</b></p>"
                 + "<table border=\"1\" width=\"90%\" align = \"center\"><tr>"
-                + "<td bgcolor=\"#CCFF99\" align = \"center\">&#x03C9, рад/с</td>"
+                + "<td bgcolor=\"#CCFF99\" align = \"center\">&#x03C9, "
+                + lang.getString("Demo.p7.rad_s")
+                + "</td>"
                 + "<td bgcolor=\"#CCFF99\" align = \"center\">U(&#x03C9)</td>"
                 + "<td bgcolor=\"#CCFF99\" align = \"center\">V(&#x03C9)</td>"
-                + "<td bgcolor=\"#CCFF99\" align = \"center\">&#x03C9, рад/с</td>"
+                + "<td bgcolor=\"#CCFF99\" align = \"center\">&#x03C9, "
+                + lang.getString("Demo.p7.rad_s")
+                + "</td>"
                 + "<td bgcolor=\"#CCFF99\" align = \"center\">U(&#x03C9)</td>"
                 + "<td bgcolor=\"#CCFF99\" align = \"center\">V(&#x03C9)</td></tr>";
                 

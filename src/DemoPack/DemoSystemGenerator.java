@@ -2,7 +2,7 @@
  * Генерирует значения коеффициентов для задачи в заданных пределах
  */
 
-package interfacefactory;
+package DemoPack;
 
 import interfacefactory.DataModel.Fs;
 import interfacefactory.DataModel.Wk;
@@ -13,7 +13,53 @@ import java.util.Random;
  *
  * @author radeon
  */
-public class SystemGenerator {
+
+class UVstruct {
+    /**@param w частота*/
+    private double w;
+    /**@param U действительная часть*/
+    private double U;
+    /**@param V мнимая часть*/
+    private double V;
+    
+    public UVstruct() {
+        this.w=0;
+        this.V=0;
+        this.U=0;
+    }
+
+    /** @return частоту ω */
+    public double getW() {
+        return w;
+    }
+
+    /** @param w частота ω    */
+    public void setW(double w) {
+        this.w = w;
+    }
+
+    /**@return действительную часть U(ω)     */
+    public double getU() {
+        return U;
+    }
+
+    /** @param U действительная часть   */
+    public void setU(double U) {
+        this.U = U;
+    }
+
+    /** @return мнимую часть V(ω)  */
+    public double getV() {
+        return V;
+    }
+
+    /** @param V мнимая часть    */
+    public void setV(double V) {
+        this.V = V;
+    }
+}
+        
+public class DemoSystemGenerator {
     /**@param k1MIN минимальное значение k для блока Wk1*/
     private final double k1MIN = 1;
     /**@param k1MAX максимальное значение k для блока Wk1*/
@@ -59,12 +105,13 @@ public class SystemGenerator {
     private Wk wk5;
     private Wk wk6;
     private Fs fs;
+    /**@param af_len длина массива для построения АФЧХ*/
     private final int af_len = 22;
-    private final int[] w;
-    private double [] u = new double[af_len];
-    private double [] v = new double[af_len];
+    /**@param wuvArr массив структур для хранения значения ω, U(ω), V(ω)*/
+    private UVstruct[] wuvArr = new UVstruct[af_len];
+
     
-    public SystemGenerator() {
+    public DemoSystemGenerator() {
         Random rnd = new Random();
         double k = Math.rint(((k1MAX-k1MIN)*rnd.nextDouble()+k1MIN)*100)/100;
         double t1, t2;
@@ -82,14 +129,48 @@ public class SystemGenerator {
         k = Math.rint(((k6MAX-k6MIN)*rnd.nextDouble()+k6MIN)*100)/100;
         wk6 = new Wk(k, "Y", "Y", 5, 6, 6);   
         fs = new Fs(wk1, wk2, wd3, wk5, wk6);
-        w = new int[] {0, 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000,
-            1100, 1200, 1300, 1400, 1500, 1600, 1700, 1800, 1900, 2000};
-        for (int i = 0; i < af_len; i++) {
-            u[i] = Math.rint(1000*fs.getU_w().calc_U(w[i]))/1000;
-            v[i] = Math.rint(10000*fs.getV_w().calc_V(w[i]))/10000; 
-        }
+        setWuvArr();
     }
 
+    /**@return ~void записывает в массив константные значения частоты
+     для вычисления U(ω) и V(ω)*/
+    private void setWarr() {
+        wuvArr[0].setW(0);
+        wuvArr[1].setW(50);
+        wuvArr[2].setW(100);
+        wuvArr[3].setW(200);
+        wuvArr[4].setW(300);
+        wuvArr[5].setW(400);
+        wuvArr[6].setW(500);
+        wuvArr[7].setW(600);
+        wuvArr[8].setW(700);
+        wuvArr[9].setW(800);
+        wuvArr[10].setW(900);
+        wuvArr[11].setW(1000);
+        wuvArr[12].setW(1100);
+        wuvArr[13].setW(1200);
+        wuvArr[14].setW(1300);
+        wuvArr[15].setW(1400);
+        wuvArr[16].setW(1500);
+        wuvArr[17].setW(1600);
+        wuvArr[18].setW(1700);
+        wuvArr[19].setW(1800);
+        wuvArr[20].setW(1900);
+        wuvArr[21].setW(2000);
+    }
+  
+    /**@return ~void выделяет память для каждого элемента массива, а также
+     * вычисляет и записывает в массив значения U(ω) и V(ω)*/
+    private void setWuvArr() {
+        for (int i = 0; i < getAfLen(); i++) 
+            wuvArr[i]=new UVstruct();
+        setWarr();
+        for (int i = 0; i < getAfLen(); i++) {
+            wuvArr[i].setU(Math.rint(1000*fs.getU_w().calc_U(wuvArr[i].getW()))/1000);
+            wuvArr[i].setV(Math.rint(10000*fs.getV_w().calc_V(wuvArr[i].getW()))/10000); 
+        }
+    }
+    
     /**@return длину массивов для построения графика АФЧХ*/
     public int getAfLen() {
         return af_len;
@@ -97,20 +178,20 @@ public class SystemGenerator {
     
     /**@return значение частоты в массиве
      @param x номер элемента в массиве*/
-    public int getW(int x) {
-        return w[x];
+    public double getW(int x) {
+        return wuvArr[x].getW();
     }
     
     /**@return значение действительной частотной функции в массиве
      @param x номер элемента в массиве*/
     public double getU(int x) {
-        return u[x];
+        return wuvArr[x].getU();
     }
     
     /**@return значение действительной частотной функции в массиве
      @param x номер элемента в массиве*/
     public double getV(int x) {
-        return v[x];
+        return wuvArr[x].getV();
     }
     
     /** @return wk1 - передаточную функцию 1го блока*/

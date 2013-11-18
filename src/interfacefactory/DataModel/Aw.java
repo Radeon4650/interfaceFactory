@@ -3,6 +3,37 @@ package interfacefactory.DataModel;
 
 import interfacefactory.DblNum;
 
+class AwStruct {
+    /**@param w частота ω*/
+    private double w;
+    /**@param A значение АЧХ для частоты ω*/
+    private double A;
+
+    public AwStruct() {
+        this.w=0;
+        this.A=0;
+    }
+    
+    /** @return частоту ω  */
+    public double getW() {
+        return w;
+    }
+
+    /** @param w частота    */
+    public void setW(double w) {
+        this.w = w;
+    }
+
+    /** @return значение АЧХ для частоты ω  */
+    public double getA() {
+        return A;
+    }
+
+    /** @param A значение АЧХ   */
+    public void setA(double A) {
+        this.A = A;
+    }
+}
 
 public class Aw {   //A(w)
     /**@param k коеффициент числителя*/
@@ -13,10 +44,13 @@ public class Aw {   //A(w)
     protected double m;
     /**@param fA_w_count количество значений для построения графика АЧХ*/
     private final int fA_w_count = 11; 
-    /**@param wValue массив значений частоты w для вычисления АЧХ*/
-    private final double wValue [];
-    /**@param fA_w табличные значения для построения графика АЧХ*/
-    private double fA_w [] = new double[getfA_w_count()];
+    
+//    /**@param wValue массив значений частоты w для вычисления АЧХ*/
+//    private final double wValue [];
+//    /**@param fA_w табличные значения для построения графика АЧХ*/
+//    private double fA_w [] = new double[getfA_w_count()];
+    private AwStruct awArr [] = new AwStruct[fA_w_count];
+    
     /**@param Apr значение полосы пропускания*/
     private double Apr;
     /**@param wPr частота полосы пропускания*/
@@ -33,25 +67,22 @@ public class Aw {   //A(w)
     */
     public Aw (double init_kA, double T1, double T2)
     {
-        wValue = new double[]{0, 5, 10, 20, 50, 60, 70, 80, 90, 100, 200};
         k = init_kA;
         m = T1*T1;
         n = T2*T2;
         e = Math.rint((T1+T2)*k*10000)/10000;
         h = T1*T2;
-        for (int i = 0; i < fA_w_count; i++) {
-            fA_w[i] = calc_A(wValue[i]);
-        }
-        Apr = Math.rint(1000*0.707*fA_w[0])/1000;
+        fillAwArr();
+        Apr = Math.rint(1000*0.707*awArr[0].getA())/1000;
         calc_wPr();
     }
 
     /**Вычислить значение частоты полосы пропускания*/
     private void calc_wPr () {
         int i=0;
-        while (getApr() < fA_w[i]) i++;
-        double wCurr = wValue[i];
-        double Acurr=fA_w[i];
+        while (getApr() < awArr[i].getA()) i++;
+        double wCurr = awArr[i].getW();
+        double Acurr=awArr[i].getA();
         double dPrev = Acurr;
         final double cnt_precision = 0.5;
         while (Math.abs(getApr()-Acurr)<=Math.abs(getApr()-dPrev)) {
@@ -60,6 +91,26 @@ public class Aw {   //A(w)
              Acurr = Math.rint(1000*k/Math.sqrt((n*wCurr*wCurr+1)*(m*wCurr*wCurr+1)))/1000;
              }
         wPr = wCurr;
+    }
+    
+    /**@return ~void заполняет массив соответствующими значениями ω и А(ω)*/
+    private void fillAwArr() {
+        for (int i = 0; i < getfA_w_count(); i++) 
+            awArr[i]=new AwStruct();
+        awArr[0].setW(0); 
+        awArr[1].setW(5);
+        awArr[2].setW(10);
+        awArr[3].setW(20);
+        awArr[4].setW(50);
+        awArr[5].setW(60);
+        awArr[6].setW(70);
+        awArr[7].setW(80);
+        awArr[8].setW(90);
+        awArr[9].setW(100);
+        awArr[10].setW(200);
+        for (int i = 0; i < getfA_w_count(); i++) {
+            awArr[i].setA(calc_A(awArr[i].getW()));
+        }
     }
     
     /**@return первый коеффициент при w^2 в знаменателе*/
@@ -134,41 +185,48 @@ public class Aw {   //A(w)
 
     /**
      * @return строку в формате MathML для вычисления полосы пропускания
+     * @param langPr перевод подписи [w_]пр на текущий язык
      */
-    public String printInMathMLApr() {
+    public String printInMathMLApr(String langPr) {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>A</mi>"
-                    + "<mfenced><msub><mi>&#x03C9</mi>"
-                    + "<mi>пр</mi></msub></mfenced>"
+                    + "<mfenced><msub><mi>&#x03C9</mi><mi>"
+                    + langPr
+                    + "</mi></msub></mfenced>"
                     + "<mo>=</mo><mn>0.707</mn>"
                     + "<mo>&#x2219</mo>"
-                    + "<mn>"+String.valueOf(fA_w[0])+"</mn>"
+                    + "<mn>"+String.valueOf(awArr[0].getA())+"</mn>"
                     + "<mo>=</mo>"
                     + "<mn>"+String.valueOf(Apr)+"</mn>"
                     + "</mrow></math>";
     }
     
-    /**@return строку в формате MathML со значением частоты полосы пропускания*/
-    public String printInMathMLwPr() {
+    /**@return строку в формате MathML со значением частоты полосы пропускания
+     @param langPr перевод подписи [w_]пр на текущий язык
+     @param langRad перевод подписи рад/с на текущий язык*/
+    public String printInMathMLwPr(String langPr, String langRad) {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
-                    + "<mrow><msub><mi>&#x03C9</mi>"
-                    + "<mi>пр</mi></msub>"
+                    + "<mrow><msub><mi>&#x03C9</mi><mi>"
+                    + langPr
+                    + "</mi></msub>"
                     + "<mo>=</mo><mn>"+String.valueOf(Math.round(wPr))+"</mn>"
-                    + "<mtext> рад/с</mtext>"
+                    + "<mtext> "
+                    + langRad
+                    + "</mtext>"
                     + "</mrow></math>";
     }
     
     /**  @return значение частоты в массиве
          @param x - номер значения в массиве */
     public double getWValue(int x) {
-        return wValue[x];
+        return awArr[x].getW();
     }
 
     /** @return fA_w - список значений АЧХ  */
     public double getfA_w(int x) {
-        return fA_w[x];
+        return awArr[x].getA();
     }
 
     /** @return значение полосы пропускания   */

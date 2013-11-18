@@ -4,38 +4,40 @@
  */
 package interfacefactory;
 
+import java.util.ResourceBundle;
+
 /**
  * @author Radeon
  */
 public class PromptSet {
     
-    public static String getPrompt(String param) {
+    public static String getPrompt(String param, ResourceBundle lang) {
         String webContent = ""; //<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
         //CCFF00
         switch (param) {
             case "formula_Fs":
-                webContent+=formula_Fs();
+                webContent+=formula_Fs(lang);
                 break;
             case "formula_sqEquation":
-                webContent+=formula_sqEquation();
+                webContent+=formula_sqEquation(lang);
                 break;
             case "formula_T1_T2":
-                webContent+=formula_T1_T2();
+                webContent+=formula_T1_T2(lang);
                 break;
             case "formula_Fs_t1t2":
-                webContent+=formula_Fs_t1t2();
+                webContent+=formula_Fs_t1t2(lang);
                 break;
             case "replacementSjw":
-                webContent+=replacementSjw();
+                webContent+=replacementSjw(lang);
                 break;
             case "abridgedMulFormula":
-                webContent+=abridgedMulFormula();
+                webContent+=abridgedMulFormula(lang);
                 break;
             case "formula_Aw":
-                webContent+=formula_Aw();
+                webContent+=formula_Aw(lang);
                 break;
             case "formula_passband":
-                webContent+=formula_passband();
+                webContent+=formula_passband(lang);
                 break;
             default:
                 throw new AssertionError();
@@ -45,17 +47,21 @@ public class PromptSet {
     
     /**@return подсказку для вычисления передаточной функции Ф(s)
      замкнутой системы по задающему воздействию */
-    private static String formula_Fs() {
-         return "<p align=\"center\"><i>Формула для вычисления передаточной функции "
-                + "замкнутой системы по задающему воздействию:</i></p>"
+    private static String formula_Fs(ResourceBundle lang) {
+         return "<p align=\"center\"><i>" + lang.getString("PromptSet.formulaFS")
+                 + "</i></p>"
                 + "<p align=\"center\">" 
                 + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>Ф</mi><mfenced><mi>s</mi></mfenced>"
                     + "<mo>=</mo><mfrac><mrow>"
-                    + "<msub><mi>Y</mi><mi>out</mi></msub>"
+                    + "<msub><mi>Y</mi><mi>"
+                    + lang.getString("PromptSet.formFsOut")
+                    + "</mi></msub>"
                     + "<mfenced><mi>s</mi>"
                     + "</mfenced></mrow><mrow>"
-                    + "<msub><mi>Y</mi><mi>inp</mi></msub>"
+                    + "<msub><mi>Y</mi><mi>"
+                    + lang.getString("PromptSet.formFsInp")
+                    + "</mi></msub>"
                     + "<mfenced><mi>s</mi></mfenced>"
                     + "</mrow></mfrac><mo>=</mo>"
                     + "<mfrac><mrow>"
@@ -64,14 +70,17 @@ public class PromptSet {
                     + "<mn>1</mn><mo>+</mo>"
                     + "<mi>W</mi><mfenced><mi>s</mi></mfenced>"
                     + "<mo>&#x2219</mo>"
-                    + "<msub><mi>W</mi><mi>OC</mi></msub>"
+                    + "<msub><mi>W</mi><mi>"
+                    + lang.getString("PromptSet.formFsOC")
+                    + "</mi></msub>"
                     + "<mfenced><mi>s</mi></mfenced>"
                 + "</mrow></mfrac></mrow></math></p>";
     }
 
     /**@return формулу для решения квадратного уравнения */
-    private static String formula_sqEquation() {
-        return "<p align=\"center\"><i>Решение квадратных уравнений:</i></p>"+
+    private static String formula_sqEquation(ResourceBundle lang) {
+        return "<p align=\"center\"><i>" + lang.getString("PromptSet.formulaSqEquation")
+               + "</i></p>" +
                "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                 // D
                     + "<mrow><mi>D</mi><mo>=</mo>"
@@ -104,8 +113,9 @@ public class PromptSet {
     }
 
     /**@return формулу для вычисления постоянных времени Т1 и Т2*/
-    private static String formula_T1_T2() {
-        return "<p align=\"center\"><i>Получение постоянных времени:</i></p>"+
+    private static String formula_T1_T2(ResourceBundle lang) {
+        return "<p align=\"center\"><i>" + lang.getString("PromptSet.formulaT1T2")
+               + "</i></p>"+
                "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                 // T1
                     + "<mrow><msub><mi>T</mi><mn>1</mn></msub>"
@@ -129,16 +139,22 @@ public class PromptSet {
 
     /**@return подсказку для представления передаточной функции 
      с помощью постоянных времени Т1 и Т2*/
-    private static String formula_Fs_t1t2() {
-        return "<p align=\"center\"><i>Необходимо представить передаточную функцию в виде:</i></p>"
+    private static String formula_Fs_t1t2(ResourceBundle lang) {
+        return "<p align=\"center\"><i>" 
+                + lang.getString("PromptSet.formulaFst1t2")
+                + "</i></p>"
                 + "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>Ф</mi>"
                     + "<mfenced><mi>s</mi></mfenced>"
                     + "<mo>=</mo><mfrac><mrow>"
-                    + "<msub><mi>Y</mi><mi>out</mi></msub>"
+                    + "<msub><mi>Y</mi><mi>"
+                    + lang.getString("PromptSet.formFsOut")
+                    + "</mi></msub>"
                     + "<mfenced><mi>s</mi>"
                     + "</mfenced></mrow><mrow>"
-                    + "<msub><mi>Y</mi><mi>inp</mi></msub>"
+                    + "<msub><mi>Y</mi><mi>"
+                    + lang.getString("PromptSet.formFsInp")
+                    + "</mi></msub>"
                     + "<mfenced><mi>s</mi></mfenced>"
                     + "</mrow></mfrac><mo>=</mo>"
                     + "<mfrac><mrow>"
@@ -159,8 +175,10 @@ public class PromptSet {
 
     /**@return подсказку о необходимости замены s->jw 
      при получении частотной передаточной функции*/
-    private static String replacementSjw() {
-        return  "<p align=\"center\"><i>Производим замену:</i></p>" +
+    private static String replacementSjw(ResourceBundle lang) {
+        return  "<p align=\"center\"><i>"
+                + lang.getString("PromptSet.replacementSjw")
+                + "</i></p>" +
                 "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>s</mi>"
                     + "<mo>&#x2192</mo>"
@@ -170,8 +188,10 @@ public class PromptSet {
 
     /**@return формулу сокращенного умножения
      a^2 + b^2 = (a+b)*(a-b) */
-    private static String abridgedMulFormula() {
-        return  "<p align=\"center\"><i>Формула сокращенного умножения:</i></p>"+
+    private static String abridgedMulFormula(ResourceBundle lang) {
+        return  "<p align=\"center\"><i>"
+                + lang.getString("PromptSet.abridgedMulFormula")
+                + "</i></p>"+
                 "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><msup><mi>a</mi><mn>2</mn></msup>"
                         + "<mo>-</mo>"
@@ -187,7 +207,9 @@ public class PromptSet {
                 + "<br><br><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>j</mi>"
-                    + "<mtext> - мнимая единица</mtext>"
+                    + "<mtext>"
+                    + lang.getString("PromptSet.imaginaryUnit")
+                    +"</mtext>"
                     +"</mrow></math>"
                 + "<br><br><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
@@ -198,8 +220,10 @@ public class PromptSet {
     }
 
     /**@return формулу вычисления функции АЧХ*/
-    private static String formula_Aw () {
-        return  "<p align=\"center\"><i>Формула для вычисления функции АЧХ:</i></p>"+
+    private static String formula_Aw (ResourceBundle lang) {
+        return  "<p align=\"center\"><i>"
+                + lang.getString("PromptSet.formulaAw")
+                + "</i></p>"+
                 "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>A</mi>"
                     + "<mfenced><mi>&#x03C9</mi></mfenced>"
@@ -213,12 +237,16 @@ public class PromptSet {
     }
 
     /**@return формулу вычисления полосы пропускания*/
-    private static String formula_passband() {
-        return  "<p align=\"center\"><i>Формула вычисления полосы пропускания системы:</i></p>"+
+    private static String formula_passband(ResourceBundle lang) {
+        return  "<p align=\"center\"><i>"
+                + lang.getString("PromptSet.formulaPassband")
+                + "</i></p>"+
                 "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>A</mi>"
                     + "<mfenced><msub><mi>&#x03C9</mi>"
-                    + "<mi>пр</mi></msub></mfenced>"
+                    + "<mi>"
+                    + lang.getString("PromptSet.pbSup")
+                    + "</mi></msub></mfenced>"
                     + "<mo>=</mo><mn>0.707</mn>"
                     + "<mo>&#x2219</mo>"
                     + "<mi>A</mi><mfenced><mn>0</mn></mfenced>"

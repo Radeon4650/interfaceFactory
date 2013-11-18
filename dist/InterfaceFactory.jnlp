@@ -11,11 +11,13 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="InterfaceFactory.jar" size="70679" download="eager" />
+    <jar href="InterfaceFactory.jar" size="82118" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="InterfaceFactory" >
     <param name="requiredFXVersion" value="2.2+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="interfacefactory.InterfaceFactory"  name="InterfaceFactory" />
+  <jfx:javafx-desc  width="800" height="600" main-class="interfacefactory.InterfaceFactory"  name="InterfaceFactory" >
+    <fx:param name="lang" value="en"/>
+  </jfx:javafx-desc>
   <update check="always"/>
 </jnlp>

@@ -11,15 +11,16 @@ import javafx.scene.chart.XYChart;
  * @author radeon
  */
 public class ChartCreation_page6 {
-    /**@return график А(w)*/
-    public static LineChart<Number, Number> getChart (Aw a_w) {
+    /**@return график А(w)
+     @param title подпись графика на текущем языке*/
+    public static LineChart<Number, Number> getChart (Aw a_w, String title) {
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("ω");
         yAxis.setLabel("A");
         final LineChart<Number, Number> lineChart = 
                 new LineChart<>(xAxis, yAxis);
-        lineChart.setTitle("Строим график АЧХ:");
+        lineChart.setTitle(title);
         XYChart.Series series = new XYChart.Series();
         double w = a_w.getWValue(0);
         double a = a_w.getfA_w(0);

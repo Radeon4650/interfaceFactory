@@ -378,14 +378,14 @@ public class Fs {
                     + "</msup>"
                     + "<mo>&#x2219</mo>"
                     + c_str
-                    + "<mo>=</mo>"
+                    + "<mo>=</mo><mrow mathsize='1.2em'>"
                     + "<mn>"+String.valueOf(DD.getNum())+"</mn>"
                     + "<mo>&#x2219</mo>"
                     + "<msup>"
                     + "<mn>10</mn>"
                     + "<mn>"+String.valueOf(DD.getDegree())+"</mn>"
                     + "</msup>"
-                    + "</mrow>"
+                    + "</mrow></mrow>"
                 + "</math>";
     }
  
@@ -403,7 +403,7 @@ public class Fs {
                     + "<mn>"+String.valueOf(s1)+"</mn>"
                     + (s1>0? "": "</mfenced>")
                     + "</mfrac><mo>=</mo>"
-                    + "<mn>"+String.valueOf(t1)+"</mn>"
+                    + "<mn mathsize='1.2em'>"+String.valueOf(t1)+"</mn>"
                     + "</mrow>"
                 + "</math>";
     }
@@ -422,7 +422,7 @@ public class Fs {
                     + "<mn>"+String.valueOf(s2)+"</mn>"
                     + (s2>0? "": "</mfenced>")
                     + "</mfrac><mo>=</mo>"
-                    + "<mn>"+String.valueOf(t2)+"</mn>"
+                    + "<mn mathsize='1.2em'>"+String.valueOf(t2)+"</mn>"
                     + "</mrow>"
                 + "</math>";
     }
@@ -453,7 +453,7 @@ public class Fs {
                     + "<mo>&#x2219</mo><msup><mn>10</mn>"
                     + "<mn>"+String.valueOf(A.getDegree())+"</mn>"
                     + "</msup></mrow></mfrac><mo>=</mo>"
-                    + "<mn>"+String.valueOf(s1)+"</mn>"
+                    + "<mn mathsize='1.2em'>"+String.valueOf(s1)+"</mn>"
                     + "</mrow>"
                 + "</math>";
     }
@@ -484,7 +484,7 @@ public class Fs {
                     + "<mo>&#x2219</mo><msup><mn>10</mn>"
                     + "<mn>"+String.valueOf(A.getDegree())+"</mn>"
                     + "</msup></mrow></mfrac><mo>=</mo>"
-                    + "<mn>"+String.valueOf(s2)+"</mn>"
+                    + "<mn mathsize='1.2em'>"+String.valueOf(s2)+"</mn>"
                     + "</mrow>"
                 + "</math>";
     }

@@ -1,7 +1,7 @@
 //Основной интерфейс ДЕМО-режима
 package DemoPack;
 
-import interfacefactory.SystemGenerator;
+import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -17,15 +17,16 @@ import javafx.util.Callback;
  */
 public class DemoInterface {
     private BorderPane dInterface;
-    private SystemGenerator sg;
+    private DemoSystemGenerator sg;
   
-    public DemoInterface() {
+    public DemoInterface(final ResourceBundle lang) {
         
-        sg = new SystemGenerator();        
+        sg = new DemoSystemGenerator();        
         final Pagination pgnCtrl = new Pagination(8, 0);
         dInterface = new BorderPane();
         HBox hbTop = new HBox();
-        hbTop.getChildren().addAll(new Label("DEMO"), new Label("Получение амплитудо-фазочастотных характеристик"));
+        hbTop.getChildren().addAll(new Label(lang.getString("DemoInterface.modeTitle")), 
+                new Label(lang.getString("DemoInterface.lessonTitle")));
         hbTop.setAlignment(Pos.CENTER);  
         dInterface.setTop(hbTop);        
         
@@ -33,7 +34,7 @@ public class DemoInterface {
             @Override
             public Node call(Integer pageIndex)
             {
-                return ConcretePageLayout.returnRootLayout(pageIndex, sg);
+                return ConcretePageLayout.returnRootLayout(pageIndex, sg, lang);
             }
         });
         
