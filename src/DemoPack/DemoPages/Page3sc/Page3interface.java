@@ -2,7 +2,7 @@
 
 package DemoPack.DemoPages.Page3sc;
 
-import interfacefactory.PromptSet;
+import DiffModesCommon.PromptSet;
 import DemoPack.DemoSystemGenerator;
 import java.util.ResourceBundle;
 import javafx.geometry.Pos;
@@ -16,14 +16,11 @@ import javafx.scene.web.WebView;
  * @author Radeon
  */
 public class Page3interface {
-    private Label infoLab1;
     private VBox rootLayout;
     
     public Page3interface (DemoSystemGenerator sg, ResourceBundle lang) {
-        infoLab1 = new Label("Page 3 Test"); 
         rootLayout = new VBox();
         rootLayout.setAlignment(Pos.CENTER_LEFT);
-        rootLayout.getChildren().add(infoLab1);
         WebView wv = new WebView();
         wv.getEngine().loadContent("<html><body>"
                 + "<table width=\"100%\"><tr><td align = \"center\">"

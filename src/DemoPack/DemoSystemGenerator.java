@@ -4,9 +4,12 @@
 
 package DemoPack;
 
-import interfacefactory.DataModel.Fs;
-import interfacefactory.DataModel.Wk;
-import interfacefactory.DataModel.Wd;
+import DiffModesCommon.DataModel.Fs;
+import DiffModesCommon.DataModel.Wk;
+import DiffModesCommon.DataModel.Wd;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.Random;
 
 /**
@@ -61,42 +64,42 @@ class UVstruct {
         
 public class DemoSystemGenerator {
     /**@param k1MIN минимальное значение k для блока Wk1*/
-    private final double k1MIN = 1;
+    private double k1MIN;
     /**@param k1MAX максимальное значение k для блока Wk1*/
-    private final double k1MAX = 4;
+    private double k1MAX;
     
     /**@param k2MIN минимальное значение k для блока Wk2*/
-    private final double k2MIN = 2.5;
+    private double k2MIN;
     /**@param k2MAX максимальное значение k для блока Wk2*/
-    private final double k2MAX = 4.5;
+    private double k2MAX;
     
     /**@param k3MIN минимальное значение k для блока Wk3*/
-    private final double k3MIN = 8.5;
+    private double k3MIN;
     /**@param k3MAX максимальное значение k для блока Wk3*/
-    private final double k3MAX = 10;
+    private double k3MAX;
     /**@param T31MIN минимальное значение T1 для блока Wk3*/
-    private final double T31MIN = 0.2;
+    private double T31MIN;
     /**@param T31MAX максимальное значение T1 для блока Wk3*/
-    private final double T31MAX = 0.3;
+    private double T31MAX;
     /**@param T32MIN минимальное значение T2 для блока Wk3*/
-    private final double T32MIN = 0.002;
+    private double T32MIN;
     /**@param T32MAX максимальное значение T2 для блока Wk3*/
-    private final double T32MAX = 0.003;
+    private double T32MAX;
     
     /**@param k4MIN минимальное значение k для блока Wk4*/
-    private final double k4MIN = -0.0085;
+    private double k4MIN;
     /**@param k4MAX максимальное значение k для блока Wk4*/
-    private final double k4MAX = -0.01;
+    private double k4MAX;
     
     /**@param k5MIN минимальное значение k для блока Wk5*/
-    private final double k5MIN = 0.07;
+    private double k5MIN;
     /**@param k5MAX максимальное значение k для блока Wk5*/
-    private final double k5MAX = 0.08;
+    private double k5MAX;
     
     /**@param k6MIN минимальное значение k для блока Wk6*/
-    private final double k6MIN = 1;
+    private double k6MIN;
     /**@param k6MAX максимальное значение k для блока Wk6*/
-    private final double k6MAX = 1.5;
+    private double k6MAX;
     
     private Wk wk1;
     private Wk wk2;
@@ -110,8 +113,42 @@ public class DemoSystemGenerator {
     /**@param wuvArr массив структур для хранения значения ω, U(ω), V(ω)*/
     private UVstruct[] wuvArr = new UVstruct[af_len];
 
+    private void loadAcsProperties(String fileName) {
+        try {
+//  Пробуем считать настройки из файла
+            Properties dsgProp = new Properties();
+            dsgProp.load(getClass().getClassLoader().getResourceAsStream(fileName));
+            System.out.println("File <" +fileName+ "> is opened, ACS properties are successfully loaded.");
+            k1MIN=Double.parseDouble((dsgProp.getProperty("k1MIN", "1")));
+            k1MAX=Double.parseDouble((dsgProp.getProperty("k1MAX", "4")));
+            k2MIN=Double.parseDouble((dsgProp.getProperty("k2MIN", "2.5")));
+            k2MAX=Double.parseDouble((dsgProp.getProperty("k2MAX", "4.5")));
+            k3MIN=Double.parseDouble((dsgProp.getProperty("k3MIN", "8.5")));
+            k3MAX=Double.parseDouble((dsgProp.getProperty("k3MAX", "10")));
+            T31MIN=Double.parseDouble((dsgProp.getProperty("T31MIN", "0.2")));
+            T31MAX=Double.parseDouble((dsgProp.getProperty("T31MAX", "0.3")));
+            T32MIN=Double.parseDouble((dsgProp.getProperty("T32MIN", "0.002")));
+            T32MAX=Double.parseDouble((dsgProp.getProperty("T32MAX", "0.003")));
+            k4MIN=Double.parseDouble((dsgProp.getProperty("k4MIN", "-0.0085")));
+            k4MAX=Double.parseDouble((dsgProp.getProperty("k4MAX", "-0.01")));
+            k5MIN=Double.parseDouble((dsgProp.getProperty("k5MIN", "0.07")));
+            k5MAX=Double.parseDouble((dsgProp.getProperty("k5MAX", "0.08")));
+            k6MIN=Double.parseDouble((dsgProp.getProperty("k6MIN", "1")));
+            k6MAX=Double.parseDouble((dsgProp.getProperty("k6MAX", "1.5")));
+        }
+        catch (IOException ex){
+// При обнаружении ошибки задаем параметры с помощью хард-кода            
+            System.out.println("I/O Error. Setting the standard ACS properties.");
+            k1MIN=1;        k3MIN=8.5;      T32MIN=0.002;       k5MIN=0.07;
+            k1MAX=4;        k3MAX=10;       T32MAX=0.003;       k5MAX=0.08;
+            k2MIN=2.5;      T31MIN=0.2;     k4MIN=-0.0085;      k6MIN=1; 
+            k2MAX=4.5;      T31MAX=0.3;     k4MAX=-0.01;        k6MAX=1.5;
+        }
+    }
     
     public DemoSystemGenerator() {
+        
+        loadAcsProperties("DiffModesCommon/SystemGenerator.properties");        
         Random rnd = new Random();
         double k = Math.rint(((k1MAX-k1MIN)*rnd.nextDouble()+k1MIN)*100)/100;
         double t1, t2;

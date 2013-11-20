@@ -1,6 +1,8 @@
 package interfacefactory;
 
 import DemoPack.DemoInterface;
+import TestPack.TestInterface;
+import TrainerPack.TrainerInterface;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.application.Application;
@@ -32,8 +34,10 @@ public class InterfaceFactory extends Application {
         
         loadInitialInterface();
         
-        Scene scene = new Scene(root, 1000, 610);
+        Scene scene = new Scene(root, 1010, 650);
         
+        primaryStage.setMinHeight(600);
+        primaryStage.setMinWidth(800);
         primaryStage.setTitle(lang.getString("applicationTitle"));
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -78,14 +82,28 @@ public class InterfaceFactory extends Application {
 
     /**загружает интерфейс демо-режима*/
     public void loadDemoInterface() {
-        DemoInterface demo = new DemoInterface(lang);
+        DemoInterface demo = new DemoInterface(lang, this);
         root.getChildren().clear();
         root.getChildren().add(demo.getdInterface());
+    }
+    
+    /**загружает интерфейс режима Тренер*/
+    public void loadTrainerInterface() {
+        TrainerInterface trainer = new TrainerInterface(lang, this);
+        root.getChildren().clear();
+        root.getChildren().add(trainer.gettInterface());
+    }
+    
+    /**загружает интерфейс режима Тест*/
+    public void loadTestInterface() {
+        TestInterface test = new TestInterface(lang, this);
+        root.getChildren().clear();
+        root.getChildren().add(test.gettInterface());
     }
 
     /**загружает форму выбора режима работы*/
     public void loadInitialInterface() {
-        ModeSelectionInterface msIf = new ModeSelectionInterface(lang);
+        ModeSelectionInterface msIf = new ModeSelectionInterface(lang, this);
         root.getChildren().clear();
         root.getChildren().add(msIf.getMsInterface());
     }

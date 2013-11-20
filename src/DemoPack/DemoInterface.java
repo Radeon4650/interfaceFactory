@@ -1,12 +1,16 @@
 //Основной интерфейс ДЕМО-режима
 package DemoPack;
 
+import interfacefactory.InterfaceFactory;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Pagination;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.SwipeEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -19,7 +23,7 @@ public class DemoInterface {
     private BorderPane dInterface;
     private DemoSystemGenerator sg;
   
-    public DemoInterface(final ResourceBundle lang) {
+    public DemoInterface(final ResourceBundle lang, final InterfaceFactory ifFact) {
         
         sg = new DemoSystemGenerator();        
         final Pagination pgnCtrl = new Pagination(8, 0);
@@ -28,7 +32,17 @@ public class DemoInterface {
         hbTop.getChildren().addAll(new Label(lang.getString("DemoInterface.modeTitle")), 
                 new Label(lang.getString("DemoInterface.lessonTitle")));
         hbTop.setAlignment(Pos.CENTER);  
-        dInterface.setTop(hbTop);        
+        dInterface.setTop(hbTop);       
+        Button btnBack = new Button(lang.getString("DemoInterface.btnBackTitle"));
+        
+        btnBack.setTooltip(new Tooltip(lang.getString("DemoInterface.btnBackHint")));
+        btnBack.setOnAction(new EventHandler<ActionEvent>() {
+            @Override 
+            public void handle(ActionEvent e) {
+                ifFact.loadInitialInterface();
+            }
+        });
+        
         
         pgnCtrl.setPageFactory(new Callback<Integer, Node>() {
             @Override
@@ -56,7 +70,10 @@ public class DemoInterface {
             event.consume();
         }});
         
+
+        dInterface.setMinSize(800, 600);
         dInterface.setCenter(pgnCtrl);
+        dInterface.setBottom(btnBack);
         
     }
     

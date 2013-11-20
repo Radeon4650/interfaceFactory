@@ -1,7 +1,7 @@
 
 package DemoPack.DemoPages.Page6sc;
 
-import interfacefactory.DataModel.Aw;
+import DiffModesCommon.DataModel.Aw;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;

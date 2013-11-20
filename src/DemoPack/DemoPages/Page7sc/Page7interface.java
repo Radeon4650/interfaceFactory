@@ -16,12 +16,10 @@ import javafx.scene.web.WebView;
  */
 public class Page7interface {
     private ObservableList<ApfcValues> tableItems;
-    private Label infoLab1;
 //    private TableView apfcTable;
     private VBox rootLayout;
     
     public Page7interface (DemoSystemGenerator sg, ResourceBundle lang) {
-        infoLab1 = new Label("Test page 7");
         String webContent = "<p><b>"
                 + lang.getString("Demo.p7.tableTopic")
                 + "</b></p>"
@@ -59,7 +57,7 @@ public class Page7interface {
         wv.getEngine().loadContent(webContent);
         rootLayout = new VBox();
         rootLayout.setAlignment(Pos.CENTER_LEFT);
-        rootLayout.getChildren().addAll(infoLab1, wv);
+        rootLayout.getChildren().addAll(wv);
     }
     
     public Node getRootLayout(){

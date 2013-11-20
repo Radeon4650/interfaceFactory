@@ -17,7 +17,7 @@ public class ModeSelectionInterface {
     /**@param msInterface интерфейс выбора режимов*/
     private VBox msInterface;
   
-    public ModeSelectionInterface(final ResourceBundle lang) {
+    public ModeSelectionInterface(final ResourceBundle lang, final InterfaceFactory ifFact) {
         Label pageTitle = new Label(lang.getString("ModeSelectionInterface.pageTitle"));
         Button btnDemo = new Button(lang.getString("ModeSelectionInterface.demoBtnTitle"));
         btnDemo.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.demoBtnHint")));
@@ -29,21 +29,21 @@ public class ModeSelectionInterface {
         btnDemo.setOnAction(new EventHandler<ActionEvent>() {
             @Override 
             public void handle(ActionEvent e) {
-                
+                ifFact.loadDemoInterface();
             }
         });
         
         btnTrainer.setOnAction(new EventHandler<ActionEvent>() {
             @Override 
             public void handle(ActionEvent e) {
-                
+                ifFact.loadTrainerInterface();
             }
         });
                 
         btnTest.setOnAction(new EventHandler<ActionEvent>() {
             @Override 
             public void handle(ActionEvent e) {
-                
+                ifFact.loadTestInterface();
             }
         });
         

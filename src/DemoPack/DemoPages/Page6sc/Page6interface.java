@@ -2,7 +2,7 @@
 
 package DemoPack.DemoPages.Page6sc;
 
-import interfacefactory.PromptSet;
+import DiffModesCommon.PromptSet;
 import DemoPack.DemoSystemGenerator;
 import java.util.ResourceBundle;
 import javafx.geometry.Pos;
@@ -17,14 +17,11 @@ import javafx.scene.web.WebView;
  * @author Radeon
  */
 public class Page6interface {
-    private Label infoLab1;
     private VBox rootLayout;
     
     public Page6interface (DemoSystemGenerator sg, ResourceBundle lang) {
-        infoLab1 = new Label("Page 6 Test"); 
         rootLayout = new VBox();
         rootLayout.setAlignment(Pos.CENTER_LEFT);
-        rootLayout.getChildren().add(infoLab1);
         HBox box = new HBox();
         box.getChildren().add(ChartCreation_page6.getChart(sg.getFs().getA_w(), lang.getString("Demo.p6.chartBuilding")));
 

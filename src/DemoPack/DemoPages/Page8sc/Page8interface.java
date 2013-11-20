@@ -15,12 +15,10 @@ import javafx.scene.text.TextAlignment;
  * @author Radeon
  */
 public class Page8interface {
-    private Label infoLab1;
     private Label infoLab2;
     private GridPane rootLayout;
     
     public Page8interface (DemoSystemGenerator sg, ResourceBundle lang) {
-        infoLab1 = new Label("Page 8 Test"); 
         infoLab2 = new Label(lang.getString("Demo.p8.def")); 
         infoLab2.setWrapText(true);
         infoLab2.setPrefWidth(200);
@@ -28,7 +26,6 @@ public class Page8interface {
         infoLab2.setTextAlignment(TextAlignment.RIGHT);
         rootLayout = new GridPane();
         rootLayout.setAlignment(Pos.CENTER);
-        rootLayout.add(infoLab1, 0, 0);
         rootLayout.add(infoLab2, 0, 1);
         rootLayout.add(ChartCreation_page8.getChart(sg, lang.getString("Demo.p8.chartTitle")), 1, 1, 1, 2);
         rootLayout.setPrefSize(1000, 1000);

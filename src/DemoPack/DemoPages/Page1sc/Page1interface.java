@@ -2,12 +2,12 @@
 
 package DemoPack.DemoPages.Page1sc;
 
-import interfacefactory.PromptSet;
+import DiffModesCommon.StructScheme;
+import DiffModesCommon.PromptSet;
 import DemoPack.DemoSystemGenerator;
 import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 
@@ -16,16 +16,17 @@ import javafx.scene.web.WebView;
  * @author Radeon
  */
 public class Page1interface {
-    private Label infoLab1;
     private VBox rootLayout;
     
     public Page1interface (DemoSystemGenerator sg, ResourceBundle lang) {
-        infoLab1 = new Label("Page 1 Test"); 
         rootLayout = new VBox();
-        rootLayout.setAlignment(Pos.CENTER_LEFT);
-        rootLayout.getChildren().add(infoLab1);
+        rootLayout.setAlignment(Pos.BASELINE_CENTER);
             
         WebView wv = new WebView();
+        wv.contextMenuEnabledProperty().set(false);
+        wv.setDisable(true);
+        wv.setMinHeight(585);
+        
         wv.getEngine().loadContent("<html><body>"
                 + "<table><tr><td align = \"center\">"
                 + "<p><b>"
