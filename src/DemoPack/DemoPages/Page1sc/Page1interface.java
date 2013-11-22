@@ -26,6 +26,7 @@ public class Page1interface {
         wv.contextMenuEnabledProperty().set(false);
         wv.setDisable(true);
         wv.setMinHeight(585);
+        wv.setPrefSize(10000, 10000);
         
         wv.getEngine().loadContent("<html><body>"
                 + "<table><tr><td align = \"center\">"
@@ -50,7 +51,11 @@ public class Page1interface {
                 + sg.getFs().printInMathMLWith_abc_s()
                 + ".</td><td valign=\"top\">"
                 + PromptSet.getPrompt("formula_Fs", lang)
-                +"</td></tr></table></body></html>");
+                +"</td></tr></table>"
+           //mathML test
+           + "<br>" + sg.printFullFsObtainingInMathML()
+           //
+                + "</body></html>");
                  
         rootLayout.getChildren().add(wv);     
     }

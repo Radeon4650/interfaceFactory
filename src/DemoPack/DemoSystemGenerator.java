@@ -7,6 +7,8 @@ package DemoPack;
 import DiffModesCommon.DataModel.Fs;
 import DiffModesCommon.DataModel.Wk;
 import DiffModesCommon.DataModel.Wd;
+import DiffModesCommon.DblNum;
+import DiffModesCommon.PromptSet;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -264,5 +266,102 @@ public class DemoSystemGenerator {
     /** @return fs - передаточную функцию системы*/
     public Fs getFs() {
         return fs;
+    }
+    
+    
+    /**@return расширенное представление того, как получается передаточная 
+     * функция системы*/
+    public String printFullFsObtainingInMathML() {
+        String denomStr = "<mrow>"
+                    + "<mfenced><mrow>"
+                    + "<mn>"+String.valueOf(wd3.getT1())+"</mn>"
+                    + "<mi>s</mi>"
+                    + "<mo>+</mo>"
+                    + "<mn>1</mn>"
+                    + "</mrow></mfenced>"
+                    + "<mfenced><mrow>"
+                    + "<mn>"+String.valueOf(wd3.getT2())+"</mn>"
+                    + "<mi>s</mi>"
+                    + "<mo>+</mo>"
+                    + "<mn>1</mn>"
+                    + "</mrow></mfenced>"
+                    + "</mrow>";
+        
+        String enumStr = "<mn>" + String.valueOf(getWk1().getK()) + "</mn>"
+                + "<mo>&#x2219</mo>"
+                + "<mn>" + String.valueOf(getWk2().getK()) + "</mn>"
+                + "<mo>&#x2219</mo>"
+                + "<mn>" + String.valueOf(getWd3().getK()) + "</mn>"
+                + "<mo>&#x2219</mo>"
+                + "<mn>" + String.valueOf(getWk5().getK()) + "</mn>";
+        
+        String addStr = "<mn>" + String.valueOf(getWk1().getK()) + "</mn>"
+                    + "<mo>&#x2219</mo>"
+                    + "<mn>" + String.valueOf(getWk2().getK()) + "</mn>"
+                    + "<mo>&#x2219</mo>"
+                    +"<mfrac>"
+                    + "<mn>"+String.valueOf(wd3.getK())+"</mn>"
+                    + denomStr
+                    + "</mfrac>"
+                    + "<mo>&#x2219</mo>"
+                    + "<mn>" + String.valueOf(getWk5().getK()) + "</mn>";
+        String formula = PromptSet.fsEquation();
+        formula = formula.substring(0, formula.indexOf("</math>"));
+        formula += "<mo>=</mo>"
+                + "</math><br><br><math>"
+                + "<mrow><mo>=</mo><mfrac><mrow>"
+                + addStr
+                + "</mrow><mrow>"
+                + "<mn>1</mn><mo>+</mo>"
+                + addStr
+                + "<mo>&#x2219</mo>"
+                + "<mn>" + String.valueOf(wk6.getK()) + "</mn>"
+                + "</mrow></mfrac><mo>=</mo></mrow>"
+                + "</math><br><br><math>"
+                + "<mrow><mo>=</mo>"
+                + "<mfrac><mrow>"
+                + enumStr
+                + "</mrow>"
+                + denomStr
+                + "</mfrac><mo>&#x2219</mo><mfrac>"
+                + denomStr
+                + "<mrow>"
+                + denomStr
+                + "<mo>+</mo>"
+                + enumStr
+                + "<mo>&#x2219</mo>"
+                + "<mn>" + String.valueOf(wk6.getK())+"</mn>"
+                + "</mrow></mfrac><mo>=</mo></mrow>";
+        
+        double enumCalc = wk1.getK()*wk2.getK()*wd3.getK()*wk5.getK();
+        DblNum e = new DblNum(wd3.getT1()*wd3.getT2());
+        formula += "</math><br><br><math>"
+                + "<mrow><mo>=</mo><mfrac>"
+                + "<mn>" + String.valueOf(Math.rint(enumCalc*1000)/1000) + "</mn>"
+                + "<mrow><mfenced><mrow>"
+                + "<mn>" + String.valueOf(e.getNum()) 
+                + "</mn><mo>&#x2219</mo><msup>"
+                + "<mn>10</mn>"
+                + "<mn>" + String.valueOf(e.getDegree()) + "</mn>"
+                + "</msup></mn>"
+                + "<msup><mi>s</mi><mn>2</mn></msup>"
+                + "<mo>+</mo>"
+                + "<mn>" + String.valueOf(wd3.getT1()+wd3.getT2()) + "</mn>"
+                + "<mi>s</mi>"
+                + "<mo>+</mo><mn>1</mn>"
+                + "</mrow></mfenced><mo>+</mo>";
+        
+        enumCalc = Math.rint(enumCalc*wk6.getK()*1000)/1000;
+        addStr = getFs().printInMathMLWith_abc_s();
+        addStr = addStr.substring(addStr.lastIndexOf("=</mo>")+6);
+        formula += "<mn>" + String.valueOf(enumCalc) + "</mn>"
+                + "</mrow></mfrac><mo>&#x2219</mo><mfrac>"
+                + "<mn>" + String.valueOf(enumCalc+1) + "</mn>"
+                + "<mn>" + String.valueOf(enumCalc+1) + "</mn>"
+                + "</mfrac><mo>=</mo></mrow>"
+                + "</math><br><br><math>"
+                + "<mo>=</mo>"
+                + addStr + ".";
+        return formula;
     }
 }

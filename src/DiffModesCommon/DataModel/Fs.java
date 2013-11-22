@@ -489,6 +489,7 @@ public class Fs {
                 + "</math>";
     }
     
+    
     /**@return коеффициент числителя   */
     public double getK() {
         return k;
