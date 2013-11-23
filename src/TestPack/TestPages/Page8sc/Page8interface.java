@@ -2,6 +2,7 @@
 
 package TestPack.TestPages.Page8sc;
 
+import TestPack.TestSystemGenerator;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -14,7 +15,7 @@ public class Page8interface {
     private Label infoLab1;
     private VBox rootLayout;
 
-    public Page8interface(ResourceBundle lang) {
+    public Page8interface(TestSystemGenerator sg, ResourceBundle lang) {
         infoLab1 = new Label();
         infoLab1.setText("Test mode page 8");
         rootLayout = new VBox();

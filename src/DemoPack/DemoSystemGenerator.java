@@ -9,10 +9,10 @@ import DiffModesCommon.DataModel.Wk;
 import DiffModesCommon.DataModel.Wd;
 import DiffModesCommon.DblNum;
 import DiffModesCommon.PromptSet;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -269,9 +269,11 @@ public class DemoSystemGenerator {
     }
     
     
-    /**@return расширенное представление того, как получается передаточная 
+    /**
+     * @param lang языковое расширение приложения
+     * @return расширенное представление того, как получается передаточная 
      * функция системы*/
-    public String printFullFsObtainingInMathML() {
+    public String printFullFsObtainingInMathML(ResourceBundle lang) {
         String denomStr = "<mrow>"
                     + "<mfenced><mrow>"
                     + "<mn>"+String.valueOf(wd3.getT1())+"</mn>"
@@ -305,8 +307,13 @@ public class DemoSystemGenerator {
                     + "</mfrac>"
                     + "<mo>&#x2219</mo>"
                     + "<mn>" + String.valueOf(getWk5().getK()) + "</mn>";
+        
         String formula = PromptSet.fsEquation();
-        formula = formula.substring(0, formula.indexOf("</math>"));
+        formula = "<html><body bgcolor=\"#A0BEC4\"><p align=\"center\"><b>" 
+                + lang.getString("Demo.p1.detOfCalc") 
+                + "</b></p>"
+                + formula.substring(0, formula.indexOf("</math>"));
+        
         formula += "<mo>=</mo>"
                 + "</math><br><br><math>"
                 + "<mrow><mo>=</mo><mfrac><mrow>"
@@ -361,7 +368,7 @@ public class DemoSystemGenerator {
                 + "</mfrac><mo>=</mo></mrow>"
                 + "</math><br><br><math>"
                 + "<mo>=</mo>"
-                + addStr + ".";
+                + addStr + ".</body></html>";
         return formula;
     }
 }

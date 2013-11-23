@@ -23,6 +23,7 @@ public class Page1interface {
         rootLayout.setAlignment(Pos.BASELINE_CENTER);
             
         WebView wv = new WebView();
+        
         wv.contextMenuEnabledProperty().set(false);
         wv.setDisable(true);
         wv.setMinHeight(585);
@@ -52,12 +53,14 @@ public class Page1interface {
                 + ".</td><td valign=\"top\">"
                 + PromptSet.getPrompt("formula_Fs", lang)
                 +"</td></tr></table>"
-           //mathML test
-           + "<br>" + sg.printFullFsObtainingInMathML()
-           //
                 + "</body></html>");
-                 
+           
+        
+        WebView tipView = new WebView();
+        tipView.getEngine().loadContent(sg.printFullFsObtainingInMathML(lang));
+        tipView.setMinSize(600, 80);
         rootLayout.getChildren().add(wv);     
+        rootLayout.getChildren().add(tipView); 
     }
     
     public Node getRootLayout(){

@@ -1,12 +1,6 @@
 package DiffModesCommon;
 
 /**
- *Класс, в котором хранятся число в обычном представлении (double)
- * и приведенное к виду а∙10^b 
- * например, dblNum == 0.00023;
- *           num == 2.3;
- *           degree == 4;
- * @param number - вещественное число, которое нужно представить как число и показатель степени при 10. 
  * @author Radeon
  */
 public class DblNum {
@@ -14,6 +8,13 @@ public class DblNum {
     private int degree;
     private double dblNum;
     
+    /** Класс, в котором хранятся число в обычном представлении (double)
+    * и приведенное к виду а∙10^b 
+    * например, dblNum == 0.00023;
+    *           num == 2.3;
+    *           degree == 4;
+    * @param number - вещественное число, которое нужно представить как число и 
+    * показатель степени при 10. */
     public DblNum(double number) {
         dblNum = number;
         redefDegree();

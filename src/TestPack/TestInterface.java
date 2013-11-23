@@ -19,8 +19,11 @@ import javafx.scene.layout.HBox;
  */
 public class TestInterface {
     private BorderPane tInterface;
+    private TestSystemGenerator sg;
     
     public TestInterface(final ResourceBundle lang, final InterfaceFactory ifFact) {
+        sg = new TestSystemGenerator();
+        
         tInterface=new BorderPane();
         Label modeTitle = new Label(lang.getString("TestInterface.modeTitle"));
         Label lessonTitle = new Label(lang.getString("TestInterface.lessonTitle"));
@@ -37,7 +40,7 @@ public class TestInterface {
         topBox.getChildren().addAll(modeTitle, lessonTitle);
         
         tInterface.setTop(topBox); 
-        tInterface.setCenter(ConcretePageLayout.returnRootLayout(0, lang));
+        tInterface.setCenter(ConcretePageLayout.returnRootLayout(0, sg, lang));
         tInterface.setBottom(btnBack);
     }
 

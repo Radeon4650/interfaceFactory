@@ -1,5 +1,6 @@
 package TestPack.TestPages.Page7sc;
 
+import TestPack.TestSystemGenerator;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -12,7 +13,7 @@ public class Page7interface {
     private Label infoLab1;
     private VBox rootLayout;
 
-    public Page7interface(ResourceBundle lang) {
+    public Page7interface(TestSystemGenerator sg, ResourceBundle lang) {
         infoLab1 = new Label();
         infoLab1.setText("Test mode page 7");
         rootLayout = new VBox();

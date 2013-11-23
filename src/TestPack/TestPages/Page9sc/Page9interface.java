@@ -1,6 +1,7 @@
 
 package TestPack.TestPages.Page9sc;
 
+import TestPack.TestSystemGenerator;
 import java.util.ResourceBundle;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -13,7 +14,7 @@ public class Page9interface {
     private Label infoLab1;
     private VBox rootLayout;
 
-    public Page9interface(ResourceBundle lang) {
+    public Page9interface(TestSystemGenerator sg, ResourceBundle lang) {
         infoLab1 = new Label();
         infoLab1.setText("Test mode page 9");
         rootLayout = new VBox();

@@ -291,6 +291,99 @@ public class Fs {
                 + "</math>";
     }
 
+     /** @param k_inp - введенный пользователем коеффициент k
+     * @param a_inp - введенный пользователем коеффициент a
+     * @param b_inp - введенный пользователем коеффициент b
+     * @param c_inp - введенный пользователем коеффициент c
+     * @return строку в формате MathML для описания передаточной функции 
+     * в формате Ф(s) = k/(a*s^2+b*s+c)   */
+    public static String printInMathMLWith_abc_s (String k_inp, String a_inp, String b_inp, String c_inp) {
+        String a_out, b_out, c_out, k_out;
+        String wrongColor = "FF0066";
+//------------------------------------------------------------------------------
+        try {
+            if (Double.parseDouble(c_inp)<0) {                    
+                DblNum C = new DblNum(Double.parseDouble(c_inp));
+                c_out= "<mn>"+String.valueOf(C.getNum())+"</mn>"
+                + "<mo>&#x2219</mo>"
+                + "<msup>"
+                + "<mn>10</mn>"
+                + "<mn>"+String.valueOf(C.getDegree())+"</mn>"
+                + "</msup>";}
+            else c_out = "<mn>"+String.valueOf(Math.round(Double.parseDouble(c_inp)))+"</mn>";
+        }
+        catch (NumberFormatException ex) {
+            c_out = "<mi mathcolor='#"+ wrongColor + "'>" + c_inp + "</mi>";
+        }
+//------------------------------------------------------------------------------        
+        try {
+            if (Double.parseDouble(a_inp)<0.1) {
+                DblNum A = new DblNum(Double.parseDouble(a_inp));
+                a_out = "<mn>"+String.valueOf(A.getNum())+"</mn>"
+                        + "<mo>&#x2219</mo>"
+                        + "<msup>"
+                        + "<mn>10</mn>"
+                        + "<mn>"+String.valueOf(A.getDegree())+"</mn>"
+                        + "</msup>";}
+            else a_out = "<mn>" + String.valueOf(Double.parseDouble(a_inp)) + "</mn>";
+        }
+        catch (NumberFormatException ex) {
+            a_out = "<mi mathcolor='"+ wrongColor + "'>" + a_inp + "</mi>";
+        }
+//------------------------------------------------------------------------------        
+        try {
+            if (Double.parseDouble(b_inp)<0.1) {
+            DblNum B = new DblNum(Double.parseDouble(b_inp));
+            b_out = "<mn>"+String.valueOf(B.getNum())+"</mn>"
+                    + "<mo>&#x2219</mo>"
+                    + "<msup>"
+                    + "<mn>10</mn>"
+                    + "<mn>"+String.valueOf(B.getDegree())+"</mn>"
+                    + "</msup>";}
+            else b_out = "<mn>" + String.valueOf(Double.parseDouble(b_inp)) + "</mn>";
+        }
+        catch (NumberFormatException ex) {
+            b_out = "<mi mathcolor='"+ wrongColor + "'>" + b_inp + "</mi>";
+        }
+//------------------------------------------------------------------------------        
+        try {
+            k_out="<mn>"+String.valueOf(Double.parseDouble(k_inp))+"</mn>";
+        }
+        catch (NumberFormatException ex) {
+            k_out = "<mi mathcolor='"+ wrongColor + "'>" + k_inp + "</mi>";
+        }
+//------------------------------------------------------------------------------            
+            
+        return "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
+                    + "<mrow>"
+                    + "<mi>&#x03A6</mi>"
+                    + "<mfenced><mi>s</mi></mfenced>"
+                    + "<mo>=</mo><mfrac><mrow>"
+                    + "<msub><mi>Y</mi><mn>5</mn></msub>"
+                    + "<mfenced><mi>s</mi></mfenced>"
+                    + "</mrow><mrow>"
+                    + "<mi>G</mi><mfenced><mi>s</mi></mfenced>"
+                    + "</mrow></mfrac><mo>=</mo>"
+                    + "<mfrac>"
+                    + k_out
+                    + "<mrow>"
+                    + a_out
+                    + "<msup>"
+                    + "<mi>s</mi>"
+                    + "<mn>2</mn>"
+                    + "</msup>"
+                    + "<mo>+</mo>"
+                    + b_out
+                    + "<mi>s</mi>"
+                    + "<mo>+</mo>"
+                    + c_out
+                    + "</mrow></mfrac></mrow>"
+                + "</math>";
+    }
+    
+    
+    
+    
      /**
      * @return строку в формате MathML для записи характеристического уравнения 
      * a*s^2+b*s+c=0   */
@@ -336,6 +429,8 @@ public class Fs {
                 + "</math>";
     }
 
+  
+    
     /**@return строку в формате MathML для записи дискриминанта 
      * D = b^2 - 4*a*c = ... */
     public String printDInMathML () {
