@@ -1,6 +1,8 @@
 //Основной интерфейс ДЕМО-режима
 package DemoPack;
 
+import DiffModesCommon.DataModel.Wd;
+import DiffModesCommon.DataModel.Wk;
 import interfacefactory.InterfaceFactory;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -23,9 +25,35 @@ public class DemoInterface {
     private BorderPane dInterface;
     private DemoSystemGenerator sg;
   
+    /**Демо-страницы с решением задачи, сгенерированной автоматически
+     * @param lang языковой набор данных для локализации приложения
+     * @param ifFact страница, к которой переходит приложение по нажатию кнопки "Back"
+     */
     public DemoInterface(final ResourceBundle lang, final InterfaceFactory ifFact) {
         
         sg = new DemoSystemGenerator();        
+        createInterface(lang, ifFact); 
+    }
+    
+    /**Демо-страница с решением задачи, условие для которой вводится пользователем
+     * @param lang языковой набор данных для локализации приложения
+     * @param ifFact страница, к которой переходит приложение по нажатию кнопки "Back"
+     * @param wk1 передаточная функция простейшего структурного блока (#1 на схеме)
+     * @param wk2 передаточная функция простейшего структурного блока (#2 на схеме)
+     * @param wd3 передаточная функция структурного блока 2го порядка (#3 на схеме)
+     * @param wd4 передаточная функция структурного блока 2го порядка (#4 на схеме)
+     * @param wk5 передаточная функция простейшего структурного блока (#5 на схеме)
+     * @param wk6 передаточная функция простейшего структурного блока (#6 на схеме)
+     */
+    public DemoInterface(final ResourceBundle lang, final InterfaceFactory ifFact, 
+            Wk wk1, Wk wk2, Wd wd3, Wd wd4, Wk wk5, Wk wk6) {
+        
+        sg = new DemoSystemGenerator(wk1, wk2, wd3, wd4, wk5, wk6);        
+        createInterface(lang, ifFact); 
+    }
+    
+    /**Создание общего интерфейса для Демо-режима*/
+    private void createInterface(final ResourceBundle lang, final InterfaceFactory ifFact) {
         final Pagination pgnCtrl = new Pagination(8, 0);
         dInterface = new BorderPane();
         HBox hbTop = new HBox();
@@ -74,7 +102,6 @@ public class DemoInterface {
         dInterface.setMinSize(800, 600);
         dInterface.setCenter(pgnCtrl);
         dInterface.setBottom(btnBack);
-        
     }
     
     public BorderPane getdInterface() {

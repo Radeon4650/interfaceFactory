@@ -34,7 +34,7 @@ public class Page1interface {
                 + "<p><b>"
                 + lang.getString("Demo.p1.structSheme")
                 + "</b></p>"
-                + StructScheme.getStructScheme()
+                + StructScheme.getStructScheme(lang)
                 + "</td><td width=\"33%\"><p><b>"
                 + lang.getString("Demo.p1.sourceData")
                 + "</b></p>"

@@ -4,9 +4,14 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/Users/radeon/Documents/Radeon/Programming/JavaFx/InterfaceFactory/src/DemoPack/DemoSystemGenerator.java</file>
+            <file>file:/Users/radeon/Documents/Radeon/Programming/JavaFx/InterfaceFactory/src/DemoPack/DemoInterface.java</file>
             <file>file:/Users/radeon/Documents/Radeon/Programming/JavaFx/InterfaceFactory/src/DiffModesCommon/PromptSet.java</file>
-            <file>file:/Users/radeon/Documents/Radeon/Programming/JavaFx/InterfaceFactory/src/DemoPack/DemoPages/Page1sc/Page1interface.java</file>
+            <file>file:/Users/radeon/Documents/Radeon/Programming/JavaFx/InterfaceFactory/src/lang/lang_ru_RU.properties</file>
+            <file>file:/Users/radeon/Documents/Radeon/Programming/JavaFx/InterfaceFactory/src/interfacefactory/ModeSelectionInterface.java</file>
+            <file>file:/Users/radeon/Documents/Radeon/Programming/JavaFx/InterfaceFactory/src/DiffModesCommon/DataModel/Wd.java</file>
+            <file>file:/Users/radeon/Documents/Radeon/Programming/JavaFx/InterfaceFactory/src/DiffModesCommon/DataModel/Wk.java</file>
             <file>file:/Users/radeon/Documents/Radeon/Programming/JavaFx/InterfaceFactory/src/DiffModesCommon/DataModel/Fs.java</file>
+            <file>file:/Users/radeon/Documents/Radeon/Programming/JavaFx/InterfaceFactory/src/interfacefactory/InterfaceFactory.java</file>
         </group>
     </open-files>
 </project-private>

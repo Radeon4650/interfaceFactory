@@ -33,6 +33,20 @@ public class Wk {
         blockNum = init_blockNum;
     }
     
+    /**Конструктор копирования
+     * создает класс Wk с полями, имеющими такие же значения,
+     * как и поля переданного класса
+     * @param inpWk класс Wk для копирования*/
+    public Wk(Wk inpWk) {
+        k = inpWk.k;
+        inpSigName = inpWk.inpSigName;
+        inpSigNum = inpWk.inpSigNum;
+        outSigName = inpWk.outSigName;
+        outSigNum = inpWk.outSigNum;
+        blockNum = inpWk.blockNum;
+    }
+    
+    
     /** @return коеффициент передачи блока*/
     public double getK() {
         return k;

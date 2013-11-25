@@ -9,7 +9,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -94,7 +94,7 @@ public class Page1interface {
                 + "<p><b>"
                 + lang.getString("Test.p1.structSheme")
                 + "</b></p>"
-                + StructScheme.getStructScheme()
+                + StructScheme.getStructScheme(lang)
                 + "</td><td width = \"33%\"><p><b>"
                 + lang.getString("Test.p1.sourceData")
                 + "</b></p>"
@@ -144,33 +144,33 @@ public class Page1interface {
         coeffGrid.add(cTextField, 1, 4);
         
         
-        kTextField.setOnInputMethodTextChanged(new EventHandler<InputMethodEvent> () {
+        kTextField.addEventFilter(KeyEvent.KEY_TYPED,new EventHandler<KeyEvent> () {
             @Override
-            public void handle(InputMethodEvent t) {
+            public void handle(KeyEvent t) {
                 styleSetter(kTextField);
                 loadTransFunc(lang);
                 }
         });
         
-        aTextField.setOnInputMethodTextChanged(new EventHandler<InputMethodEvent> () {
+        aTextField.addEventFilter(KeyEvent.KEY_TYPED,new EventHandler<KeyEvent> () {
             @Override
-            public void handle(InputMethodEvent t) {
+            public void handle(KeyEvent t) {
                 styleSetter(aTextField);
                 loadTransFunc(lang);
             }
         });
         
-        bTextField.setOnInputMethodTextChanged(new EventHandler<InputMethodEvent> () {
+        bTextField.addEventFilter(KeyEvent.KEY_TYPED,new EventHandler<KeyEvent> () {
             @Override
-            public void handle(InputMethodEvent t) {
+            public void handle(KeyEvent t) {
                 styleSetter(bTextField);
                 loadTransFunc(lang);
                 }
         });
         
-        cTextField.setOnInputMethodTextChanged(new EventHandler<InputMethodEvent> () {
+        cTextField.addEventFilter(KeyEvent.KEY_TYPED,new EventHandler<KeyEvent> () {
             @Override
-            public void handle(InputMethodEvent t) {
+            public void handle(KeyEvent t) {
                 styleSetter(cTextField);
                 loadTransFunc(lang);
                 }

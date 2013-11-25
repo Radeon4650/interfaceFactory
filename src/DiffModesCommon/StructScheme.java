@@ -4,6 +4,8 @@
 
 package DiffModesCommon;
 
+import java.util.ResourceBundle;
+
 /**
  *
  * @author radeon
@@ -11,7 +13,7 @@ package DiffModesCommon;
 public class StructScheme {
     
     /**@return структурную схему САС для расчетов*/
-    public static String getStructScheme() {
+    public static String getStructScheme(ResourceBundle lang) {
         return "<svg width=\"100%\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:ev=\"http://www.w3.org/2001/xml-events\"\n" +
         "xmlns:v=\"http://schemas.microsoft.com/visio/2003/SVGExtensions/\" width=\"9.95092in\" height=\"3.08683in\"\n" +
         "viewBox=\"0 0 716.466 222.252\" xml:space=\"preserve\" color-interpolation-filters=\"sRGB\" class=\"st9\">\n" +
@@ -62,7 +64,8 @@ public class StructScheme {
         "<v:layer v:name=\"Блок-схема\" v:index=\"0\"/>\n" +
         "<v:layer v:name=\"Соединительная линия\" v:index=\"1\"/>\n" +
         "<g id=\"shape1-1\" v:mID=\"1\" v:groupContext=\"shape\" v:layerMember=\"0\" transform=\"translate(153.43,-89.8661)\">\n" +
-        "<title>Процесс.38</title>\n" +
+        "<title>" + lang.getString("StrSch.w1")
+                + "</title>\n" +
         "<desc>Wk1(s)</desc>\n" +
         "<v:custProps>\n" +
         "<v:cp v:nameU=\"Cost\" v:lbl=\"Стоимость\" v:prompt=\"\" v:type=\"7\" v:format=\"@\" v:sortKey=\"\" v:invis=\"false\"\n" +
@@ -96,7 +99,8 @@ public class StructScheme {
         "<text x=\"15.82\" y=\"205.19\" class=\"st2\" v:langID=\"1033\"><v:paragraph v:horizAlign=\"1\"/><v:tabList/>W<tspan class=\"st3\">k</tspan><tspan\n" +
         "class=\"st3\">1</tspan>(s)</text>		</g>\n" +
         "<g id=\"shape2-8\" v:mID=\"2\" v:groupContext=\"shape\" v:layerMember=\"0\" transform=\"translate(266.816,-89.8661)\">\n" +
-        "<title>Процесс.39</title>\n" +
+        "<title>" + lang.getString("StrSch.w2")
+                + "</title>\n" +
         "<desc>Wk2(s)</desc>\n" +
         "<v:custProps>\n" +
         "<v:cp v:nameU=\"Cost\" v:lbl=\"Стоимость\" v:prompt=\"\" v:type=\"7\" v:format=\"@\" v:sortKey=\"\" v:invis=\"false\"\n" +
@@ -129,7 +133,8 @@ public class StructScheme {
         "<text x=\"15.82\" y=\"205.19\" class=\"st2\" v:langID=\"1033\"><v:paragraph v:horizAlign=\"1\"/><v:tabList/>W<tspan class=\"st3\">k</tspan><tspan\n" +
         "class=\"st3\">2</tspan>(s)</text>		</g>\n" +
         "<g id=\"shape3-14\" v:mID=\"3\" v:groupContext=\"shape\" v:layerMember=\"0\" transform=\"translate(380.202,-89.8661)\">\n" +
-        "<title>Процесс.40</title>\n" +
+        "<title>" + lang.getString("StrSch.w3")
+                + "</title>\n" +
         "<desc>Wd3(s)</desc>\n" +
         "<v:custProps>\n" +
         "<v:cp v:nameU=\"Cost\" v:lbl=\"Стоимость\" v:prompt=\"\" v:type=\"7\" v:format=\"@\" v:sortKey=\"\" v:invis=\"false\"\n" +
@@ -162,7 +167,8 @@ public class StructScheme {
         "<text x=\"15.82\" y=\"205.19\" class=\"st2\" v:langID=\"1033\"><v:paragraph v:horizAlign=\"1\"/><v:tabList/>W<tspan class=\"st3\">d</tspan><tspan\n" +
         "class=\"st3\">3</tspan>(s)</text>		</g>\n" +
         "<g id=\"shape4-20\" v:mID=\"4\" v:groupContext=\"shape\" v:layerMember=\"0\" transform=\"translate(472.328,-160.732)\">\n" +
-        "<title>Процесс.41</title>\n" +
+        "<title>" + lang.getString("StrSch.w4")
+                + "</title>\n" +
         "<desc>Wd4(s)</desc>\n" +
         "<v:custProps>\n" +
         "<v:cp v:nameU=\"Cost\" v:lbl=\"Стоимость\" v:prompt=\"\" v:type=\"7\" v:format=\"@\" v:sortKey=\"\" v:invis=\"false\"\n" +
@@ -195,7 +201,8 @@ public class StructScheme {
         "<text x=\"15.82\" y=\"205.19\" class=\"st2\" v:langID=\"1033\"><v:paragraph v:horizAlign=\"1\"/><v:tabList/>W<tspan class=\"st3\">d</tspan><tspan\n" +
         "class=\"st3\">4</tspan>(s)</text>		</g>\n" +
         "<g id=\"shape5-26\" v:mID=\"5\" v:groupContext=\"shape\" v:layerMember=\"0\" transform=\"translate(564.454,-89.8661)\">\n" +
-        "<title>Процесс.42</title>\n" +
+        "<title>" + lang.getString("StrSch.w5")
+                + "</title>\n" +
         "<desc>Wk5(s)</desc>\n" +
         "<v:custProps>\n" +
         "<v:cp v:nameU=\"Cost\" v:lbl=\"Стоимость\" v:prompt=\"\" v:type=\"7\" v:format=\"@\" v:sortKey=\"\" v:invis=\"false\"\n" +
@@ -228,7 +235,8 @@ public class StructScheme {
         "<text x=\"15.82\" y=\"205.19\" class=\"st2\" v:langID=\"1033\"><v:paragraph v:horizAlign=\"1\"/><v:tabList/>W<tspan class=\"st3\">k</tspan><tspan\n" +
         "class=\"st3\">5</tspan>(s)</text>		</g>\n" +
         "<g id=\"shape6-32\" v:mID=\"6\" v:groupContext=\"shape\" v:layerMember=\"0\" transform=\"translate(380.202,-19)\">\n" +
-        "<title>Процесс.43</title>\n" +
+        "<title>" + lang.getString("StrSch.w6")
+                + "</title>\n" +
         "<desc>Wk6(s)</desc>\n" +
         "<v:custProps>\n" +
         "<v:cp v:nameU=\"Cost\" v:lbl=\"Стоимость\" v:prompt=\"\" v:type=\"7\" v:format=\"@\" v:sortKey=\"\" v:invis=\"false\"\n" +
@@ -267,7 +275,8 @@ public class StructScheme {
         "</v:userDefs>\n" +
         "<title>Лист.7</title>\n" +
         "<g id=\"shape8-39\" v:mID=\"8\" v:groupContext=\"shape\" v:layerMember=\"1;0\">\n" +
-        "<title>Ссылка на текущую страницу</title>\n" +
+        "<title>" + lang.getString("StrSch.summ")
+                + "</title>\n" +
         "<v:userDefs>\n" +
         "<v:ud v:nameU=\"visVersion\" v:prompt=\"\" v:val=\"VT0(14):26\"/>\n" +
         "<v:ud v:nameU=\"msvThemeColors\" v:val=\"VT0(36):26\"/>\n" +
@@ -300,7 +309,8 @@ public class StructScheme {
         "</v:userDefs>\n" +
         "<title>Лист.11</title>\n" +
         "<g id=\"shape12-51\" v:mID=\"12\" v:groupContext=\"shape\" v:layerMember=\"1;0\">\n" +
-        "<title>Ссылка на текущую страницу</title>\n" +
+        "<title>" + lang.getString("StrSch.summ")
+                + "</title>\n" +
         "<v:userDefs>\n" +
         "<v:ud v:nameU=\"visVersion\" v:prompt=\"\" v:val=\"VT0(14):26\"/>\n" +
         "<v:ud v:nameU=\"msvThemeColors\" v:val=\"VT0(36):26\"/>\n" +
@@ -414,7 +424,8 @@ public class StructScheme {
         "<path d=\"M0 213.25 L50.53 213.25\" class=\"st5\"/>\n" +
         "</g>\n" +
         "<g id=\"shape26-129\" v:mID=\"26\" v:groupContext=\"shape\" transform=\"translate(32.9576,-115.378)\">\n" +
-        "<title>Лист.26</title>\n" +
+        "<title>"+ lang.getString("StrSch.G(s)")
+                + "</title>\n" +
         "<desc>G(s)</desc>\n" +
         "<v:userDefs>\n" +
         "<v:ud v:nameU=\"msvThemeColors\" v:val=\"VT0(36):26\"/>\n" +
@@ -425,7 +436,8 @@ public class StructScheme {
         "<rect x=\"0\" y=\"210.252\" width=\"48.189\" height=\"12\" class=\"st7\"/>\n" +
         "<text x=\"2\" y=\"220.45\" class=\"st2\" v:langID=\"1033\"><v:paragraph/><v:tabList/>G(s)</text>		</g>\n" +
         "<g id=\"shape27-132\" v:mID=\"27\" v:groupContext=\"shape\" transform=\"translate(119.414,-115.378)\">\n" +
-        "<title>Лист.27</title>\n" +
+        "<title>" + lang.getString("StrSch.E(s)")
+                + "</title>\n" +
         "<desc>E(s)</desc>\n" +
         "<v:userDefs>\n" +
         "<v:ud v:nameU=\"msvThemeColors\" v:val=\"VT0(36):26\"/>\n" +
@@ -436,7 +448,8 @@ public class StructScheme {
         "<rect x=\"0\" y=\"210.252\" width=\"48.189\" height=\"12\" class=\"st7\"/>\n" +
         "<text x=\"2\" y=\"220.45\" class=\"st2\" v:langID=\"1033\"><v:paragraph/><v:tabList/>E(s)</text>		</g>\n" +
         "<g id=\"shape28-135\" v:mID=\"28\" v:groupContext=\"shape\" transform=\"translate(227.131,-115.378)\">\n" +
-        "<title>Лист.28</title>\n" +
+        "<title>" + lang.getString("StrSch.Y1(s)")
+                + "</title>\n" +
         "<desc>Y1(s)</desc>\n" +
         "<v:userDefs>\n" +
         "<v:ud v:nameU=\"msvThemeColors\" v:val=\"VT0(36):26\"/>\n" +
@@ -447,7 +460,8 @@ public class StructScheme {
         "<rect x=\"0\" y=\"210.252\" width=\"48.189\" height=\"12\" class=\"st7\"/>\n" +
         "<text x=\"2\" y=\"220.45\" class=\"st2\" v:langID=\"1033\"><v:paragraph/><v:tabList/>Y<tspan class=\"st3\">1</tspan>(s)</text>		</g>\n" +
         "<g id=\"shape29-139\" v:mID=\"29\" v:groupContext=\"shape\" transform=\"translate(339.099,-115.378)\">\n" +
-        "<title>Лист.29</title>\n" +
+        "<title>" + lang.getString("StrSch.Y2(s)")
+                + "</title>\n" +
         "<desc>Y2(s)</desc>\n" +
         "<v:userDefs>\n" +
         "<v:ud v:nameU=\"msvThemeColors\" v:val=\"VT0(36):26\"/>\n" +
@@ -458,7 +472,8 @@ public class StructScheme {
         "<rect x=\"0\" y=\"210.252\" width=\"48.189\" height=\"12\" class=\"st7\"/>\n" +
         "<text x=\"2\" y=\"220.45\" class=\"st2\" v:langID=\"1033\"><v:paragraph/><v:tabList/>Y<tspan class=\"st3\">2</tspan>(s)</text>		</g>\n" +
         "<g id=\"shape30-143\" v:mID=\"30\" v:groupContext=\"shape\" transform=\"translate(422.721,-186.244)\">\n" +
-        "<title>Лист.30</title>\n" +
+        "<title>" + lang.getString("StrSch.F(s)")
+                + "</title>\n" +
         "<desc>F(s)</desc>\n" +
         "<v:userDefs>\n" +
         "<v:ud v:nameU=\"msvThemeColors\" v:val=\"VT0(36):26\"/>\n" +
@@ -485,7 +500,8 @@ public class StructScheme {
         "<path d=\"M0 222.25 L28.35 222.25\" class=\"st4\"/>\n" +
         "</g>\n" +
         "<g id=\"shape33-154\" v:mID=\"33\" v:groupContext=\"shape\" transform=\"translate(100.989,-82.7795)\">\n" +
-        "<title>Лист.33</title>\n" +
+        "<title>" + lang.getString("StrSch.minus")
+                + "</title>\n" +
         "<desc>-</desc>\n" +
         "<v:userDefs>\n" +
         "<v:ud v:nameU=\"msvThemeColors\" v:val=\"VT0(36):26\"/>\n" +
@@ -496,7 +512,8 @@ public class StructScheme {
         "<rect x=\"0\" y=\"210.252\" width=\"9.92126\" height=\"12\" class=\"st7\"/>\n" +
         "<text x=\"2\" y=\"220.45\" class=\"st2\" v:langID=\"1049\"><v:paragraph/><v:tabList/>-</text>		</g>\n" +
         "<g id=\"shape34-157\" v:mID=\"34\" v:groupContext=\"shape\" transform=\"translate(456.737,-115.378)\">\n" +
-        "<title>Лист.34</title>\n" +
+        "<title>" + lang.getString("StrSch.Y3(s)")
+                + "</title>\n" +
         "<desc>Y3(s)</desc>\n" +
         "<v:userDefs>\n" +
         "<v:ud v:nameU=\"msvThemeColors\" v:val=\"VT0(36):26\"/>\n" +
@@ -507,7 +524,8 @@ public class StructScheme {
         "<rect x=\"0\" y=\"210.252\" width=\"48.189\" height=\"12\" class=\"st7\"/>\n" +
         "<text x=\"2\" y=\"220.45\" class=\"st2\" v:langID=\"1033\"><v:paragraph/><v:tabList/>Y<tspan class=\"st3\">3</tspan>(s)</text>		</g>\n" +
         "<g id=\"shape35-161\" v:mID=\"35\" v:groupContext=\"shape\" transform=\"translate(510.595,-141.976)\">\n" +
-        "<title>Лист.35</title>\n" +
+        "<title>"+ lang.getString("StrSch.Y4(s)")
+                + "</title>\n" +
         "<desc>Y4(s)</desc>\n" +
         "<v:userDefs>\n" +
         "<v:ud v:nameU=\"msvThemeColors\" v:val=\"VT0(36):26\"/>\n" +
@@ -518,7 +536,8 @@ public class StructScheme {
         "<rect x=\"0\" y=\"210.252\" width=\"48.189\" height=\"12\" class=\"st7\"/>\n" +
         "<text x=\"2\" y=\"220.45\" class=\"st2\" v:langID=\"1033\"><v:paragraph/><v:tabList/>Y<tspan class=\"st3\">4</tspan>(s)</text>		</g>\n" +
         "<g id=\"shape36-165\" v:mID=\"36\" v:groupContext=\"shape\" transform=\"translate(225.713,-45.9291)\">\n" +
-        "<title>Лист.36</title>\n" +
+        "<title>" + lang.getString("StrSch.Y6(s)")
+                + "</title>\n" +
         "<desc>Y6(s)</desc>\n" +
         "<v:userDefs>\n" +
         "<v:ud v:nameU=\"msvThemeColors\" v:val=\"VT0(36):26\"/>\n" +
@@ -529,7 +548,8 @@ public class StructScheme {
         "<rect x=\"0\" y=\"210.252\" width=\"48.189\" height=\"12\" class=\"st7\"/>\n" +
         "<text x=\"2\" y=\"220.45\" class=\"st2\" v:langID=\"1033\"><v:paragraph/><v:tabList/>Y<tspan class=\"st3\">6</tspan>(s)</text>		</g>\n" +
         "<g id=\"shape37-169\" v:mID=\"37\" v:groupContext=\"shape\" transform=\"translate(640.989,-115.378)\">\n" +
-        "<title>Лист.37</title>\n" +
+        "<title>"+lang.getString("StrSch.Y5(s)")
+                + "</title>\n" +
         "<desc>Y5(s)</desc>\n" +
         "<v:userDefs>\n" +
         "<v:ud v:nameU=\"msvThemeColors\" v:val=\"VT0(36):26\"/>\n" +

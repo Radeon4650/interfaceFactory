@@ -27,6 +27,20 @@ public class Wd extends Wk {
         t2 = init_t2;
     }
 
+    
+    /**Конструктор копирования
+     * создает класс Wd с полями, имеющими такие же значения,
+     * как и поля переданного класса
+     * @param inpWd класс Wd для копирования*/
+    public Wd(Wd inpWd) 
+    {
+        super(inpWd.k, inpWd.inpSigName, inpWd.outSigName, inpWd.inpSigNum, 
+                inpWd.outSigNum, inpWd.blockNum);
+        t1 = inpWd.t1;
+        t2 = inpWd.t2;
+    }
+    
+    
     /**@return постояную времени T1*/
     public double getT1() {
         return t1;

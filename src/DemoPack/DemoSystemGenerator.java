@@ -148,6 +148,8 @@ public class DemoSystemGenerator {
         }
     }
     
+    
+    /**Автоматически генерирует данные, необходимые для решения задачи*/
     public DemoSystemGenerator() {
         
         loadAcsProperties("DiffModesCommon/SystemGenerator.properties");        
@@ -167,6 +169,26 @@ public class DemoSystemGenerator {
         wk5 = new Wk(k, "Y", "Y", 0, 5, 5);
         k = Math.rint(((k6MAX-k6MIN)*rnd.nextDouble()+k6MIN)*100)/100;
         wk6 = new Wk(k, "Y", "Y", 5, 6, 6);   
+        fs = new Fs(wk1, wk2, wd3, wk5, wk6);
+        setWuvArr();
+    }
+    
+    
+    /**Генерирует данные, необходимые для решения задачи, 
+     * исходя из заданных входных данныx:
+     * @param wkInp1 передаточная функция простейшего структурного блока (#1 на схеме)
+     * @param wkInp2 передаточная функция простейшего структурного блока (#2 на схеме)
+     * @param wdInp3 передаточная функция структурного блока 2го порядка (#3 на схеме)
+     * @param wdInp4 передаточная функция структурного блока 2го порядка (#4 на схеме)
+     * @param wkInp5 передаточная функция простейшего структурного блока (#5 на схеме)
+     * @param wkInp6 передаточная функция простейшего структурного блока (#6 на схеме) */
+    public DemoSystemGenerator(Wk wkInp1, Wk wkInp2, Wd wdInp3, Wd wdInp4, Wk wkInp5, Wk wkInp6) {   
+        wk1 = new Wk(wkInp1);
+        wk2 = new Wk(wkInp2);
+        wd3 = new Wd(wdInp3);
+        wd4 = new Wd(wdInp4);
+        wk5 = new Wk(wkInp5);
+        wk6 = new Wk(wkInp6);   
         fs = new Fs(wk1, wk2, wd3, wk5, wk6);
         setWuvArr();
     }

@@ -1,6 +1,8 @@
 package interfacefactory;
 
 import DemoPack.DemoInterface;
+import DiffModesCommon.DataModel.Wd;
+import DiffModesCommon.DataModel.Wk;
 import TestPack.TestInterface;
 import TrainerPack.TrainerInterface;
 import java.util.Locale;
@@ -80,9 +82,23 @@ public class InterfaceFactory extends Application {
         }
     }
 
-    /**загружает интерфейс демо-режима*/
+    /**загружает интерфейс демо-режима с автоматически созданным условием задачи*/
     public void loadDemoInterface() {
         DemoInterface demo = new DemoInterface(lang, this);
+        root.getChildren().clear();
+        root.getChildren().add(demo.getdInterface());
+    }
+    
+    /**загружает интерфейс демо-режима с введенным пользователем условием задачи
+     * @param wk1 передаточная функция простейшего структурного блока (#1 на схеме)
+     * @param wk2 передаточная функция простейшего структурного блока (#2 на схеме)
+     * @param wd3 передаточная функция структурного блока 2го порядка (#3 на схеме)
+     * @param wd4 передаточная функция структурного блока 2го порядка (#4 на схеме)
+     * @param wk5 передаточная функция простейшего структурного блока (#5 на схеме)
+     * @param wk6 передаточная функция простейшего структурного блока (#6 на схеме)
+     */
+    public void loadDemoInterface(Wk wk1, Wk wk2, Wd wd3, Wd wd4, Wk wk5, Wk wk6) {
+        DemoInterface demo = new DemoInterface(lang, this, wk1, wk2, wd3, wd4, wk5, wk6);
         root.getChildren().clear();
         root.getChildren().add(demo.getdInterface());
     }
