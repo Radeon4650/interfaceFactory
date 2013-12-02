@@ -1,6 +1,7 @@
 package interfacefactory;
 
 import DemoPack.DemoInterface;
+import DiffModesCommon.AppStyles;
 import DiffModesCommon.DataModel.Wd;
 import DiffModesCommon.DataModel.Wk;
 import TestPack.TestInterface;
@@ -32,7 +33,7 @@ public class InterfaceFactory extends Application {
 
         
     //---------GUI---------------------------
-        root.setStyle("-fx-background-color: #ffeba7;");
+        root.setStyle(AppStyles.mainStageRootStyle());
         
         loadInitialInterface();
         

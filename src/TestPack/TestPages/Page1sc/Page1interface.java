@@ -1,5 +1,6 @@
 package TestPack.TestPages.Page1sc;
 
+import DiffModesCommon.AppStyles;
 import DiffModesCommon.DataModel.Fs;
 import DiffModesCommon.StructScheme;
 import TestPack.TestSystemGenerator;
@@ -12,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 
@@ -20,7 +22,6 @@ import javafx.scene.web.WebView;
  * @author radeon
  */
 public class Page1interface {
-    private Label infoLab1;
     private VBox rootLayout;
     private GridPane grid;
     private final TextField kTextField;
@@ -64,14 +65,9 @@ public class Page1interface {
     /**Устанавливает стиль для поля ввода коэффициентов:
      * символы становятся красными, если введеноое значение не является числом*/
     private void styleSetter (final TextField tf) {
-        final String wrongTextInputStyle;
-        final String rightTextInputStyle;
-        wrongTextInputStyle = "-fx-text-fill: #FF0066;"
-                            + "-fx-prompt-text-fill: #99CC99;"
-                            + "-fx-highlight-fill: #CC3300;";
-        rightTextInputStyle = "-fx-text-fill: #000000;"
-                            + "-fx-prompt-text-fill: #99CC99;"
-                            + "-fx-highlight-fill: #009966;";
+        final String wrongTextInputStyle = AppStyles.testWrongTextFieldInputStyle();
+        final String rightTextInputStyle = AppStyles.testRightTextFieldInputStyle();
+        
         try {
             Double.parseDouble(tf.getText());
             tf.setStyle(rightTextInputStyle);
@@ -82,12 +78,9 @@ public class Page1interface {
     }
     
     public Page1interface(TestSystemGenerator sg, final ResourceBundle lang) {
-        infoLab1 = new Label();
         grid = new GridPane();
-        infoLab1.setText("Test mode page 1");
         rootLayout = new VBox();
         rootLayout.setAlignment(Pos.CENTER);
-        rootLayout.getChildren().add(infoLab1);
         WebView wv = new WebView();
         wv.getEngine().loadContent("<html><body>"
                 + "<table width = \"100%\"><tr><td align = \"center\">"
@@ -105,7 +98,8 @@ public class Page1interface {
                 + sg.getWd3().printInMathML()
                 + ";<br>"
                 + sg.getWd4().printInMathML()
-                + ".</td></tr></table></body></html>");
+                + ".</td></tr></table></body></html>"
+        );
         grid.add(wv, 0, 0, 2, 1);
         
         transFunc = new WebView();    
@@ -179,6 +173,11 @@ public class Page1interface {
         loadTransFunc(lang);
         
         grid.add(coeffGrid, 1, 1);
+        RowConstraints grid_rc0 = new RowConstraints();
+        RowConstraints grid_rc1 = new RowConstraints();
+        grid_rc0.setPercentHeight(70);
+        grid_rc1.setPercentHeight(30);
+        grid.getRowConstraints().addAll(grid_rc0, grid_rc1);
         
         grid.setGridLinesVisible(true);
         ColumnConstraints grid_col1 = new ColumnConstraints();
@@ -204,5 +203,19 @@ public class Page1interface {
         return rootLayout;
     }
     
-    
+    public boolean dataCheck(TestSystemGenerator sg) {
+        try {
+            double k, a, b, c;
+            k = Double.parseDouble(kTextField.getText());
+            a = Double.parseDouble(aTextField.getText());
+            b = Double.parseDouble(bTextField.getText());
+            c = Double.parseDouble(cTextField.getText());
+            sg.setStudentsFs(k, a, b, c);
+            sg.checkPage(0);
+            return true;
+        }
+        catch (NumberFormatException nfe) {
+            return false;
+        } 
+    }
 }

@@ -1,5 +1,6 @@
 package DiffModesCommon.DataModel;
 
+import DiffModesCommon.AppStyles;
 import DiffModesCommon.DblNum;
 
 
@@ -299,7 +300,7 @@ public class Fs {
      * в формате Ф(s) = k/(a*s^2+b*s+c)   */
     public static String printInMathMLWith_abc_s (String k_inp, String a_inp, String b_inp, String c_inp) {
         String a_out, b_out, c_out, k_out;
-        String wrongColor = "FF0066";
+        String wrongColor = AppStyles.wrongRedColor();
 //------------------------------------------------------------------------------
         try {
             if (Double.parseDouble(c_inp)<0) {                    

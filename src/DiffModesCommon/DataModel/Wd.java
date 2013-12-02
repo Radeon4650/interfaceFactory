@@ -1,5 +1,7 @@
 package DiffModesCommon.DataModel;
 
+import DiffModesCommon.AppStyles;
+
 
 public class Wd extends Wk {      
     /**@param t1 постоянная времени T1*/
@@ -57,6 +59,7 @@ public class Wd extends Wk {
      */
     @Override
     public String printInMathML () {
+        final String rgColor = AppStyles.rightGreenColor();
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow>"
@@ -84,17 +87,23 @@ public class Wd extends Wk {
                     + "</mfrac>"
                     + "<mo>=</mo>"
                     + "<mfrac>"
-                    + "<mn mathcolor='#00cc00' mathsize='1.2em'>"+String.valueOf(k)+"</mn>"
+                    + "<mn mathcolor='#"
+                    + rgColor
+                    + "' mathsize='1.2em'>"+String.valueOf(k)+"</mn>"
                     + "<mrow>"
                     + "<mfenced><mrow>"
-                    + "<mn mathcolor='#00cc00' mathsize='1.2em'>"+String.valueOf(t1)+"</mn>"
+                    + "<mn mathcolor='#"
+                    + rgColor
+                    + "' mathsize='1.2em'>"+String.valueOf(t1)+"</mn>"
                     + "<mo>&#x2219</mo>"
                     + "<mi>s</mi>"
                     + "<mo>+</mo>"
                     + "<mn>1</mn>"
                     + "</mrow></mfenced>"
                     + "<mfenced><mrow>"
-                    + "<mn mathcolor='#00cc00' mathsize='1.2em'>"+String.valueOf(t2)+"</mn>"
+                    + "<mn mathcolor='#"
+                    + rgColor
+                    + "' mathsize='1.2em'>"+String.valueOf(t2)+"</mn>"
                     + "<mo>&#x2219</mo>"
                     + "<mi>s</mi>"
                     + "<mo>+</mo>"

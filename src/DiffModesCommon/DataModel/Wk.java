@@ -1,5 +1,7 @@
 package DiffModesCommon.DataModel;
 
+import DiffModesCommon.AppStyles;
+
 public class Wk {              
     /**@param k коеффициент числителя */
     protected double k;  
@@ -83,7 +85,9 @@ public class Wk {
                     + "</mrow>"
                     + "</mfrac>"
                     + "<mo>=</mo>"
-                    + "<mn mathcolor='#00cc00' mathsize='1.2em'>"+String.valueOf(k)+"</mn>"
+                    + "<mn mathcolor='#"
+                    + AppStyles.rightGreenColor()
+                    + "' mathsize='1.2em'>"+String.valueOf(k)+"</mn>"
                     + "</mrow>"
                 + "</math>";
     }

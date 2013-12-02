@@ -7,6 +7,7 @@ import interfacefactory.InterfaceFactory;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -57,9 +58,13 @@ public class DemoInterface {
         final Pagination pgnCtrl = new Pagination(8, 0);
         dInterface = new BorderPane();
         HBox hbTop = new HBox();
-        hbTop.getChildren().addAll(new Label(lang.getString("DemoInterface.modeTitle")), 
-                new Label(lang.getString("DemoInterface.lessonTitle")));
+        Label demoTitle = new Label(lang.getString("DemoInterface.modeTitle"));
+        demoTitle.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.demoBtnHint")));
+        Label lessonTitle = new Label(lang.getString("DemoInterface.lessonTitle"));
+        hbTop.getChildren().addAll(demoTitle, lessonTitle);
         hbTop.setAlignment(Pos.CENTER);  
+        hbTop.setPadding(new Insets(5, 5, 5, 5));
+        hbTop.setSpacing(50);
         dInterface.setTop(hbTop);       
         Button btnBack = new Button(lang.getString("DemoInterface.btnBackTitle"));
         

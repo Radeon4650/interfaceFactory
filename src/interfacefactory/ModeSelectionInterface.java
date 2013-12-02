@@ -1,5 +1,6 @@
 package interfacefactory;
 
+import DiffModesCommon.AppStyles;
 import DiffModesCommon.DataModel.Wd;
 import DiffModesCommon.DataModel.Wk;
 import DiffModesCommon.StructScheme;
@@ -38,6 +39,7 @@ public class ModeSelectionInterface {
     private final VBox msInterface;
     private final Label pageTitle;
     
+    // Поля для ввода коэффициентов системы
     final TextField k1tf;
     final TextField k2tf;
     final TextField k3tf;
@@ -51,6 +53,7 @@ public class ModeSelectionInterface {
     
     final CheckBox problemSituationChBox;
     final Label errLbl;
+    final Label necessaryCoeff;
     
     public ModeSelectionInterface(final ResourceBundle lang, final InterfaceFactory ifFact) {
         // Поля для ввода коэффициентов системы
@@ -66,6 +69,7 @@ public class ModeSelectionInterface {
         k6tf = new TextField();
         problemSituationChBox = new CheckBox();
         errLbl = new Label();
+        necessaryCoeff = new Label();
         
         
         TabPane modeTabPane = new TabPane();
@@ -75,6 +79,7 @@ public class ModeSelectionInterface {
             tabTrainer.setText(lang.getString("ModeSelectionInterface.trainerBtnTitle"));
             Tab tabTest = new Tab();
             tabTest.setText(lang.getString("ModeSelectionInterface.testBtnTitle"));
+            
         
             tabDemo.setContent(demoTabContent(lang, ifFact));
             tabTrainer.setContent(trainerTabContent(lang, ifFact));
@@ -130,9 +135,7 @@ public class ModeSelectionInterface {
         
         
         errLbl.setText(lang.getString("ModeSelectionInterface.demoError"));
-        errLbl.setStyle("-fx-text-fill: #FF0066;"
-                + "-fx-wrap-text: true;"
-                + "-fx-text-alignment: center;");
+        errLbl.setStyle(AppStyles.errorLblStyle());
         errLbl.setPrefWidth(600);
         errLbl.setVisible(false);
         layout.getChildren().add(errLbl);
@@ -205,6 +208,7 @@ public class ModeSelectionInterface {
                     // и необходимо внесение изменений
                     System.out.println("Ошибка ввода пользовательских данных");
                     errLbl.setVisible(true);
+                    necessaryCoeff.setStyle(AppStyles.errorLblStyle());
                 }  
                 else {
                     errLbl.setVisible(false);
@@ -343,7 +347,7 @@ public class ModeSelectionInterface {
         Label t14lab = new Label("T 14 = ");
         Label t24lab = new Label("T 24 = ");  
         
-        Label necessaryCoeff = new Label(lang.getString("ModeSelectionInterface.settingsPaneInpCoeff"));
+        necessaryCoeff.setText(lang.getString("ModeSelectionInterface.settingsPaneInpCoeff"));
         necessaryCoeff.setAlignment(Pos.CENTER);
         necessaryCoeff.setWrapText(true);
         
@@ -361,16 +365,17 @@ public class ModeSelectionInterface {
         t14tf.setPromptText("T 14 ∈ [0.2 ; 0.3]");
         t24tf.setPromptText("T 24 ∈ [0.002 ; 0.003]");
         
-        k1tf.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.recomendedLimits") +"\nk1 ∈ [1 ; 4]"));
-        k2tf.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.recomendedLimits") +"\nk2 ∈ [2.5 ; 4.5]"));
-        k3tf.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.recomendedLimits") +"\nk3 ∈ [8.5 ; 10]"));
-        k4tf.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.recomendedLimits") +"\nk4 ∈ [-0.0085 ; -0.01]"));
-        k5tf.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.recomendedLimits") +"\nk5 ∈ [0.07 ; 0.08]"));
-        k6tf.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.recomendedLimits") +"\nk6 ∈ [1 ; 1.5]"));
-        t13tf.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.recomendedLimits") +"\nT 13 ∈ [0.2 ; 0.3]"));
-        t23tf.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.recomendedLimits") +"\nT 23 ∈ [0.002 ; 0.003]"));
-        t14tf.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.recomendedLimits") +"\nT 14 ∈ [0.2 ; 0.3]"));
-        t24tf.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.recomendedLimits") +"\nT 24 ∈ [0.002 ; 0.003]"));
+        final String recLimits = lang.getString("ModeSelectionInterface.recomendedLimits");
+        k1tf.setTooltip(new Tooltip(recLimits +"\nk1 ∈ [1 ; 4]"));
+        k2tf.setTooltip(new Tooltip(recLimits +"\nk2 ∈ [2.5 ; 4.5]"));
+        k3tf.setTooltip(new Tooltip(recLimits +"\nk3 ∈ [8.5 ; 10]"));
+        k4tf.setTooltip(new Tooltip(recLimits +"\nk4 ∈ [-0.0085 ; -0.01]"));
+        k5tf.setTooltip(new Tooltip(recLimits +"\nk5 ∈ [0.07 ; 0.08]"));
+        k6tf.setTooltip(new Tooltip(recLimits +"\nk6 ∈ [1 ; 1.5]"));
+        t13tf.setTooltip(new Tooltip(recLimits +"\nT 13 ∈ [0.2 ; 0.3]"));
+        t23tf.setTooltip(new Tooltip(recLimits +"\nT 23 ∈ [0.002 ; 0.003]"));
+        t14tf.setTooltip(new Tooltip(recLimits +"\nT 14 ∈ [0.2 ; 0.3]"));
+        t24tf.setTooltip(new Tooltip(recLimits +"\nT 24 ∈ [0.002 ; 0.003]"));
         
         
         final GridPane inputPane = new GridPane();
@@ -445,14 +450,7 @@ public class ModeSelectionInterface {
         
         // Добавляем ограничения в таблицу:
         grid.getColumnConstraints().addAll(gridCol0, gridCol1);
-        grid.getRowConstraints().addAll(gridRow0, gridRow1, gridRow2, gridRow3);
-
-        
-
-        
-
-        
-        
+        grid.getRowConstraints().addAll(gridRow0, gridRow1, gridRow2, gridRow3); 
 
         
         problemSituationChBox.setOnMouseClicked(new EventHandler<MouseEvent> () {
@@ -473,10 +471,7 @@ public class ModeSelectionInterface {
             }          
         });
         
-        
-        
-        
-        
+ 
         return grid;
     }
     
