@@ -2,6 +2,8 @@
 
 package DiffModesCommon;
 
+import javafx.scene.control.TextField;
+
 /**
  * Стили для различных элементов графического интерфейса приложения
  * @author radeon
@@ -10,6 +12,7 @@ public class AppStyles {
     //info gamma
     static private final String wrongRed = "FF0066";
     static private final String rightGreen = "009966";
+    static private final String infoBlue = "336699";
     
     //neutral app gamma
     static private final String gray = "99CC99";
@@ -20,6 +23,10 @@ public class AppStyles {
     static private final String tableLinesClr = "FFCCCC";
     static private final String rootClr = "CCFFCC";
     
+    /**@return численное представление [синего] цвета, для выделения информационных данных*/
+    static public String infoBlueColor() {
+        return infoBlue;
+    }
     
     /**@return численное представление [красного] цвета, обозначающего ошибочный ввод данных*/
     static public String wrongRedColor() {
@@ -65,5 +72,22 @@ public class AppStyles {
         return "-fx-text-fill: #" + wrongRedColor() + ";"
              + "-fx-wrap-text: true;"
              + "-fx-text-alignment: center;";
+    }
+    
+    /**Устанавливает стиль для поля ввода коэффициентов:
+     * символы становятся красными, если введеноое значение не является числом
+     * @param tf поле ввода, к которому применяется стиль
+     */
+    static public void styleSetter (final TextField tf) {
+        final String wrongTextInputStyle = AppStyles.testWrongTextFieldInputStyle();
+        final String rightTextInputStyle = AppStyles.testRightTextFieldInputStyle();
+        
+        try {
+            Double.parseDouble(tf.getText());
+            tf.setStyle(rightTextInputStyle);
+            }
+        catch (NumberFormatException ex) {
+            tf.setStyle(wrongTextInputStyle);
+        }
     }
 }

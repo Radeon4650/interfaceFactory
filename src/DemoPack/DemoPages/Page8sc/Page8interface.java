@@ -2,6 +2,7 @@
 
 package DemoPack.DemoPages.Page8sc;
 
+import DemoPack.DemoPages.DemoPageInterface;
 import DemoPack.DemoSystemGenerator;
 import java.util.ResourceBundle;
 import javafx.geometry.Pos;
@@ -14,7 +15,7 @@ import javafx.scene.text.TextAlignment;
  *
  * @author Radeon
  */
-public class Page8interface {
+public class Page8interface  extends DemoPageInterface {
     private Label infoLab2;
     private GridPane rootLayout;
     
@@ -31,6 +32,7 @@ public class Page8interface {
         rootLayout.setPrefSize(1000, 1000);
     }
     
+    @Override
     public Node getRootLayout(){
         return rootLayout;
     }    

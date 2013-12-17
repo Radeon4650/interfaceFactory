@@ -318,40 +318,43 @@ public class Fs {
         }
 //------------------------------------------------------------------------------        
         try {
-            if (Double.parseDouble(a_inp)<0.1) {
-                DblNum A = new DblNum(Double.parseDouble(a_inp));
+            double a = Double.parseDouble(a_inp);
+            if (a<0.1) {
+                DblNum A = new DblNum(a);
                 a_out = "<mn>"+String.valueOf(A.getNum())+"</mn>"
                         + "<mo>&#x2219</mo>"
                         + "<msup>"
                         + "<mn>10</mn>"
                         + "<mn>"+String.valueOf(A.getDegree())+"</mn>"
                         + "</msup>";}
-            else a_out = "<mn>" + String.valueOf(Double.parseDouble(a_inp)) + "</mn>";
+            else a_out = "<mn>" + a_inp + "</mn>";
         }
         catch (NumberFormatException ex) {
-            a_out = "<mi mathcolor='"+ wrongColor + "'>" + a_inp + "</mi>";
+            a_out = "<mi mathcolor='#"+ wrongColor + "'>" + a_inp + "</mi>";
         }
 //------------------------------------------------------------------------------        
         try {
-            if (Double.parseDouble(b_inp)<0.1) {
-            DblNum B = new DblNum(Double.parseDouble(b_inp));
-            b_out = "<mn>"+String.valueOf(B.getNum())+"</mn>"
+            double b = Double.parseDouble(b_inp);
+            if (b<0.1) {
+                DblNum B = new DblNum(b);
+                b_out = "<mn>"+String.valueOf(B.getNum())+"</mn>"
                     + "<mo>&#x2219</mo>"
                     + "<msup>"
                     + "<mn>10</mn>"
                     + "<mn>"+String.valueOf(B.getDegree())+"</mn>"
                     + "</msup>";}
-            else b_out = "<mn>" + String.valueOf(Double.parseDouble(b_inp)) + "</mn>";
+            else b_out = "<mn>" + b_inp + "</mn>";
         }
         catch (NumberFormatException ex) {
-            b_out = "<mi mathcolor='"+ wrongColor + "'>" + b_inp + "</mi>";
+            b_out = "<mi mathcolor='#"+ wrongColor + "'>" + b_inp + "</mi>";
         }
 //------------------------------------------------------------------------------        
         try {
-            k_out="<mn>"+String.valueOf(Double.parseDouble(k_inp))+"</mn>";
+            Double.parseDouble(k_inp);
+            k_out="<mn>" + k_inp + "</mn>";
         }
         catch (NumberFormatException ex) {
-            k_out = "<mi mathcolor='"+ wrongColor + "'>" + k_inp + "</mi>";
+            k_out = "<mi mathcolor='#"+ wrongColor + "'>" + k_inp + "</mi>";
         }
 //------------------------------------------------------------------------------            
             

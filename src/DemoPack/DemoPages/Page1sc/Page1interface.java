@@ -2,6 +2,7 @@
 
 package DemoPack.DemoPages.Page1sc;
 
+import DemoPack.DemoPages.DemoPageInterface;
 import DiffModesCommon.StructScheme;
 import DiffModesCommon.PromptSet;
 import DemoPack.DemoSystemGenerator;
@@ -15,7 +16,7 @@ import javafx.scene.web.WebView;
  *
  * @author Radeon
  */
-public class Page1interface {
+public class Page1interface extends DemoPageInterface {
     private VBox rootLayout;
     
     public Page1interface (DemoSystemGenerator sg, ResourceBundle lang) {
@@ -63,6 +64,7 @@ public class Page1interface {
         rootLayout.getChildren().add(tipView); 
     }
     
+    @Override
     public Node getRootLayout(){
         return rootLayout;
     }

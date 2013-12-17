@@ -81,7 +81,7 @@ public class DemoInterface {
             @Override
             public Node call(Integer pageIndex)
             {
-                return ConcretePageLayout.returnRootLayout(pageIndex, sg, lang);
+                return DemoFactory.returnRootLayout(pageIndex, sg, lang);
             }
         });
         

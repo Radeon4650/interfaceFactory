@@ -23,7 +23,7 @@ public class DblNum {
     private void redefDegree() {
         num = Math.abs(getDblNum());
         degree = 0;
-        while (getNum()<=1)
+        while ((getNum()<=1)&(getNum()>0))
         {
             degree -- ;
             num *= 10;

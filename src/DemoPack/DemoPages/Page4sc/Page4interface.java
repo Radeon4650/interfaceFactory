@@ -2,12 +2,12 @@
 
 package DemoPack.DemoPages.Page4sc;
 
+import DemoPack.DemoPages.DemoPageInterface;
 import DiffModesCommon.PromptSet;
 import DemoPack.DemoSystemGenerator;
 import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 
@@ -15,7 +15,7 @@ import javafx.scene.web.WebView;
  *
  * @author Radeon
  */
-public class Page4interface {
+public class Page4interface extends DemoPageInterface {
     private VBox rootLayout;
     
     public Page4interface (DemoSystemGenerator sg, ResourceBundle lang) {
@@ -44,6 +44,7 @@ public class Page4interface {
         rootLayout.getChildren().add(wv);
     }
     
+    @Override
     public Node getRootLayout(){
         return rootLayout;
     }    

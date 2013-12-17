@@ -24,7 +24,7 @@ public class ChartCreation_page8 {
         XYChart.Series series = new XYChart.Series();
         for (int i = 0, j=1; i < 400; i+=j, j+=1) 
             series.getData().add(new XYChart.Data(sg.getFs().getU_w().calc_U(i), sg.getFs().getV_w().calc_V(i)));
-        for (int i = 5; i < sg.getAfLen(); i++) 
+        for (int i = 5; i < DemoSystemGenerator.getAfLen(); i++) 
             series.getData().add(new XYChart.Data(sg.getU(i), sg.getV(i)));
         
         lineChart.setLegendVisible(false);

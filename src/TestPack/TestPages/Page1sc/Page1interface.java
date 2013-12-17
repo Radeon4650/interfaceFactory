@@ -3,11 +3,13 @@ package TestPack.TestPages.Page1sc;
 import DiffModesCommon.AppStyles;
 import DiffModesCommon.DataModel.Fs;
 import DiffModesCommon.StructScheme;
+import TestPack.TestPages.TestPageInterface;
 import TestPack.TestSystemGenerator;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -21,7 +23,7 @@ import javafx.scene.web.WebView;
  *
  * @author radeon
  */
-public class Page1interface {
+public class Page1interface extends TestPageInterface{
     private VBox rootLayout;
     private GridPane grid;
     private final TextField kTextField;
@@ -60,21 +62,6 @@ public class Page1interface {
                 + Fs.printInMathMLWith_abc_s(k, a, b, c)
                 + ".</p></body></html>"
         );
-    }
-    
-    /**Устанавливает стиль для поля ввода коэффициентов:
-     * символы становятся красными, если введеноое значение не является числом*/
-    private void styleSetter (final TextField tf) {
-        final String wrongTextInputStyle = AppStyles.testWrongTextFieldInputStyle();
-        final String rightTextInputStyle = AppStyles.testRightTextFieldInputStyle();
-        
-        try {
-            Double.parseDouble(tf.getText());
-            tf.setStyle(rightTextInputStyle);
-            }
-        catch (NumberFormatException ex) {
-            tf.setStyle(wrongTextInputStyle);
-        }
     }
     
     public Page1interface(TestSystemGenerator sg, final ResourceBundle lang) {
@@ -121,6 +108,15 @@ public class Page1interface {
         aTextField = new TextField();
         bTextField = new TextField();
         cTextField = new TextField();
+        
+          // Заполняем поля ввода числами, введенными ранее
+          // Если ранее числа введены не были (их значения равны нулю),
+          // оставляем поля ввода пустыми.
+        { String [] data = sg.getPageData(0);
+          kTextField.setText(data[0]);
+          aTextField.setText(data[1]);
+          bTextField.setText(data[2]);
+          cTextField.setText(data[3]); }
 
         kTextField.setPromptText("k");
         aTextField.setPromptText("a");
@@ -141,7 +137,7 @@ public class Page1interface {
         kTextField.addEventFilter(KeyEvent.KEY_TYPED,new EventHandler<KeyEvent> () {
             @Override
             public void handle(KeyEvent t) {
-                styleSetter(kTextField);
+                AppStyles.styleSetter(kTextField);
                 loadTransFunc(lang);
                 }
         });
@@ -149,7 +145,7 @@ public class Page1interface {
         aTextField.addEventFilter(KeyEvent.KEY_TYPED,new EventHandler<KeyEvent> () {
             @Override
             public void handle(KeyEvent t) {
-                styleSetter(aTextField);
+                AppStyles.styleSetter(aTextField);
                 loadTransFunc(lang);
             }
         });
@@ -157,7 +153,7 @@ public class Page1interface {
         bTextField.addEventFilter(KeyEvent.KEY_TYPED,new EventHandler<KeyEvent> () {
             @Override
             public void handle(KeyEvent t) {
-                styleSetter(bTextField);
+                AppStyles.styleSetter(bTextField);
                 loadTransFunc(lang);
                 }
         });
@@ -165,7 +161,7 @@ public class Page1interface {
         cTextField.addEventFilter(KeyEvent.KEY_TYPED,new EventHandler<KeyEvent> () {
             @Override
             public void handle(KeyEvent t) {
-                styleSetter(cTextField);
+                AppStyles.styleSetter(cTextField);
                 loadTransFunc(lang);
                 }
         });    
@@ -199,23 +195,25 @@ public class Page1interface {
     }
     
     /** @return интерфейс 1й страницы режима Тест  */
-    public VBox getRootLayout() {
+    @Override
+    public Node getRootLayout() {
         return rootLayout;
     }
     
+    @Override
     public boolean dataCheck(TestSystemGenerator sg) {
         try {
-            double k, a, b, c;
-            k = Double.parseDouble(kTextField.getText());
-            a = Double.parseDouble(aTextField.getText());
-            b = Double.parseDouble(bTextField.getText());
-            c = Double.parseDouble(cTextField.getText());
-            sg.setStudentsFs(k, a, b, c);
+            saveData(sg);
             sg.checkPage(0);
             return true;
         }
         catch (NumberFormatException nfe) {
             return false;
         } 
+    }
+    
+    @Override
+    public void saveData(TestSystemGenerator sg) {
+        sg.setStudentsFs_p0(kTextField.getText(), aTextField.getText(), bTextField.getText(), cTextField.getText());
     }
 }

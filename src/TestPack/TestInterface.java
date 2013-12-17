@@ -2,6 +2,7 @@
 
 package TestPack;
 
+import TestPack.TestPages.TestPageInterface;
 import DiffModesCommon.AppStyles;
 import interfacefactory.InterfaceFactory;
 import java.util.ResourceBundle;
@@ -16,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  *
@@ -23,35 +25,44 @@ import javafx.scene.layout.HBox;
  */
 public class TestInterface {
     /**  Главный layout режима "Тест" */
-    private final BorderPane tInterface;
+    protected final BorderPane tInterface;
     /** Класс для преверки правильности решения задачи студентом */
-    private TestSystemGenerator sg;
+    protected TestSystemGenerator sg;
     /** Текущий номер страницы режима */
-    private int currentPageNumber;
+    protected int currentPageNumber;
     /** Кнопка перехода к следующему шагу */
-    private final Button btnPrevPage;
+    protected final Button btnPrevPage;
     /** Кнопка перехода к предыдущему шагу */
-    private final Button btnNextPage;
+    protected final Button btnNextPage;
     /** Текущая страница режима */
-    private TestPage currentPage;
+    protected TestPageInterface currentPage;
     /** Кнопка перехода к результатам теста */
-    private final Button btnResults;
-    private final Label nextStepErrorInfo;
-    private ResultPage resPage;
+    protected final Button btnResults;
+    protected final Label nextStepErrorInfo;
+    protected ResultPage resPage;
+    protected final Label modeTitle;
+    protected final Label lessonTitle;
     
     public TestInterface(final ResourceBundle lang, final InterfaceFactory ifFact) {
         sg = new TestSystemGenerator();
         currentPageNumber = 0;
-        currentPage = ConcretePage.returnPage(0, sg, lang);
-        resPage = new ResultPage(lang, sg.getTestPU());
+        resPage = new ResultPage(lang, ifFact);
         
         tInterface=new BorderPane();
-        Label modeTitle = new Label(lang.getString("TestInterface.modeTitle"));
+        modeTitle = new Label(lang.getString("TestInterface.modeTitle"));
         modeTitle.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.testBtnHint")));
-        Label lessonTitle = new Label(lang.getString("TestInterface.lessonTitle"));
+        lessonTitle = new Label(lang.getString("TestInterface.lessonTitle"));
         Button btnBack = new Button(lang.getString("TestInterface.btnBackTitle"));
         btnBack.setAlignment(Pos.BOTTOM_LEFT);
-        btnBack.setTooltip(new Tooltip(lang.getString("TestInterface.btnBackHint")));
+            VBox hintVBox = new VBox();
+            Label btnBackLbl1 = new Label(lang.getString("TestInterface.btnBackHint"));
+            Label btnBackLbl2 = new Label(lang.getString("TestInterface.btnBackHintAttention"));
+            btnBackLbl2.setStyle(AppStyles.errorLblStyle());
+            Label btnBackLbl3 = new Label(lang.getString("TestInterface.btnBackHintMsg"));
+            hintVBox.getChildren().addAll(btnBackLbl1, btnBackLbl2, btnBackLbl3);
+            Tooltip btnBackTooltip = new Tooltip();
+            btnBackTooltip.setGraphic(hintVBox);
+        btnBack.setTooltip(btnBackTooltip);
         btnBack.setOnAction(new EventHandler<ActionEvent>() {
             @Override 
             public void handle(ActionEvent e) {
@@ -72,7 +83,7 @@ public class TestInterface {
         btnNextPage.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                loadNextTestPage(lang);
+                loadNextPage(lang);
                 }
         });
                 
@@ -84,7 +95,7 @@ public class TestInterface {
         btnPrevPage.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                loadPrevTestPage(lang);
+                loadPrevPage(lang);
                 }
         });
         
@@ -96,7 +107,7 @@ public class TestInterface {
         btnResults.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                loadResults();
+                loadResults(lang, sg.getTestPU());
                 }
         });
         
@@ -113,20 +124,24 @@ public class TestInterface {
         bottomBox.setSpacing(100);
         bottomBox.setPadding(new Insets(5, 5, 5, 5));
         
-                
+        this.setCurrentPage(lang, 0);
         
         tInterface.setRight(btnNextPage);
         tInterface.setLeft(btnPrevPage);
         tInterface.setTop(topBox); 
         btnPrevPage.setDisable(true);            
-        tInterface.setCenter(currentPage.getRootPageLayout());
+        tInterface.setCenter(currentPage.getRootLayout());
         tInterface.setBottom(bottomBox);
     }
 
+    protected void setCurrentPage(final ResourceBundle lang, int pageNumber) {
+        currentPage = TestFactory.returnPage(pageNumber, sg, lang);
+    }
+    
     /**Загрузить следующую страницу*/
-    private void loadNextTestPage(final ResourceBundle lang) {
+    private void loadNextPage(final ResourceBundle lang) {
         // При переходе на следующую страницу производится проверка правильности решения
-        if (currentPage.checkPage(sg)) {
+        if (currentPage.dataCheck(sg)) {
         
             if (++currentPageNumber>7) {
               currentPageNumber=8;
@@ -136,15 +151,16 @@ public class TestInterface {
             else btnNextPage.setDisable(false);
             
             btnPrevPage.setDisable(false);
-            currentPage = ConcretePage.returnPage(currentPageNumber, sg, lang);
-            tInterface.setCenter(currentPage.getRootPageLayout());
+            this.setCurrentPage(lang, currentPageNumber);
+            tInterface.setCenter(currentPage.getRootLayout());
             nextStepErrorInfo.setVisible(false);
         }
         else nextStepErrorInfo.setVisible(true);
     }
     
     /**Загрузить предыдущую страницу*/
-    private void loadPrevTestPage(final ResourceBundle lang) {
+    private void loadPrevPage(final ResourceBundle lang) {
+        currentPage.saveData(sg);
         if (--currentPageNumber<1) {
             currentPageNumber=0;
             btnPrevPage.setDisable(true);
@@ -159,8 +175,8 @@ public class TestInterface {
             btnNextPage.setDisable(false);       
             btnResults.setVisible(false);
         }
-        currentPage = ConcretePage.returnPage(currentPageNumber, sg, lang);
-        tInterface.setCenter(currentPage.getRootPageLayout());
+        this.setCurrentPage(lang, currentPageNumber);
+        tInterface.setCenter(currentPage.getRootLayout());
         nextStepErrorInfo.setVisible(false);
     }
     
@@ -170,9 +186,10 @@ public class TestInterface {
     }
     
     /**Загрузить страницу результатов*/
-    private void loadResults() {      
+    private void loadResults(final ResourceBundle lang, final TestPassingUnit testPU) {      
         currentPageNumber = 9;
         btnResults.setVisible(false);
-        tInterface.setCenter(resPage.getResultPage());
+        currentPage.dataCheck(sg);
+        tInterface.setCenter(resPage.getResultPage(lang, testPU));
     }
 }

@@ -111,7 +111,7 @@ public class DemoSystemGenerator {
     private Wk wk6;
     private Fs fs;
     /**@param af_len длина массива для построения АФЧХ*/
-    private final int af_len = 22;
+    private static int af_len = 22;
     /**@param wuvArr массив структур для хранения значения ω, U(ω), V(ω)*/
     private UVstruct[] wuvArr = new UVstruct[af_len];
 
@@ -233,7 +233,7 @@ public class DemoSystemGenerator {
     }
     
     /**@return длину массивов для построения графика АФЧХ*/
-    public int getAfLen() {
+    public static int getAfLen() {
         return af_len;
     }
     

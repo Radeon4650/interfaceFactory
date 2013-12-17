@@ -2,6 +2,7 @@
 
 package DemoPack.DemoPages.Page2sc;
 
+import DemoPack.DemoPages.DemoPageInterface;
 import DiffModesCommon.PromptSet;
 import DemoPack.DemoSystemGenerator;
 import java.util.ResourceBundle;
@@ -14,7 +15,7 @@ import javafx.scene.web.WebView;
  *
  * @author Radeon
  */
-public class Page2interface {
+public class Page2interface extends DemoPageInterface {
     private VBox rootLayout;
     
     public Page2interface (DemoSystemGenerator sg, ResourceBundle lang) {
@@ -43,6 +44,7 @@ public class Page2interface {
         rootLayout.getChildren().add(wv);
     }
     
+    @Override
     public Node getRootLayout(){
         return rootLayout;
     }    

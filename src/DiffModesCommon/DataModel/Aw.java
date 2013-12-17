@@ -1,6 +1,7 @@
 
 package DiffModesCommon.DataModel;
 
+import DiffModesCommon.AppStyles;
 import DiffModesCommon.DblNum;
 
 
@@ -91,7 +92,7 @@ public class Aw {   //A(w)
              wCurr-=cnt_precision;
              Acurr = Math.rint(1000*k/Math.sqrt((n*wCurr*wCurr+1)*(m*wCurr*wCurr+1)))/1000;
              }
-        wPr = wCurr;
+        wPr = Math.round(wCurr);
     }
     
     /**@return ~void заполняет массив соответствующими значениями ω и А(ω)*/
@@ -212,7 +213,7 @@ public class Aw {   //A(w)
                     + "<mrow><msub><mi>&#x03C9</mi><mi>"
                     + langPr
                     + "</mi></msub>"
-                    + "<mo>=</mo><mn>"+String.valueOf(Math.round(wPr))+"</mn>"
+                    + "<mo>=</mo><mn>"+String.valueOf(wPr)+"</mn>"
                     + "<mtext> "
                     + langRad
                     + "</mtext>"
@@ -304,5 +305,40 @@ public class Aw {   //A(w)
     public int getfA_w_count() {
         return fA_w_count;
     }
-
+    
+    /** A(w) = k/sqrt((m*w*w+1)*(n*w*w+1)) */
+    public static double calc_A(double k, double m, double n, double w) {
+        return k/Math.sqrt((m*w*w + 1)*(n*w*w + 1));
+    }
+    
+    /**@return Параметр с нижним индексом, или число в формате a*10^b 
+     * @param textSource текст, который необходимо представить
+     * в заданном формате (a*10^b)
+     * @param replCoeff замещающий текст, если преобразование не удалось
+     * @param replCoeffIndex нижний индекс замещающего текста 
+        если символы отсутствуют, не отображается */
+    public static String printFromText(final String textSource, String replCoeff, String replCoeffIndex) {
+        String txt = textSource;
+        if (txt.equals("")) {
+            if (replCoeffIndex.equals(""))
+                txt = "<mi mathcolor='#"+ AppStyles.wrongRedColor() + "'>" + replCoeff + "</mi>";
+            else txt = "<msub mathcolor='#"+ AppStyles.wrongRedColor() + "'><mi>" + replCoeff + "</mi><mi>" 
+                    + replCoeffIndex + "</mi></msub>";
+        }
+        else try {
+            double e = Double.parseDouble(txt);
+            if (e<0.01) {
+                DblNum E = new DblNum(e);
+                txt = "<mn>" + String.valueOf(E.getNum()) 
+                        + "</mn><mo>&#x2219</mo>"
+                        + "<msup><mn>10</mn><mn>"
+                        + String.valueOf(E.getDegree())
+                        + "</mn></msup><mo>&#x2219</mo>";
+            }
+            else txt = "<mn>" + txt + "</mn>";
+        }
+        catch (NumberFormatException nfe)
+            { txt = "<mi mathcolor='#"+ AppStyles.wrongRedColor() + "'>" + txt + "</mi>"; }
+        return txt;
+    }
 }

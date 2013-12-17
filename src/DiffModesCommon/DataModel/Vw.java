@@ -86,4 +86,44 @@ public class Vw extends Aw {
                     + "</mfrac>"
                 + "</math>";
     }
+    
+    /**@return строку в МathMl по заданным коэффициентам e, mV, nV. */
+    static public String printVw(String e, String mV, String nV) {
+        String eTxt, mVTxt, nVTxt;
+        
+        eTxt =  printFromText(e, "e", "");
+        mVTxt = printFromText(mV, "m", "V");
+        nVTxt = printFromText(nV, "n", "V");
+  
+        String math = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
+                    + "<mrow><mi>V</mi><mfenced><mi>ω</mi></mfenced>"
+                    + "<mo>=-</mo><mfrac>"
+                    + "<mrow>" + eTxt
+                    + "<mi>ω</mi></mrow>"
+                    + "<mrow><mfenced><mrow>"
+                    + mVTxt + "<msup><mi>ω</mi><mn>2</mn></msup>"
+                    + "<mo>+</mo><mn>1</mn></mrow></mfenced><mfenced><mrow>"
+                    + nVTxt + "<msup><mi>ω</mi><mn>2</mn></msup>"
+                    + "<mo>+</mo><mn>1</mn></mrow></mfenced>"
+                    + "</mrow></mfrac></mrow>"
+                + "</math>";
+        return math;
+    }
+    
+    /**@return строковое представление значения V(w)
+     * Вычисляется по формуле V(w) = -e*w/((m*w^2+1)*(n*w^2+1)) */
+    static public double calcV(String eInp, String mInp, String nInp, double w) {
+        try {
+            double e, m, n, value;
+            e = Double.parseDouble(eInp);
+            m = Double.parseDouble(mInp);
+            n = Double.parseDouble(nInp);
+            value = - (e*w)/((m*w*w + 1)*(n*w*w + 1));
+            
+            return Math.rint(10000*value)/10000;
+        }
+        catch (NumberFormatException nfe) {
+            return -100;
+        }
+    }
 }

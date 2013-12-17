@@ -1,13 +1,13 @@
 // Общий интерфейс page 7
 package DemoPack.DemoPages.Page7sc;
 
+import DemoPack.DemoPages.DemoPageInterface;
 import DemoPack.DemoSystemGenerator;
 import DiffModesCommon.AppStyles;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 
@@ -15,7 +15,7 @@ import javafx.scene.web.WebView;
  *
  * @author Radeon
  */
-public class Page7interface {
+public class Page7interface extends DemoPageInterface {
     private ObservableList<ApfcValues> tableItems;
 //    private TableView apfcTable;
     private VBox rootLayout;
@@ -64,6 +64,7 @@ public class Page7interface {
         rootLayout.getChildren().addAll(wv);
     }
     
+    @Override
     public Node getRootLayout(){
         return rootLayout;
     }

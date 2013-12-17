@@ -2,12 +2,12 @@
 
 package DemoPack.DemoPages.Page6sc;
 
+import DemoPack.DemoPages.DemoPageInterface;
 import DiffModesCommon.PromptSet;
 import DemoPack.DemoSystemGenerator;
 import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
@@ -16,7 +16,7 @@ import javafx.scene.web.WebView;
  *
  * @author Radeon
  */
-public class Page6interface {
+public class Page6interface  extends DemoPageInterface {
     private VBox rootLayout;
     
     public Page6interface (DemoSystemGenerator sg, ResourceBundle lang) {
@@ -39,6 +39,7 @@ public class Page6interface {
         rootLayout.getChildren().add(box);
     }
     
+    @Override
     public Node getRootLayout(){
         return rootLayout;
     }    
