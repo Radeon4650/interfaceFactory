@@ -1,19 +1,24 @@
 package TestPack.TestPages.Page3sc;
 
+import DemoPack.DemoSystemGenerator;
 import DiffModesCommon.AppStyles;
 import TestPack.TestPages.TestPageInterface;
 import TestPack.TestSystemGenerator;
+import TrainerPack.TrainerControl;
 import java.util.ResourceBundle;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.web.WebView;
 
@@ -22,7 +27,7 @@ import javafx.scene.web.WebView;
  * @author radeon
  */
 public class Page3interface extends TestPageInterface {
-    private final GridPane rootLayout;
+    protected final GridPane rootLayout;
     private final TextField kTextField;
     private final TextField t1TextField;
     private final TextField t2TextField;
@@ -38,10 +43,19 @@ public class Page3interface extends TestPageInterface {
         Label t1Label = new Label("T1 =");
         Label t2Label = new Label("T2 =");
         
+        ktTitleLabel.setStyle(AppStyles.originalFontStyle());
+        kLabel.setStyle(AppStyles.originalFontStyle());
+        t1Label.setStyle(AppStyles.originalFontStyle());
+        t2Label.setStyle(AppStyles.originalFontStyle());
+        
         kTextField = new TextField();
         t1TextField = new TextField();
         t2TextField = new TextField();
         
+        kTextField.setStyle(AppStyles.originalFontStyle());
+        t1TextField.setStyle(AppStyles.originalFontStyle());
+        t2TextField.setStyle(AppStyles.originalFontStyle());
+       
         kTextField.addEventFilter(KeyEvent.KEY_TYPED,new EventHandler<KeyEvent> () {
             @Override
             public void handle(KeyEvent t) {
@@ -71,8 +85,11 @@ public class Page3interface extends TestPageInterface {
         
 
         Label replTitleLabel = new Label(lang.getString("Test.p3.replacementSjw"));
+        replTitleLabel.setStyle(AppStyles.originalFontStyle());
         Label replLabel = new Label("s →");
+        replLabel.setStyle(AppStyles.originalFontStyle());
         replChBox = new ChoiceBox();
+        replChBox.setStyle(AppStyles.originalFontStyle());
         replChBox.setItems(FXCollections.observableArrayList(rep));
         
         
@@ -102,19 +119,27 @@ public class Page3interface extends TestPageInterface {
         refreshFjwView(lang, replChBox.getSelectionModel().getSelectedIndex());
         
         rootLayout = new GridPane();
+        rootLayout.setAlignment(Pos.CENTER);
+        ColumnConstraints grid_col0 = new ColumnConstraints();
+        ColumnConstraints grid_col1 = new ColumnConstraints();
+        ColumnConstraints grid_col2 = new ColumnConstraints();
+        grid_col0.setPercentWidth(70);
         
-        rootLayout.add(fsView, 0, 0, 1, 4);
-        rootLayout.add(fjwView, 0, 4, 1, 2);
+        grid_col1.setPercentWidth(8);
+        grid_col2.setPercentWidth(18);
+        grid_col1.setHalignment(HPos.RIGHT);
+        rootLayout.getColumnConstraints().addAll(grid_col0, grid_col1, grid_col2);
+        
+        rootLayout.add(fsView, 0, 0, 1, 5);
+        rootLayout.add(fjwView, 0, 5, 1, 3);
         
         rootLayout.add(ktTitleLabel, 1, 0, 2, 1);
         rootLayout.add(kLabel, 1, 1);       rootLayout.add(kTextField, 2, 1);
         rootLayout.add(t1Label, 1, 2);      rootLayout.add(t1TextField, 2, 2);
         rootLayout.add(t2Label, 1, 3);      rootLayout.add(t2TextField, 2, 3);
         
-        rootLayout.add(replTitleLabel, 1, 4, 2, 1);
-        rootLayout.add(replLabel, 1, 5);    rootLayout.add(replChBox, 2, 5);
-        
-//        rootLayout.setGridLinesVisible(true);
+        rootLayout.add(replTitleLabel, 1, 5, 2, 1);
+        rootLayout.add(replLabel, 1, 6);    rootLayout.add(replChBox, 2, 6);
     }
     
     private void textFieldUpdate(final TextField tf, final ResourceBundle lang) {
@@ -159,7 +184,10 @@ public class Page3interface extends TestPageInterface {
     }
     
     private void refreshFsView(final ResourceBundle lang) { 
-        String content = "<p align=\"center\">" + lang.getString("Test.p3.Fs") + "</p>"
+        String content = "<p align=\"center\">"
+                + "<font face=\"" + AppStyles.readingFont() + "\">"
+                + lang.getString("Test.p3.Fs")
+                + "</font></p>"
                 + "<p align=\"center\">" + printF("<mi>s</mi>") + ";</p>";
         fsView.getEngine().loadContent(content);
     }
@@ -168,7 +196,9 @@ public class Page3interface extends TestPageInterface {
         String repl;
         if (repNumber==-1) repl = "<mi mathcolor='#"+ AppStyles.wrongRedColor() + "'>???</mi>";
         else repl = "<mi>" + rep[repNumber] + "</mi>";
-        String content = "<p align=\"center\">" + lang.getString("Test.p3.Fjw") + "</p>"
+        String content = "<p align=\"center\">"
+                + "<font face=\"" + AppStyles.readingFont()
+                + "\">" + lang.getString("Test.p3.Fjw") + "</font></p>"
                 + "<p align=\"center\">" + printF(repl) + ".</p>";
         fjwView.getEngine().loadContent(content);
     }
@@ -198,5 +228,10 @@ public class Page3interface extends TestPageInterface {
                 t1TextField.getText(), 
                 t2TextField.getText(), 
                 String.valueOf(replChBox.getSelectionModel().getSelectedIndex()));
+    }
+    
+    @Override
+    public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
+        
     }
 }

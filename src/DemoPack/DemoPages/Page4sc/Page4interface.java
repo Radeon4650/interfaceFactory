@@ -5,6 +5,7 @@ package DemoPack.DemoPages.Page4sc;
 import DemoPack.DemoPages.DemoPageInterface;
 import DiffModesCommon.PromptSet;
 import DemoPack.DemoSystemGenerator;
+import DiffModesCommon.AppStyles;
 import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -23,7 +24,8 @@ public class Page4interface extends DemoPageInterface {
         rootLayout = new VBox();
         rootLayout.setAlignment(Pos.CENTER_LEFT);
         WebView wv = new WebView();
-        wv.getEngine().loadContent("<html><body>"
+        wv.getEngine().loadContent("<html><body><font face=\"" 
+                + AppStyles.readingFont() + "\">"
                 + "<table width=\"100%\"><tr><td align = \"center\">"
                 + "<p><b>"
                 + lang.getString("Demo.p4.complexConjugateExpression")
@@ -39,7 +41,7 @@ public class Page4interface extends DemoPageInterface {
                 + "</b></p>"
                 + sg.getFs().getU_w().printInMathML() + ";\t"
                 + sg.getFs().getV_w().printInMathML() + "."
-                + "</td></tr></table></body></html>"
+                + "</td></tr></table></font></body></html>"
         );
         rootLayout.getChildren().add(wv);
     }

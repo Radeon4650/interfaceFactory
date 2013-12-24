@@ -179,16 +179,20 @@ public class TestPassingUnit {
         String failed = "<font color=\"" + AppStyles.wrongRedColor()
                 + "\">" + lang.getString("TPU.failed") + "</font>";
         
-        String results = "<font color=\"" + AppStyles.infoBlueColor()
+        String results = "<font face=\""
+                + AppStyles.titleFont()
+                + "\" color=\"" + AppStyles.infoBlueColor()
                 + "\"><i>" + lang.getString("TPU.page") 
                 + String.valueOf(pageNumber+1) + ":</i></font><br>";
         if (pageNumber==7) {
-            results += lang.getString("TPU.p7_chart") + passed + ".<br>";
+            results += "<font face=\"" + AppStyles.readingFont()
+                    + "\">" + lang.getString("TPU.p7_chart") + passed + ".</font><br>";
         }
         else for(String key : getPassed(pageNumber).keySet()) {
-            results += lang.getString("TPU.p"+String.valueOf(pageNumber)+"_"+key)
+            results += "<font face=\"" + AppStyles.readingFont() + "\">" 
+                + lang.getString("TPU.p"+String.valueOf(pageNumber)+"_"+key)
                 + (getPassed(pageNumber).get(key) ? passed : failed )
-                + ".<br>";
+                + ".</font><br>";
         }
         
         return results;
@@ -198,9 +202,10 @@ public class TestPassingUnit {
     /**@return HTML-строку с подробным сообщением о результатах прохождения теста */
     public String checkResults(final ResourceBundle lang) {
         
-        return "<html><body><h2 align=\"center\">"
+        return "<html><body><h2 align=\"center\"><font face=\""
+                + AppStyles.titleFont() + "\">"
                 + lang.getString("TPU.results")
-                + "</h2>"
+                + "</font></h2>"
                 + pageResults(0, lang)
                 + pageResults(1, lang)
                 + pageResults(2, lang)

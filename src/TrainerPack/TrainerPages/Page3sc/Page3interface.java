@@ -1,16 +1,51 @@
 package TrainerPack.TrainerPages.Page3sc;
 
+import DemoPack.DemoFactory;
+import DemoPack.DemoSystemGenerator;
+import DiffModesCommon.PromptSet;
 import TestPack.TestSystemGenerator;
+import TrainerPack.TrainerControl;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 
 /**
  *
  * @author radeon
  */
 public class Page3interface extends TestPack.TestPages.Page3sc.Page3interface {
-
-    public Page3interface(TestSystemGenerator sg, ResourceBundle lang) {
+    Button tfPromptBtn;
+    Button replPromptBtn;
+    
+    public Page3interface(TestSystemGenerator sg, final ResourceBundle lang, final TrainerControl ctrl) {
         super(sg, lang);
+        tfPromptBtn = new Button("< " + lang.getString("TrainerInterface.promptBtnTitle"));
+        replPromptBtn = new Button("< " + lang.getString("TrainerInterface.promptBtnTitle"));
+        
+        tfPromptBtn.setTooltip(new Tooltip(lang.getString("Trainer.p3.tfPromptBtn")));
+        replPromptBtn.setTooltip(new Tooltip(lang.getString("Trainer.p3.replPromptBtn")));
+        
+        tfPromptBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                PromptSet.putPrompt(lang, ctrl, "formula_Fs_t1t2", rootLayout, 1, 4, 2, 1);
+            }
+        });
+        replPromptBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                PromptSet.putPrompt(lang, ctrl, "replacementSjw", rootLayout, 1, 7, 2, 1);
+            }
+        });
+        
+        rootLayout.add(tfPromptBtn, 1, 4, 2, 1);
+        rootLayout.add(replPromptBtn, 1, 7, 2, 1);
     }
     
+    @Override
+    public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
+        rootLayout.add(DemoFactory.returnDemoView(2, dsg, lang, ctrl), 0, 0, 4, 8);
+    }
 }

@@ -1,7 +1,15 @@
 package TrainerPack.TrainerPages.Page5sc;
 
+import DemoPack.DemoFactory;
+import DemoPack.DemoSystemGenerator;
+import DiffModesCommon.PromptSet;
 import TestPack.TestSystemGenerator;
+import TrainerPack.TrainerControl;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 
 /**
  *
@@ -9,12 +17,24 @@ import java.util.ResourceBundle;
  */
 
 public class Page5interface extends TestPack.TestPages.Page5sc.Page5interface {
+    private Button apcPromptBtn;
 
-
-    public Page5interface(TestSystemGenerator sg, ResourceBundle lang) {
+    public Page5interface(TestSystemGenerator sg, final ResourceBundle lang, final TrainerControl ctrl) {
         super(sg, lang);
-
+        apcPromptBtn = new Button("< " + lang.getString("TrainerInterface.promptBtnTitle"));
+        apcPromptBtn.setTooltip(new Tooltip(lang.getString("Trainer.p5.apcPromptBtn")));
+        apcPromptBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                PromptSet.putPrompt(lang, ctrl, "formula_Aw", rootLayout, 1, 1, 2, 1);
+            }
+        });
+        
+        rootLayout.add(apcPromptBtn, 1, 1, 2, 1);
     }
     
-
+    @Override
+    public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
+        rootLayout.add(DemoFactory.returnDemoView(4, dsg, lang, ctrl), 0, 0, 3, 8);
+    }
 }

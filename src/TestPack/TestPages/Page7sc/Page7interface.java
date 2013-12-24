@@ -1,17 +1,22 @@
 package TestPack.TestPages.Page7sc;
 
+import DemoPack.DemoSystemGenerator;
 import DiffModesCommon.AppStyles;
 import DiffModesCommon.DataModel.Uw;
 import DiffModesCommon.DataModel.Vw;
 import TestPack.TestPages.TestPageInterface;
 import TestPack.TestSystemGenerator;
+import TrainerPack.TrainerControl;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.web.WebView;
 
 /**
@@ -23,7 +28,7 @@ public class Page7interface extends TestPageInterface {
     private boolean valuesCounted;
     private final WebView functionsView;
     private final WebView tableView;
-    private final VBox rootLayout;
+    protected final GridPane rootLayout;
 
     public Page7interface(final TestSystemGenerator sg, final ResourceBundle lang) {
         valuesCounted = false;
@@ -45,6 +50,8 @@ public class Page7interface extends TestPageInterface {
         loadTable(sg, lang);
         
         Button calcBtn = new Button(lang.getString("Test.p7.CalcBtn"));
+        calcBtn.setAlignment(Pos.CENTER);
+        calcBtn.setStyle(AppStyles.originalFontStyle());
         calcBtn.setOnAction(new EventHandler <ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
@@ -52,11 +59,25 @@ public class Page7interface extends TestPageInterface {
                     loadTable(sg, lang);
                 }     
         });
-        rootLayout = new VBox();
+        rootLayout = new GridPane();
         rootLayout.setAlignment(Pos.CENTER);
-        rootLayout.getChildren().add(functionsView);
-        rootLayout.getChildren().add(calcBtn);
-        rootLayout.getChildren().add(tableView);
+        rootLayout.setHgap(10);
+        rootLayout.setVgap(10);
+        RowConstraints grid_row0 = new RowConstraints();
+        RowConstraints grid_row1 = new RowConstraints();
+        RowConstraints grid_row2 = new RowConstraints();
+        grid_row0.setPercentHeight(36);
+        grid_row1.setPercentHeight(4);
+        grid_row2.setPercentHeight(60);
+        rootLayout.getRowConstraints().addAll(grid_row0, grid_row1, grid_row2);
+        ColumnConstraints col0 = new ColumnConstraints();
+        col0.setHalignment(HPos.CENTER);
+        rootLayout.getColumnConstraints().add(col0);
+        
+        
+        rootLayout.add(functionsView, 0, 0);
+        rootLayout.add(calcBtn, 0, 1);
+        rootLayout.add(tableView, 0, 2);
         
     }
     
@@ -64,22 +85,26 @@ public class Page7interface extends TestPageInterface {
         String [] data = sg.getPageData(3);
         //k, mU, nU, mV, nV, h, e, ...
         
-        String content = "<p align=\"center\">" 
-                + lang.getString("Test.p7.FrecFuncTitle") + "</p>"
+        String content = "<font face=\"" + AppStyles.originalFont()
+                + "\"><p align=\"center\">" 
+                + lang.getString("Test.p7.FrecFuncTitle") + "</font></p>"
                 + "<p align=\"center\">" 
                 + Uw.printUw(data[0], data[5], data[1], data[2])
                 + ";</p>"
                 + "<p align=\"center\">" 
                 + Vw.printVw(data[6], data[3], data[4])
-                + ".</p><p align=\"center\">" 
-                + lang.getString("Test.p7.CalcLbl") + "</p>";
+                + ".</p><font color=\""+ AppStyles.infoBlueColor()
+                + "\" face=\"" + AppStyles.readingFont()
+                + "\"><p align=\"center\"><i>" 
+                + lang.getString("Test.p7.CalcLbl") + "</i></p></font>";
         functionsView.getEngine().loadContent(content);
     }
     
     private void loadTable(final TestSystemGenerator sg, final ResourceBundle lang) {        
-        String content = "<p align=\"center\">" 
+        String content = "<font face=\"" + AppStyles.originalFont()
+                + "\"><p align=\"center\">" 
                 + lang.getString("Test.p7.TableTitle") + "</p>"
-                + "<table align=\"center\" width=\"90%\" border=\"1\">"
+                + "<table align=\"center\" width=\"90%\">"
                 + "<tr bgcolor=\"#" + AppStyles.demoTableTopicColor() + "\">"
                 + "<td align=\"center\">ω, рад/с</td>"
                 + "<td align=\"center\">U(ω)</td>"
@@ -112,6 +137,7 @@ public class Page7interface extends TestPageInterface {
                         + v2 + "</td>"
                     + "</tr>";
         }
+        content += "</table></font>";
         tableView.getEngine().loadContent(content);   
     };
     
@@ -157,5 +183,10 @@ public class Page7interface extends TestPageInterface {
     @Override
     public void saveData(TestSystemGenerator sg) {       
         sg.saveStud_p6(Uw_arr, Vw_arr);
+    }
+    
+    @Override
+    public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
+        
     }
 }

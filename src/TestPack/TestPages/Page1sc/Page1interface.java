@@ -1,14 +1,17 @@
 package TestPack.TestPages.Page1sc;
 
+import DemoPack.DemoSystemGenerator;
 import DiffModesCommon.AppStyles;
 import DiffModesCommon.DataModel.Fs;
 import DiffModesCommon.StructScheme;
 import TestPack.TestPages.TestPageInterface;
 import TestPack.TestSystemGenerator;
+import TrainerPack.TrainerControl;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,7 +28,8 @@ import javafx.scene.web.WebView;
  */
 public class Page1interface extends TestPageInterface{
     private VBox rootLayout;
-    private GridPane grid;
+    protected GridPane grid;
+    protected GridPane coeffGrid;
     private final TextField kTextField;
     private final TextField aTextField;
     private final TextField bTextField;
@@ -34,7 +38,7 @@ public class Page1interface extends TestPageInterface{
     private final Label aLabel;
     private final Label bLabel;
     private final Label cLabel;
-    final WebView transFunc;
+    protected final WebView transFunc;
 
     /**Загружает передаточную функцию системы с коеффициентами, введенными 
      * в соответствующие поля в окне*/
@@ -56,9 +60,10 @@ public class Page1interface extends TestPageInterface{
             k = kTextField.getPromptText();
         else k = kTextField.getText();
         
-        transFunc.getEngine().loadContent("<html><body><b><p align=\"center\">"
+        transFunc.getEngine().loadContent("<html><body><p align=\"center\">"
+                + "<font face=\"" + AppStyles.readingFont() + "\">"
                 + lang.getString("Test.p1.transFuncTitle")
-                + "</p></b><p align=\"center\">"
+                + "</font></p><p align=\"center\">"
                 + Fs.printInMathMLWith_abc_s(k, a, b, c)
                 + ".</p></body></html>"
         );
@@ -71,13 +76,14 @@ public class Page1interface extends TestPageInterface{
         WebView wv = new WebView();
         wv.getEngine().loadContent("<html><body>"
                 + "<table width = \"100%\"><tr><td align = \"center\">"
-                + "<p><b>"
+                + "<p><font face=\"" + AppStyles.readingFont() + "\">"
                 + lang.getString("Test.p1.structSheme")
-                + "</b></p>"
+                + "</font></p>"
                 + StructScheme.getStructScheme(lang)
-                + "</td><td width = \"33%\"><p><b>"
+                + "</td><td width = \"33%\"><p>"
+                + "<font face=\"" + AppStyles.readingFont() + "\">"
                 + lang.getString("Test.p1.sourceData")
-                + "</b></p>"
+                + "</font></p>"
                 + sg.getWk1().printInMathML()+";\t"+ sg.getWk5().printInMathML()
                 + ";<br>"
                 + sg.getWk2().printInMathML()+";\t"+ sg.getWk6().printInMathML()
@@ -89,11 +95,11 @@ public class Page1interface extends TestPageInterface{
         );
         grid.add(wv, 0, 0, 2, 1);
         
-        transFunc = new WebView();    
+        transFunc = new WebView();  
+        transFunc.setMaxHeight(120);
         grid.add(transFunc, 0, 1);
         
-        GridPane coeffGrid = new GridPane();
-        coeffGrid.setGridLinesVisible(true);
+        coeffGrid = new GridPane();
         kLabel = new Label("k =");
         aLabel = new Label("a =");
         bLabel = new Label("b =");
@@ -101,6 +107,11 @@ public class Page1interface extends TestPageInterface{
         Label coeffLabel = new Label(lang.getString("Test.p1.transFuncGetting"));
         coeffLabel.setAlignment(Pos.CENTER);
         coeffLabel.setWrapText(true);
+        kLabel.setStyle(AppStyles.originalFontStyle());
+        aLabel.setStyle(AppStyles.originalFontStyle());
+        bLabel.setStyle(AppStyles.originalFontStyle());
+        cLabel.setStyle(AppStyles.originalFontStyle());
+        coeffLabel.setStyle(AppStyles.originalFontStyle());
         
         
         // сделать цвет шрифта красным или серым для всех:
@@ -123,7 +134,12 @@ public class Page1interface extends TestPageInterface{
         bTextField.setPromptText("b");
         cTextField.setPromptText("c");
         
-        coeffGrid.add(coeffLabel, 0, 0, 3, 1);
+        kTextField.setStyle(AppStyles.originalFontStyle());
+        aTextField.setStyle(AppStyles.originalFontStyle());
+        bTextField.setStyle(AppStyles.originalFontStyle());
+        cTextField.setStyle(AppStyles.originalFontStyle());
+        
+        coeffGrid.add(coeffLabel, 0, 0, 2, 1);
         coeffGrid.add(kLabel, 0, 1);
         coeffGrid.add(aLabel, 0, 2);
         coeffGrid.add(bLabel, 0, 3);
@@ -171,25 +187,24 @@ public class Page1interface extends TestPageInterface{
         grid.add(coeffGrid, 1, 1);
         RowConstraints grid_rc0 = new RowConstraints();
         RowConstraints grid_rc1 = new RowConstraints();
-        grid_rc0.setPercentHeight(70);
-        grid_rc1.setPercentHeight(30);
+        grid_rc0.setPercentHeight(60);
+        grid_rc1.setPercentHeight(40);
+        grid_rc1.setValignment(VPos.CENTER);
         grid.getRowConstraints().addAll(grid_rc0, grid_rc1);
         
-        grid.setGridLinesVisible(true);
+//        grid.setGridLinesVisible(true);
         ColumnConstraints grid_col1 = new ColumnConstraints();
         ColumnConstraints grid_col2 = new ColumnConstraints();
-        grid_col1.setPercentWidth(70);
-        grid_col2.setPercentWidth(30);
+        grid_col1.setPercentWidth(60);
+        grid_col2.setPercentWidth(40);
         grid.getColumnConstraints().addAll(grid_col1, grid_col2);
         
         ColumnConstraints coeffGrid_col1 = new ColumnConstraints();
         ColumnConstraints coeffGrid_col2 = new ColumnConstraints();
-        ColumnConstraints coeffGrid_col3 = new ColumnConstraints();
         coeffGrid_col1.setPercentWidth(15);
         coeffGrid_col1.setHalignment(HPos.RIGHT);
-        coeffGrid_col2.setPercentWidth(40);
-        coeffGrid_col3.setPercentWidth(45);
-        coeffGrid.getColumnConstraints().addAll(coeffGrid_col1, coeffGrid_col2, coeffGrid_col3);
+        coeffGrid_col2.setPercentWidth(85);
+        coeffGrid.getColumnConstraints().addAll(coeffGrid_col1, coeffGrid_col2);
         
         rootLayout.getChildren().add(grid);  
     }
@@ -215,5 +230,10 @@ public class Page1interface extends TestPageInterface{
     @Override
     public void saveData(TestSystemGenerator sg) {
         sg.setStudentsFs_p0(kTextField.getText(), aTextField.getText(), bTextField.getText(), cTextField.getText());
+    }
+    
+    @Override
+    public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
+        
     }
 }

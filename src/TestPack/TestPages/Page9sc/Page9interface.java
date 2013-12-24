@@ -1,8 +1,11 @@
 
 package TestPack.TestPages.Page9sc;
 
+import DemoPack.DemoSystemGenerator;
+import DiffModesCommon.AppStyles;
 import TestPack.TestPages.TestPageInterface;
 import TestPack.TestSystemGenerator;
+import TrainerPack.TrainerControl;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -45,7 +48,8 @@ public class Page9interface extends TestPageInterface {
         Label pageTitle = new Label(lang.getString("Test.p9.Sequence"));
         rootLayout.add(pageTitle, 0, 0, 2, 1);
         for (int i = 1; i < 13; i++) {
-            rootLayout.add(new Label(String.valueOf(i)+") "), 0, i);            
+            rootLayout.add(new Label(String.valueOf(i)+") "), 0, i);  
+            rootLayout.getChildren().get(i-1).setStyle(AppStyles.originalFontStyle());
         }
         rootLayout.add(chBox.get(1), 1, 1);     rootLayout.add(chBox.get(7), 1, 7);
         rootLayout.add(chBox.get(2), 1, 2);     rootLayout.add(chBox.get(8), 1, 8);
@@ -116,6 +120,7 @@ public class Page9interface extends TestPageInterface {
                 }
             });
             ch.setPrefWidth(1000);
+            ch.setStyle(AppStyles.originalFontStyle());
             chBox.put(i, ch);
         }   
     }
@@ -156,5 +161,10 @@ public class Page9interface extends TestPageInterface {
     @Override
     public void saveData(TestSystemGenerator sg) {
         sg.saveStud_p8(currentSelectedValue);
+    }
+    
+    @Override
+    public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
+        
     }
 }

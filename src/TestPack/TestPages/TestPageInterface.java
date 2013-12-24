@@ -4,7 +4,10 @@
 
 package TestPack.TestPages;
 
+import DemoPack.DemoSystemGenerator;
 import TestPack.TestSystemGenerator;
+import TrainerPack.TrainerControl;
+import java.util.ResourceBundle;
 import javafx.scene.Node;
 
 /**
@@ -15,4 +18,5 @@ abstract public class TestPageInterface {
     abstract public Node getRootLayout();
     abstract public boolean dataCheck(TestSystemGenerator sg);
     abstract public void saveData(TestSystemGenerator sg);
+    abstract public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl);
 }

@@ -85,6 +85,10 @@ public class ModeSelectionInterface {
             tabTrainer.setContent(trainerTabContent(lang, ifFact));
             tabTest.setContent(testTabContent(lang, ifFact));
             
+            tabDemo.setStyle(AppStyles.titleFontStyle());
+            tabTrainer.setStyle(AppStyles.titleFontStyle());
+            tabTest.setStyle(AppStyles.titleFontStyle());
+            
         modeTabPane.getTabs().addAll(tabDemo, tabTrainer, tabTest);
         modeTabPane.setSide(Side.TOP);
         modeTabPane.setTabMinWidth(200);
@@ -93,6 +97,7 @@ public class ModeSelectionInterface {
        
    
         pageTitle = new Label(lang.getString("ModeSelectionInterface.pageTitle"));
+        pageTitle.setStyle(AppStyles.titleFontStyle());
         
         msInterface = new VBox();
         msInterface.setAlignment(Pos.CENTER);
@@ -106,6 +111,7 @@ public class ModeSelectionInterface {
         
         Button btnDemo = new Button(lang.getString("ModeSelectionInterface.demoBtnTitle")+ " >");
         btnDemo.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.demoBtnHint")));
+        btnDemo.setStyle(AppStyles.originalFontStyle());
         
 
         Image demoImg = new Image(getClass().getResourceAsStream("demo_preview.jpg"), 400, 300, false, false);
@@ -115,15 +121,18 @@ public class ModeSelectionInterface {
         Label infoLab = new Label(lang.getString("ModeSelectionInterface.demoPreview"));
         infoLab.wrapTextProperty().setValue(Boolean.TRUE);
         infoLab.setPrefWidth(600);
+        infoLab.setStyle(AppStyles.readingFontStyle());
         
         final TitledPane settingsPane = new TitledPane();
         settingsPane.setText(lang.getString("ModeSelectionInterface.settingsPaneTitle"));
         settingsPane.setExpanded(false);
         settingsPane.setPrefWidth(600);
         settingsPane.setContent(demoTabAdditionalContent(lang));
+        settingsPane.setStyle(AppStyles.originalFontStyle());
         
         TitledPane mainPane = new TitledPane(lang.getString("ModeSelectionInterface.demoMainPaneTitle"), layout);
         mainPane.setExpanded(true);
+        mainPane.setStyle(AppStyles.originalFontStyle());
         
         final Accordion accordion = new Accordion ();
         accordion.getPanes().addAll(mainPane, settingsPane);
@@ -224,10 +233,8 @@ public class ModeSelectionInterface {
     /**@return содержимое дополнительной вкладки в Демо-режиме*/
     private Node demoTabAdditionalContent(final ResourceBundle lang) {
         final GridPane grid = new GridPane();
-//        grid.setGridLinesVisible(true);
         grid.setAlignment(Pos.CENTER);
         grid.setPrefSize(800, 600);
-//        grid.setMinWidth(700);
         
         final Label addPaneInfoLabel = new Label(lang.getString("ModeSelectionInterface.settingsPaneInfo"));
         addPaneInfoLabel.setWrapText(true);
@@ -482,8 +489,10 @@ public class ModeSelectionInterface {
         Label infoLab = new Label(lang.getString("ModeSelectionInterface.trainerPreview"));
         infoLab.wrapTextProperty().setValue(Boolean.TRUE);
         infoLab.setPrefWidth(600);
+        infoLab.setStyle(AppStyles.readingFontStyle());
         
         Button btnTrainer = new Button(lang.getString("ModeSelectionInterface.trainerBtnTitle")+ " >");
+        btnTrainer.setStyle(AppStyles.originalFontStyle());
         btnTrainer.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.trainerBtnHint")));
         btnTrainer.setOnAction(new EventHandler<ActionEvent>() {
             @Override 
@@ -509,9 +518,11 @@ public class ModeSelectionInterface {
         Label infoLab = new Label(lang.getString("ModeSelectionInterface.testPreview"));
         infoLab.wrapTextProperty().setValue(Boolean.TRUE);
         infoLab.setPrefWidth(600);
+        infoLab.setStyle(AppStyles.readingFontStyle());
         
         Button btnTest = new Button(lang.getString("ModeSelectionInterface.testBtnTitle")+ " >");
         btnTest.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.testBtnHint")));
+        btnTest.setStyle(AppStyles.originalFontStyle());
         btnTest.setOnAction(new EventHandler<ActionEvent>() {
             @Override 
             public void handle(ActionEvent e) {

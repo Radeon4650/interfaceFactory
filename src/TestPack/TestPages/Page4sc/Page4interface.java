@@ -1,18 +1,23 @@
 package TestPack.TestPages.Page4sc;
 
+import DemoPack.DemoSystemGenerator;
 import DiffModesCommon.AppStyles;
 import DiffModesCommon.DataModel.Uw;
 import DiffModesCommon.DataModel.Vw;
 import TestPack.TestPages.TestPageInterface;
 import TestPack.TestSystemGenerator;
+import TrainerPack.TrainerControl;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.web.WebView;
 
 /**
@@ -26,7 +31,7 @@ public class Page4interface extends TestPageInterface {
     private final TextField kTf, hTf, eTf, mUTf, nUTf, mVTf, nVTf;
     private final WebView fsView, UwView, VwView;
     
-    private final GridPane rootLayout;
+    protected final GridPane rootLayout;
 
     public Page4interface(final TestSystemGenerator sg, final ResourceBundle lang) {
         { String [] data = sg.getPageData(2);
@@ -37,18 +42,30 @@ public class Page4interface extends TestPageInterface {
         Label complExprLab = new Label(lang.getString("Test.p4.ComplExpr"));
         Label complCoefLab = new Label(lang.getString("Test.p4.ComplExprCoeff"));
         complCoefLab.setWrapText(true);
+        complExprLab.setWrapText(true);
         complCoefLab.setAlignment(Pos.CENTER);
         complExprLab.setAlignment(Pos.CENTER);
+        complCoefLab.setStyle(AppStyles.originalFontStyle());
+        complExprLab.setStyle(AppStyles.originalFontStyle());
         
         Label x1Lab = new Label("x1 =");
         Label x2Lab = new Label("x2 =");
         Label x3Lab = new Label("x3 =");
         Label x4Lab = new Label("x4 =");
+        x1Lab.setStyle(AppStyles.originalFontStyle());
+        x2Lab.setStyle(AppStyles.originalFontStyle());
+        x3Lab.setStyle(AppStyles.originalFontStyle());
+        x4Lab.setStyle(AppStyles.originalFontStyle());
         
         x1tf = new TextField();
         x2tf = new TextField();
         x3tf = new TextField();
         x4tf = new TextField();
+        
+        x1tf.setStyle(AppStyles.originalFontStyle());
+        x2tf.setStyle(AppStyles.originalFontStyle());
+        x3tf.setStyle(AppStyles.originalFontStyle());
+        x4tf.setStyle(AppStyles.originalFontStyle());
         
         x1tf.setPromptText("x1");
         x2tf.setPromptText("x2");
@@ -89,6 +106,9 @@ public class Page4interface extends TestPageInterface {
         Label imgFrecFunLab = new Label(lang.getString("Test.p4.ImgFrecFuncCoeff"));
         realFrecFunLab.setWrapText(true);
         imgFrecFunLab.setWrapText(true);
+        frecFunLab.setStyle(AppStyles.originalFontStyle());
+        realFrecFunLab.setStyle(AppStyles.originalFontStyle());
+        imgFrecFunLab.setStyle(AppStyles.originalFontStyle());
         
         Label kLab = new Label("k =");
         Label hLab = new Label("h =");
@@ -98,6 +118,14 @@ public class Page4interface extends TestPageInterface {
         Label mVLab = new Label("mV =");
         Label nVLab = new Label("nV =");
         
+        kLab.setStyle(AppStyles.originalFontStyle());
+        hLab.setStyle(AppStyles.originalFontStyle());
+        eLab.setStyle(AppStyles.originalFontStyle());
+        mULab.setStyle(AppStyles.originalFontStyle());
+        nULab.setStyle(AppStyles.originalFontStyle());
+        mVLab.setStyle(AppStyles.originalFontStyle());
+        nVLab.setStyle(AppStyles.originalFontStyle());
+        
         kTf = new TextField();
         hTf = new TextField();
         eTf = new TextField();
@@ -105,6 +133,14 @@ public class Page4interface extends TestPageInterface {
         nUTf = new TextField();
         mVTf = new TextField();
         nVTf = new TextField();
+        
+        kTf.setStyle(AppStyles.originalFontStyle());
+        hTf.setStyle(AppStyles.originalFontStyle());
+        eTf.setStyle(AppStyles.originalFontStyle());
+        mUTf.setStyle(AppStyles.originalFontStyle());
+        nUTf.setStyle(AppStyles.originalFontStyle());
+        mVTf.setStyle(AppStyles.originalFontStyle());
+        nVTf.setStyle(AppStyles.originalFontStyle());
         
         kTf.setPromptText("k");
         hTf.setPromptText("h");
@@ -187,26 +223,34 @@ public class Page4interface extends TestPageInterface {
         UwView.setContextMenuEnabled(false);
         VwView.setContextMenuEnabled(false);
         
+        fsView.setMaxHeight(100);
+        UwView.setMaxHeight(100);
+        VwView.setMaxHeight(100);
+        
         refreshFsView(lang);
         refreshUwView(sg, lang);
         refreshVwView(sg, lang);
         
         rootLayout = new GridPane();
-        rootLayout.add(complExprLab, 0, 0, 3, 1);
-        rootLayout.add(fsView, 0, 1, 1, 5);
-        rootLayout.add(complCoefLab, 1, 1, 2, 1);
-        rootLayout.add(x1Lab, 1, 2);        rootLayout.add(x1tf, 2, 2);
-        rootLayout.add(x2Lab, 1, 3);        rootLayout.add(x2tf, 2, 3);
-        rootLayout.add(x3Lab, 1, 4);        rootLayout.add(x3tf, 2, 4);
-        rootLayout.add(x4Lab, 1, 5);        rootLayout.add(x4tf, 2, 5);
-        rootLayout.add(frecFunLab, 0, 6, 3, 1);
-        rootLayout.add(UwView, 0, 7, 1, 5);
+        rootLayout.setAlignment(Pos.CENTER);
+        setRootColConstr();
+        setRootRowConstr();
+        
+        rootLayout.add(complExprLab, 0, 0);
+        rootLayout.add(fsView, 0, 1, 1, 4);
+        rootLayout.add(complCoefLab, 1, 0, 2, 1);
+        rootLayout.add(x1Lab, 1, 1);        rootLayout.add(x1tf, 2, 1);
+        rootLayout.add(x2Lab, 1, 2);        rootLayout.add(x2tf, 2, 2);
+        rootLayout.add(x3Lab, 1, 3);        rootLayout.add(x3tf, 2, 3);
+        rootLayout.add(x4Lab, 1, 4);        rootLayout.add(x4tf, 2, 4);
+        rootLayout.add(frecFunLab, 0, 5);
+        rootLayout.add(UwView, 0, 6, 1, 3);
         rootLayout.add(realFrecFunLab, 1, 7, 2, 1);
         rootLayout.add(kLab, 1, 8);         rootLayout.add(kTf, 2, 8);
         rootLayout.add(hLab, 1, 9);         rootLayout.add(hTf, 2, 9);
         rootLayout.add(mULab, 1, 10);       rootLayout.add(mUTf, 2, 10);
         rootLayout.add(nULab, 1, 11);       rootLayout.add(nUTf, 2, 11);
-        rootLayout.add(VwView, 0, 12, 1, 4);
+        rootLayout.add(VwView, 0, 8, 1, 7);
         rootLayout.add(imgFrecFunLab, 1, 12, 2, 1);
         rootLayout.add(eLab, 1, 13);        rootLayout.add(eTf, 2, 13);
         rootLayout.add(mVLab, 1, 14);       rootLayout.add(mVTf, 2, 14);
@@ -216,24 +260,85 @@ public class Page4interface extends TestPageInterface {
         
     }
     
+    private void setRootColConstr() {
+        ColumnConstraints grid_col0 = new ColumnConstraints();
+        ColumnConstraints grid_col1 = new ColumnConstraints();
+        ColumnConstraints grid_col2 = new ColumnConstraints();
+        grid_col0.setPercentWidth(70);
+        grid_col1.setPercentWidth(8);
+        grid_col2.setPercentWidth(20);
+        grid_col0.setHalignment(HPos.CENTER);
+        grid_col1.setHalignment(HPos.RIGHT);
+        rootLayout.getColumnConstraints().addAll(grid_col0, grid_col1, grid_col2);
+    }
+    
+    private void setRootRowConstr() {
+        RowConstraints rc0 = new RowConstraints();
+        RowConstraints rc1 = new RowConstraints();
+        RowConstraints rc2 = new RowConstraints();
+        RowConstraints rc3 = new RowConstraints();
+        RowConstraints rc4 = new RowConstraints();
+        RowConstraints rc5 = new RowConstraints();
+        RowConstraints rc6 = new RowConstraints();
+        RowConstraints rc7 = new RowConstraints();
+        RowConstraints rc8 = new RowConstraints();
+        RowConstraints rc9 = new RowConstraints();
+        RowConstraints rc10 = new RowConstraints();
+        RowConstraints rc11 = new RowConstraints();
+        RowConstraints rc12 = new RowConstraints();
+        RowConstraints rc13 = new RowConstraints();
+        RowConstraints rc14 = new RowConstraints();
+        RowConstraints rc15 = new RowConstraints();
+        
+        rc0.setPercentHeight(9);
+        rc1.setPercentHeight(4);
+        rc2.setPercentHeight(4);
+        rc3.setPercentHeight(4);
+        rc4.setPercentHeight(4);
+        rc5.setPercentHeight(8);
+        rc6.setPercentHeight(23);
+        rc7.setPercentHeight(8);
+        rc8.setPercentHeight(4);
+        rc9.setPercentHeight(4);
+        rc10.setPercentHeight(4);
+        rc11.setPercentHeight(4);
+        rc12.setPercentHeight(8);
+        rc13.setPercentHeight(4);
+        rc14.setPercentHeight(4);
+        rc15.setPercentHeight(4);
+        
+        rootLayout.getRowConstraints().addAll(rc0, rc1, rc2, rc3, rc4, rc5, rc6,
+                rc7, rc8, rc9, rc10, rc11, rc12, rc13, rc14, rc15);
+    }
+    
+    /**Для функции printFjw() */
+    private String printXn(final String xn, int index) {
+        boolean xIsNumber;
+        String result;
+        try {
+            Double.parseDouble(xn);
+            xIsNumber = true;
+        }
+        catch (NumberFormatException nfe) {
+            xIsNumber = false;
+        }
+        result = xn;
+        
+        if (result.equals("")) result = "<msub mathcolor='#"
+                + AppStyles.wrongRedColor() + "'><mi>x</mi><mn>"
+                + String.valueOf(index)
+                + "</mn></msub>";
+        else result = (xIsNumber ? "<mi>" :"<mi mathcolor='#"
+                + AppStyles.wrongRedColor() + "'>") + xn + "</mi>";
+        return result;
+    }
+    
     private String printFjw() {
         String x1Txt, x2Txt, x3Txt, x4Txt;
-        x1Txt = x1tf.getText();
-        if (x1Txt.equals("")) x1Txt = "<msub mathcolor='#"
-                + AppStyles.wrongRedColor() + "'><mi>x</mi><mn>1</mn></msub>";
-        else x1Txt = "<mi mathcolor='#"+ AppStyles.wrongRedColor() + "'>" + x1Txt + "</mi>";
-        x2Txt = x2tf.getText();
-        if (x2Txt.equals("")) x2Txt = "<msub mathcolor='#"
-                + AppStyles.wrongRedColor() + "'><mi>x</mi><mn>2</mn></msub>";
-        else x2Txt = "<mi mathcolor='#"+ AppStyles.wrongRedColor() + "'>" + x2Txt + "</mi>";
-        x3Txt = x3tf.getText();
-        if (x3Txt.equals("")) x3Txt = "<msub mathcolor='#"
-                + AppStyles.wrongRedColor() + "'><mi>x</mi><mn>3</mn></msub>";
-        else x3Txt = "<mi mathcolor='#"+ AppStyles.wrongRedColor() + "'>" + x3Txt + "</mi>";
-        x4Txt = x4tf.getText();
-        if (x4Txt.equals("")) x4Txt = "<msub mathcolor='#"
-                + AppStyles.wrongRedColor() + "'><mi>x</mi><mn>4</mn></msub>";
-        else x4Txt = "<mi mathcolor='#"+ AppStyles.wrongRedColor() + "'>" + x4Txt + "</mi>";
+        x1Txt = printXn(x1tf.getText(), 1);
+        x2Txt = printXn(x2tf.getText(), 2);
+        x3Txt = printXn(x3tf.getText(), 3);
+        x4Txt = printXn(x4tf.getText(), 4);
         
         String math = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>Ф</mi><mfenced><mi>jω</mi></mfenced>"
@@ -314,5 +419,10 @@ public class Page4interface extends TestPageInterface {
                 mVTf.getText(), nVTf.getText(), hTf.getText(), 
                 eTf.getText(), x1tf.getText(), x2tf.getText(), 
                 x3tf.getText(), x4tf.getText());
+    }
+    
+    @Override
+    public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
+        
     }
 }

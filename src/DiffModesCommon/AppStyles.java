@@ -21,7 +21,25 @@ public class AppStyles {
     
     static private final String tableTopicClr = "CCFF99";
     static private final String tableLinesClr = "FFCCCC";
-    static private final String rootClr = "CCFFCC";
+//    static private final String rootClr = "CCFFCC";
+    static private final String rootClr = "FFFFFF";
+    
+    static private final String titleFont = "Lobster";
+    static private final String originalFont = "Idealist Sans";
+    static private final String readingFont = "Aver";
+    
+    
+    static public String titleFont() {
+        return titleFont;
+    }
+    
+    static public String originalFont() {
+        return originalFont;
+    }
+    
+    static public String readingFont() {
+        return readingFont;
+    }
     
     /**@return численное представление [синего] цвета, для выделения информационных данных*/
     static public String infoBlueColor() {
@@ -73,6 +91,25 @@ public class AppStyles {
              + "-fx-wrap-text: true;"
              + "-fx-text-alignment: center;";
     }
+    
+    static public String titleFontStyle() {
+        return "-fx-font-family: "
+                + titleFont() + ";"
+                + "-fx-font-size: 20;";
+    }
+    
+    static public String originalFontStyle() {
+        return "-fx-font-family: \'"
+                + originalFont() + "\';"
+                + "-fx-font-size: 16;";
+    }
+    
+    static public String readingFontStyle() {
+        return "-fx-font-family: \'"
+                + readingFont() + "\';"
+                + "-fx-font-size: 16;";
+    }
+    
     
     /**Устанавливает стиль для поля ввода коэффициентов:
      * символы становятся красными, если введеноое значение не является числом

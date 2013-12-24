@@ -32,6 +32,7 @@ public class ResultPage {
         rootLayout.setSpacing(10);
         
         Button btnTestAgain = new Button(lang.getString("ResPage.btnTestAgain"));
+        btnTestAgain.setStyle(AppStyles.originalFontStyle());
         btnTestAgain.setTooltip(new Tooltip(lang.getString("ResPage.btnTestAgainHint")));
         btnTestAgain.setOnAction(new EventHandler<ActionEvent>() {
             @Override 
@@ -41,13 +42,16 @@ public class ResultPage {
             }
         });
         Label pageTitle = new Label(lang.getString("ResPage.title"));
+        pageTitle.setStyle(AppStyles.titleFontStyle());
         score = new Label();
+        score.setStyle(AppStyles.originalFontStyle());
         detailsView = new WebView();
         
         detailsPane = new TitledPane();
         detailsPane.setText(lang.getString("ResPage.details"));
         detailsPane.setContent(detailsView);
         detailsPane.setExpanded(false);
+        detailsPane.setStyle(AppStyles.originalFontStyle());
         
         rootLayout.getChildren().addAll(pageTitle, score, detailsPane, 
                 btnTestAgain);      

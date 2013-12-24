@@ -42,6 +42,8 @@ public class TestInterface {
     protected ResultPage resPage;
     protected final Label modeTitle;
     protected final Label lessonTitle;
+    protected final Label currentStepLabel;
+    protected final Button watchDemoBtn;
     
     public TestInterface(final ResourceBundle lang, final InterfaceFactory ifFact) {
         sg = new TestSystemGenerator();
@@ -51,9 +53,19 @@ public class TestInterface {
         tInterface=new BorderPane();
         modeTitle = new Label(lang.getString("TestInterface.modeTitle"));
         modeTitle.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.testBtnHint")));
+        modeTitle.setStyle(AppStyles.titleFontStyle());
         lessonTitle = new Label(lang.getString("TestInterface.lessonTitle"));
+        lessonTitle.setStyle(AppStyles.titleFontStyle() + "-fx-font-size: 24;" 
+                + "-fx-text-fill: #" + AppStyles.rightGreenColor() + ";");
+        currentStepLabel = new Label();
+        currentStepLabel.setText(lang.getString("TestInterface.step")
+                + String.valueOf(currentPageNumber+1));
+        currentStepLabel.setStyle(AppStyles.titleFontStyle());
+        
+        
         Button btnBack = new Button(lang.getString("TestInterface.btnBackTitle"));
         btnBack.setAlignment(Pos.BOTTOM_LEFT);
+        btnBack.setStyle(AppStyles.readingFontStyle());
             VBox hintVBox = new VBox();
             Label btnBackLbl1 = new Label(lang.getString("TestInterface.btnBackHint"));
             Label btnBackLbl2 = new Label(lang.getString("TestInterface.btnBackHintAttention"));
@@ -71,7 +83,7 @@ public class TestInterface {
         });
         HBox topBox = new HBox();
         topBox.setAlignment(Pos.CENTER);
-        topBox.getChildren().addAll(modeTitle, lessonTitle);
+        topBox.getChildren().addAll(modeTitle, lessonTitle, currentStepLabel);
         topBox.setPadding(new Insets(5, 5, 5, 5));
         topBox.setSpacing(50);
         
@@ -100,6 +112,7 @@ public class TestInterface {
         });
         
         btnResults = new Button();
+        btnResults.setStyle(AppStyles.readingFontStyle());
         btnResults.setText(lang.getString("TestInterface.navigation.getResults"));
         btnResults.setVisible(false);
         btnResults.setTooltip(new Tooltip(lang.getString("TestInterface.navigation.btnResultsHint")));
@@ -114,17 +127,24 @@ public class TestInterface {
         nextStepErrorInfo = new Label();
         nextStepErrorInfo.setText(lang.getString("TestInterface.nextPageError"));
         nextStepErrorInfo.setAlignment(Pos.CENTER);
-        nextStepErrorInfo.setStyle(AppStyles.errorLblStyle());
+        nextStepErrorInfo.setStyle(AppStyles.errorLblStyle() 
+                + AppStyles.readingFontStyle());
         nextStepErrorInfo.setVisible(false);
+        
+        watchDemoBtn = new Button();
+        watchDemoBtn.setText(lang.getString("TrainerInterface.watchDemo"));
+        watchDemoBtn.setAlignment(Pos.BOTTOM_LEFT);
+        watchDemoBtn.setStyle(AppStyles.readingFontStyle());
+        watchDemoBtn.setVisible(false);
         
         HBox bottomBox = new HBox();
         bottomBox.setAlignment(Pos.CENTER);
-        bottomBox.getChildren().addAll(btnBack, nextStepErrorInfo, btnResults);
+        bottomBox.getChildren().addAll(btnBack, watchDemoBtn, nextStepErrorInfo, btnResults);
         bottomBox.setMinWidth(700);
-        bottomBox.setSpacing(100);
+        bottomBox.setSpacing(20);
         bottomBox.setPadding(new Insets(5, 5, 5, 5));
         
-        this.setCurrentPage(lang, 0);
+        setCurrentPage(lang, 0);
         
         tInterface.setRight(btnNextPage);
         tInterface.setLeft(btnPrevPage);
@@ -147,15 +167,18 @@ public class TestInterface {
               currentPageNumber=8;
               btnResults.setVisible(true);
               btnNextPage.setDisable(true);
+              watchDemoBtn.setDisable(true);
             }
             else btnNextPage.setDisable(false);
             
             btnPrevPage.setDisable(false);
-            this.setCurrentPage(lang, currentPageNumber);
+            setCurrentPage(lang, currentPageNumber);
             tInterface.setCenter(currentPage.getRootLayout());
             nextStepErrorInfo.setVisible(false);
         }
         else nextStepErrorInfo.setVisible(true);
+        currentStepLabel.setText(lang.getString("TestInterface.step")
+                + String.valueOf(currentPageNumber+1));
     }
     
     /**Загрузить предыдущую страницу*/
@@ -168,16 +191,21 @@ public class TestInterface {
         else btnPrevPage.setDisable(false);
         
         if (currentPageNumber>7) {
-            btnNextPage.setDisable(true);       
+            btnNextPage.setDisable(true);   
+            watchDemoBtn.setDisable(true);
             btnResults.setVisible(true);
         }
         else {
-            btnNextPage.setDisable(false);       
+            btnNextPage.setDisable(false);    
+            watchDemoBtn.setDisable(false);
             btnResults.setVisible(false);
         }
-        this.setCurrentPage(lang, currentPageNumber);
+        setCurrentPage(lang, currentPageNumber);
         tInterface.setCenter(currentPage.getRootLayout());
         nextStepErrorInfo.setVisible(false);
+        watchDemoBtn.setVisible(true);
+        currentStepLabel.setText(lang.getString("TestInterface.step")
+                + String.valueOf(currentPageNumber+1));
     }
     
     /**@return интерфейс режима Тест */
@@ -188,7 +216,9 @@ public class TestInterface {
     /**Загрузить страницу результатов*/
     private void loadResults(final ResourceBundle lang, final TestPassingUnit testPU) {      
         currentPageNumber = 9;
+        currentStepLabel.setText(lang.getString("ResPage.Summary"));
         btnResults.setVisible(false);
+        watchDemoBtn.setVisible(false);
         currentPage.dataCheck(sg);
         tInterface.setCenter(resPage.getResultPage(lang, testPU));
     }

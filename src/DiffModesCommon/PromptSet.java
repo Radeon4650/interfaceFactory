@@ -4,7 +4,10 @@
  */
 package DiffModesCommon;
 
+import TrainerPack.TrainerControl;
 import java.util.ResourceBundle;
+import javafx.scene.layout.GridPane;
+import javafx.scene.web.WebView;
 
 /**
  * @author Radeon
@@ -48,8 +51,11 @@ public class PromptSet {
     /**@return подсказку для вычисления передаточной функции Ф(s)
      замкнутой системы по задающему воздействию */
     private static String formula_Fs(ResourceBundle lang) {
-         return "<p align=\"center\"><i>" + lang.getString("PromptSet.formulaFS")
-                 + "</i></p>"
+         return "<font face=\"" + AppStyles.readingFont()
+                 + "\" color=\"" + AppStyles.infoBlueColor()
+                 + "\"><p align=\"center\">" 
+                 + lang.getString("PromptSet.formulaFS")
+                 + "</p></font>"
                 + "<p align=\"center\">" 
                 + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>Ф</mi><mfenced><mi>s</mi></mfenced>"
@@ -79,8 +85,11 @@ public class PromptSet {
 
     /**@return формулу для решения квадратного уравнения */
     private static String formula_sqEquation(ResourceBundle lang) {
-        return "<p align=\"center\"><i>" + lang.getString("PromptSet.formulaSqEquation")
-               + "</i></p>" +
+        return "<font face=\"" + AppStyles.readingFont()
+               + "\" color=\"" + AppStyles.infoBlueColor()
+               + "\"><p align=\"center\">" 
+               + lang.getString("PromptSet.formulaSqEquation")
+               + "</p></font>" +
                "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                 // D
                     + "<mrow><mi>D</mi><mo>=</mo>"
@@ -114,8 +123,11 @@ public class PromptSet {
 
     /**@return формулу для вычисления постоянных времени Т1 и Т2*/
     private static String formula_T1_T2(ResourceBundle lang) {
-        return "<p align=\"center\"><i>" + lang.getString("PromptSet.formulaT1T2")
-               + "</i></p>"+
+        return "<font face=\"" + AppStyles.readingFont()
+               + "\" color=\"" + AppStyles.infoBlueColor()
+               + "\"><p align=\"center\">" 
+               + lang.getString("PromptSet.formulaT1T2")
+               + "</p></font>"+
                "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                 // T1
                     + "<mrow><msub><mi>T</mi><mn>1</mn></msub>"
@@ -140,9 +152,11 @@ public class PromptSet {
     /**@return подсказку для представления передаточной функции 
      с помощью постоянных времени Т1 и Т2*/
     private static String formula_Fs_t1t2(ResourceBundle lang) {
-        return "<p align=\"center\"><i>" 
+        return "<font face=\"" + AppStyles.readingFont()
+               + "\" color=\"" + AppStyles.infoBlueColor()
+               + "\"><p align=\"center\">" 
                 + lang.getString("PromptSet.formulaFst1t2")
-                + "</i></p>"
+                + "</p></font>"
                 + "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>Ф</mi>"
                     + "<mfenced><mi>s</mi></mfenced>"
@@ -176,9 +190,11 @@ public class PromptSet {
     /**@return подсказку о необходимости замены s->jw 
      при получении частотной передаточной функции*/
     private static String replacementSjw(ResourceBundle lang) {
-        return  "<p align=\"center\"><i>"
+        return  "<font face=\"" + AppStyles.readingFont()
+               + "\" color=\"" + AppStyles.infoBlueColor()
+               + "\"><p align=\"center\">"
                 + lang.getString("PromptSet.replacementSjw")
-                + "</i></p>" +
+                + "</p></font>" +
                 "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>s</mi>"
                     + "<mo>&#x2192</mo>"
@@ -189,9 +205,11 @@ public class PromptSet {
     /**@return формулу сокращенного умножения
      a^2 + b^2 = (a+b)*(a-b) */
     private static String abridgedMulFormula(ResourceBundle lang) {
-        return  "<p align=\"center\"><i>"
+        return  "<font face=\"" + AppStyles.readingFont()
+               + "\" color=\"" + AppStyles.infoBlueColor()
+               + "\"><p align=\"center\">"
                 + lang.getString("PromptSet.abridgedMulFormula")
-                + "</i></p>"+
+                + "</p></font>"+
                 "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><msup><mi>a</mi><mn>2</mn></msup>"
                         + "<mo>-</mo>"
@@ -221,9 +239,11 @@ public class PromptSet {
 
     /**@return формулу вычисления функции АЧХ*/
     private static String formula_Aw (ResourceBundle lang) {
-        return  "<p align=\"center\"><i>"
+        return  "<font face=\"" + AppStyles.readingFont()
+               + "\" color=\"" + AppStyles.infoBlueColor()
+               + "\"><p align=\"center\">"
                 + lang.getString("PromptSet.formulaAw")
-                + "</i></p>"+
+                + "</p></font>"+
                 "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>A</mi>"
                     + "<mfenced><mi>&#x03C9</mi></mfenced>"
@@ -238,9 +258,11 @@ public class PromptSet {
 
     /**@return формулу вычисления полосы пропускания*/
     private static String formula_passband(ResourceBundle lang) {
-        return  "<p align=\"center\"><i>"
+        return  "<font face=\"" + AppStyles.readingFont()
+               + "\" color=\"" + AppStyles.infoBlueColor()
+               + "\"><p align=\"center\">"
                 + lang.getString("PromptSet.formulaPassband")
-                + "</i></p>"+
+                + "</p></font>"+
                 "<p align=\"center\"><math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>A</mi>"
                     + "<mfenced><msub><mi>&#x03C9</mi>"
@@ -288,5 +310,25 @@ public class PromptSet {
                     + "<msub><mi>W</mi><mn>6</mn></msub>"
                     + "<mfenced><mi>s</mi></mfenced>"
                     + "</mrow></mfrac></math>";
+    }
+    
+    /**Помещает выбранную подсказку по указанному "адресу" в сетке
+     * @param lang Переводчик
+     * @param ctrl класс контроля за обучением с тренером
+     * @param promptName название подсказки, 
+     * которую необходимо поместить в указанное место
+     * @param pane сетка, в которую необходимо поместить подсказку
+     * @param i1 столбец
+     * @param i2 строка
+     * @param i3 на сколько столбцов растянуть
+     * @param i4 на сколько строк растянуть */
+    public static void putPrompt(ResourceBundle lang, TrainerControl ctrl, 
+            String promptName, GridPane pane, int i1, int i2, int i3, int i4) {
+        String prompt = PromptSet.getPrompt(promptName, lang);
+        WebView promptView = new WebView();
+        promptView.getEngine().loadContent(prompt);
+        promptView.setContextMenuEnabled(false);        
+        pane.add(promptView, i1, i2, i3, i4);       //на ее место вставляем подсказку
+        ctrl.useHint(promptName);                   //делаем пометку, что студент увидел формулу
     }
 }

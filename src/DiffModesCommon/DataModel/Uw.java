@@ -95,11 +95,20 @@ public class Uw extends Aw {
     
     /**@return строку в МathMl по заданным коэффициентам k, e, mU, nU. */
         static public String printUw(String k, String h, String mU, String nU) {
+        boolean kIsNumber;
+        try {
+            Double.parseDouble(k);
+            kIsNumber = true;
+        }
+        catch (NumberFormatException nfe) {
+            kIsNumber = false;
+        }
         String kTxt, hTxt, mUTxt, nUTxt;
         kTxt = k;
         if (kTxt.equals("")) kTxt = "<mi mathcolor='#"
                 + AppStyles.wrongRedColor() + "'>k</mi>";
-        else kTxt = "<mi mathcolor='#"+ AppStyles.wrongRedColor() + "'>" + kTxt + "</mi>";
+        else kTxt = (kIsNumber ? "<mi>" :"<mi mathcolor='#"
+                + AppStyles.wrongRedColor() + "'>") + kTxt + "</mi>";
         hTxt = printFromText(h, "h", "");
         mUTxt = printFromText(mU, "m", "U");
         nUTxt = printFromText(nU, "n", "U");

@@ -306,8 +306,8 @@ class CalcPrecisions {
         precision.put("b_1", 0.01);
         precision.put("c_1", 0.1);
         precision.put("D_1", 0.01);
-        precision.put("s1_1", 0.1);
-        precision.put("s2_1", 0.1);
+        precision.put("s1_1", 0.5);
+        precision.put("s2_1", 0.5);
         precision.put("T1_1", 0.001);
         precision.put("T2_1", 0.001);
         

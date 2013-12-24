@@ -11,6 +11,7 @@ import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 /**
@@ -33,6 +34,7 @@ public class InterfaceFactory extends Application {
 
         
     //---------GUI---------------------------
+        loadFonts();
         root.setStyle(AppStyles.mainStageRootStyle());
         
         loadInitialInterface();
@@ -60,6 +62,12 @@ public class InterfaceFactory extends Application {
     /** @param rb the lang to set */
     private void setLang(ResourceBundle rb) {
         this.lang = rb;
+    }
+    
+    private void loadFonts() {
+        Font.loadFont(InterfaceFactory.class.getResource("Lobster.ttf").toExternalForm(), 10);
+        Font.loadFont(InterfaceFactory.class.getResource("Aver.ttf").toExternalForm(), 10);
+        Font.loadFont(InterfaceFactory.class.getResource("Idealist Sans Light.ttf").toExternalForm(), 10);
     }
     
     /**@return выбор языка для приложения*/

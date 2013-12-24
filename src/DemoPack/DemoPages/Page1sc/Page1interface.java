@@ -1,4 +1,4 @@
-// Общий интерфейс page 1
+// Demo интерфейс page 1
 
 package DemoPack.DemoPages.Page1sc;
 
@@ -6,10 +6,14 @@ import DemoPack.DemoPages.DemoPageInterface;
 import DiffModesCommon.StructScheme;
 import DiffModesCommon.PromptSet;
 import DemoPack.DemoSystemGenerator;
+import DiffModesCommon.AppStyles;
 import java.util.ResourceBundle;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.web.WebView;
 
 /**
@@ -17,26 +21,26 @@ import javafx.scene.web.WebView;
  * @author Radeon
  */
 public class Page1interface extends DemoPageInterface {
-    private VBox rootLayout;
+    private GridPane rootLayout;
     
     public Page1interface (DemoSystemGenerator sg, ResourceBundle lang) {
-        rootLayout = new VBox();
+        rootLayout = new GridPane();
         rootLayout.setAlignment(Pos.BASELINE_CENTER);
             
         WebView wv = new WebView();
         
         wv.contextMenuEnabledProperty().set(false);
         wv.setDisable(true);
-        wv.setMinHeight(585);
-        wv.setPrefSize(10000, 10000);
         
-        wv.getEngine().loadContent("<html><body>"
+        wv.getEngine().loadContent("<html><body><font face=\"" 
+                + AppStyles.readingFont()
+                + "\">"
                 + "<table><tr><td align = \"center\">"
                 + "<p><b>"
                 + lang.getString("Demo.p1.structSheme")
                 + "</b></p>"
                 + StructScheme.getStructScheme(lang)
-                + "</td><td width=\"33%\"><p><b>"
+                + "</td><td width=\"33%\"><p align = \"center\"><b>"
                 + lang.getString("Demo.p1.sourceData")
                 + "</b></p>"
                 + sg.getWk1().printInMathML()+";\t"+ sg.getWk5().printInMathML()
@@ -53,15 +57,24 @@ public class Page1interface extends DemoPageInterface {
                 + sg.getFs().printInMathMLWith_abc_s()
                 + ".</td><td valign=\"top\">"
                 + PromptSet.getPrompt("formula_Fs", lang)
-                +"</td></tr></table>"
-                + "</body></html>");
+                + "</td></tr></table>"
+                + "</font></body></html>");
            
         
         WebView tipView = new WebView();
         tipView.getEngine().loadContent(sg.printFullFsObtainingInMathML(lang));
-        tipView.setMinSize(600, 80);
-        rootLayout.getChildren().add(wv);     
-        rootLayout.getChildren().add(tipView); 
+        
+        rootLayout.add(wv, 0, 0);
+        
+        RowConstraints rc0 = new RowConstraints();
+        rc0.setPercentHeight(100);
+        ColumnConstraints col0 = new ColumnConstraints();
+        col0.setPercentWidth(98);
+        col0.setHalignment(HPos.CENTER);
+     
+        
+        rootLayout.getRowConstraints().addAll(rc0);
+        rootLayout.getColumnConstraints().addAll(col0);
     }
     
     @Override

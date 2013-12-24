@@ -2,15 +2,22 @@
 
 package TestPack.TestPages.Page8sc;
 
+import DemoPack.DemoSystemGenerator;
+import DiffModesCommon.AppStyles;
 import DiffModesCommon.DataModel.Uw;
 import DiffModesCommon.DataModel.Vw;
 import TestPack.TestPages.TestPageInterface;
 import TestPack.TestSystemGenerator;
+import TrainerPack.TrainerControl;
 import java.util.ResourceBundle;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 
 /**
@@ -20,11 +27,18 @@ import javafx.scene.layout.VBox;
 public class Page8interface extends TestPageInterface {
     private double[] u_arr, v_arr;
     
-    private final VBox rootLayout;
+    protected final GridPane rootLayout;
 
     public Page8interface(TestSystemGenerator sg, ResourceBundle lang) {
-        rootLayout = new VBox();
-        rootLayout.getChildren().add(getChart(sg, lang));
+        rootLayout = new GridPane();
+        rootLayout.setAlignment(Pos.CENTER);
+        rootLayout.add(getChart(sg, lang), 0, 0);
+        ColumnConstraints col0 = new ColumnConstraints();
+        RowConstraints row0 = new RowConstraints();
+        col0.setPercentWidth(100);
+        row0.setPercentHeight(100);
+        rootLayout.getColumnConstraints().add(col0);
+        rootLayout.getRowConstraints().add(row0);
     }
     
     /** @return интерфейс 9й страницы режима Тест  */
@@ -60,6 +74,7 @@ public class Page8interface extends TestPageInterface {
         lineChart.setLegendVisible(false);
         lineChart.setPrefWidth(1000);
         lineChart.setCreateSymbols(false);
+        lineChart.setStyle(AppStyles.originalFontStyle());
         
         if (loadArrayDataSuccess(sg))
         {   String k, mU, nU, mV, nV, h, e;
@@ -89,5 +104,10 @@ public class Page8interface extends TestPageInterface {
     @Override
     public void saveData(TestSystemGenerator sg) {
         //не требуется
+    }
+    
+    @Override
+    public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
+        
     }
 }

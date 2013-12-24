@@ -1,6 +1,7 @@
 //Основной интерфейс ДЕМО-режима
 package DemoPack;
 
+import DiffModesCommon.AppStyles;
 import DiffModesCommon.DataModel.Wd;
 import DiffModesCommon.DataModel.Wk;
 import interfacefactory.InterfaceFactory;
@@ -60,7 +61,10 @@ public class DemoInterface {
         HBox hbTop = new HBox();
         Label demoTitle = new Label(lang.getString("DemoInterface.modeTitle"));
         demoTitle.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.demoBtnHint")));
+        demoTitle.setStyle(AppStyles.titleFontStyle());
         Label lessonTitle = new Label(lang.getString("DemoInterface.lessonTitle"));
+        lessonTitle.setStyle(AppStyles.titleFontStyle() + "-fx-font-size: 24;" 
+                + "-fx-text-fill: #" + AppStyles.rightGreenColor() + ";");
         hbTop.getChildren().addAll(demoTitle, lessonTitle);
         hbTop.setAlignment(Pos.CENTER);  
         hbTop.setPadding(new Insets(5, 5, 5, 5));
@@ -69,6 +73,7 @@ public class DemoInterface {
         Button btnBack = new Button(lang.getString("DemoInterface.btnBackTitle"));
         
         btnBack.setTooltip(new Tooltip(lang.getString("DemoInterface.btnBackHint")));
+        btnBack.setStyle(AppStyles.readingFontStyle());
         btnBack.setOnAction(new EventHandler<ActionEvent>() {
             @Override 
             public void handle(ActionEvent e) {
@@ -84,7 +89,7 @@ public class DemoInterface {
                 return DemoFactory.returnRootLayout(pageIndex, sg, lang);
             }
         });
-        
+        pgnCtrl.setStyle(AppStyles.originalFontStyle());
         pgnCtrl.setOnSwipeLeft(new EventHandler<SwipeEvent>() {
         @Override public void handle(SwipeEvent event) {
             int i =pgnCtrl.getCurrentPageIndex();
@@ -103,8 +108,6 @@ public class DemoInterface {
             event.consume();
         }});
         
-
-        dInterface.setMinSize(800, 600);
         dInterface.setCenter(pgnCtrl);
         dInterface.setBottom(btnBack);
     }

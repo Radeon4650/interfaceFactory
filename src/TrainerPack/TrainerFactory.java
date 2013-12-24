@@ -17,35 +17,35 @@ public class TrainerFactory {
     /**@return экземпляр необходимой страницы в соответствии с номером.
      * @param pageNumber номер страницы, которую необходимо вернуть.
      (нумерация начинается с нуля!)*/
-    public static TestPageInterface returnPage(int pageNumber, TestSystemGenerator sg, ResourceBundle lang) {
+    public static TestPageInterface returnPage(int pageNumber, TrainerControl ctrl, TestSystemGenerator sg, ResourceBundle lang) {
         TestPageInterface tp;
         switch (pageNumber) {     
             case 0:
-                tp = new Page1interface(sg, lang);
+                tp = new Page1interface(sg, lang, ctrl);
                 break;
             case 1:
-                tp = new Page2interface(sg, lang);
+                tp = new Page2interface(sg, lang, ctrl);
                 break;
             case 2:
-                tp = new Page3interface(sg, lang);
+                tp = new Page3interface(sg, lang, ctrl);
                 break;
             case 3:
-                tp = new Page4interface(sg, lang);
+                tp = new Page4interface(sg, lang, ctrl);
                 break;
             case 4:
-                tp = new Page5interface(sg, lang);
+                tp = new Page5interface(sg, lang, ctrl);
                 break;
             case 5:
-                tp = new Page6interface(sg, lang);
+                tp = new Page6interface(sg, lang, ctrl);
                 break;
             case 6:
-                tp = new Page7interface(sg, lang);
+                tp = new Page7interface(sg, lang, ctrl);
                 break;
             case 7:
-                tp = new Page8interface(sg, lang);
+                tp = new Page8interface(sg, lang, ctrl);
                 break;
             case 8:
-                tp = new Page9interface(sg, lang);
+                tp = new Page9interface(sg, lang, ctrl);
                 break;
             default:
                 throw new AssertionError();

@@ -23,10 +23,12 @@ public class Page7interface extends DemoPageInterface {
     public Page7interface (DemoSystemGenerator sg, ResourceBundle lang) {
         String tableTopicColor = AppStyles.demoTableTopicColor();
         String tableLinesColor = AppStyles.demoTableLinesColor();
-        String webContent = "<p><b>"
+        String webContent = "<p><b><font face=\"" 
+                + AppStyles.readingFont() + "\">"
                 + lang.getString("Demo.p7.tableTopic")
-                + "</b></p>"
-                + "<table border=\"1\" width=\"90%\" align = \"center\">"
+                + "</font></b></p><font face=\"" 
+                + AppStyles.originalFont() + "\">"
+                + "<table width=\"90%\" align = \"center\">"
                 + "<tr bgcolor=\"#" + tableTopicColor + "\">"
                 + "<td align = \"center\">&#x03C9, "
                 + lang.getString("Demo.p7.rad_s")
@@ -56,7 +58,7 @@ public class Page7interface extends DemoPageInterface {
                         + String.valueOf(sg.getV(i+j))+"</td>"
                     + "</tr>";
         }
-        webContent+= "</table>";
+        webContent+= "</table></font>";
         WebView wv = new WebView();
         wv.getEngine().loadContent(webContent);
         rootLayout = new VBox();

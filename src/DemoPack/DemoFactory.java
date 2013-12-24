@@ -9,8 +9,18 @@ import DemoPack.DemoPages.Page5sc.Page5interface;
 import DemoPack.DemoPages.Page6sc.Page6interface;
 import DemoPack.DemoPages.Page7sc.Page7interface;
 import DemoPack.DemoPages.Page8sc.Page8interface;
+import DiffModesCommon.AppStyles;
+import TrainerPack.TrainerControl;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
 
 
 public class DemoFactory {
@@ -48,4 +58,33 @@ public class DemoFactory {
         }
         return dp.getRootLayout();
     };
+    
+    public static Node returnDemoView(int pageNumber, final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
+        final GridPane demoView = new GridPane();
+        
+        demoView.setAlignment(Pos.CENTER);
+        Label titleLab = new Label(lang.getString("DemoInterface.modeTitle"));
+        titleLab.setStyle(AppStyles.titleFontStyle());
+        Button closeDemoBtn = new Button(lang.getString("TrainerInterface.closeDemo"));
+        closeDemoBtn.setStyle(AppStyles.originalFontStyle());
+        closeDemoBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent t) {
+                demoView.setVisible(false);
+            }
+        });
+        
+        demoView.add(titleLab, 0, 0);
+        demoView.add(DemoFactory.returnRootLayout(pageNumber, dsg, lang), 0, 1);
+        demoView.add(closeDemoBtn, 0, 2);
+         
+        ColumnConstraints col0 = new ColumnConstraints();
+        col0.setHalignment(HPos.CENTER);
+        col0.setPercentWidth(100);
+        demoView.getColumnConstraints().add(col0);
+        demoView.setStyle(AppStyles.mainStageRootStyle());
+
+        ctrl.watchDemo(String.valueOf(pageNumber+1)); //Сообщаем диагностической модели, что студент подсмотрел в демо-режим
+        return demoView;
+    }
 }

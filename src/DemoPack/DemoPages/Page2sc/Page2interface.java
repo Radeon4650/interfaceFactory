@@ -5,6 +5,7 @@ package DemoPack.DemoPages.Page2sc;
 import DemoPack.DemoPages.DemoPageInterface;
 import DiffModesCommon.PromptSet;
 import DemoPack.DemoSystemGenerator;
+import DiffModesCommon.AppStyles;
 import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -22,7 +23,8 @@ public class Page2interface extends DemoPageInterface {
         rootLayout = new VBox();
         rootLayout.setAlignment(Pos.CENTER_LEFT);
         WebView wv = new WebView();
-        wv.getEngine().loadContent("<html><body>"
+        wv.getEngine().loadContent("<html><body><font face=\"" 
+                + AppStyles.readingFont() + "\">"
                 + "<table width=\"100%\"><tr><td align = \"center\">"
                 + "<p><b>"
                 + lang.getString("Demo.p2.sqEqRoots")
@@ -40,7 +42,7 @@ public class Page2interface extends DemoPageInterface {
                 + sg.getFs().printT1inMathML() + ";\t"
                 + sg.getFs().printT2inMathML() + ".</td><td>"
                 + PromptSet.getPrompt("formula_T1_T2", lang)
-                + "</td></tr></table></body></html>");
+                + "</td></tr></table></font></body></html>");
         rootLayout.getChildren().add(wv);
     }
     

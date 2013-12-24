@@ -1,18 +1,23 @@
 package TestPack.TestPages.Page2sc;
 
+import DemoPack.DemoSystemGenerator;
 import DiffModesCommon.AppStyles;
 import DiffModesCommon.DataModel.Fs;
 import TestPack.TestPages.TestPageInterface;
 import TestPack.TestSystemGenerator;
+import TrainerPack.TrainerControl;
 import java.util.ResourceBundle;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.web.WebView;
 
 /**
@@ -31,15 +36,16 @@ public class Page2interface extends TestPageInterface{
     private final TextField t1TextField;
     private final TextField t2TextField;
     
-    private final GridPane rootLayout;
+    protected final GridPane rootLayout;
 
     public Page2interface(TestSystemGenerator sg, ResourceBundle lang) {
         WebView fsGuideView = new WebView();
         { //Выводим студенческую передаточную функцию, полученную на предыдущем шаге:
             String [] data = sg.getPageData(0);
-            fsGuideView.getEngine().loadContent("<html><body><b><p align=\"center\">"
-                   + lang.getString("Test.p2.transFuncTitle")
-                   + "</p></b><p align=\"center\">"
+            fsGuideView.getEngine().loadContent("<html><body><p align=\"center\">"
+                   + "<font face=\"" + AppStyles.readingFont()
+                   + "\">" + lang.getString("Test.p2.transFuncTitle")
+                   + "</font></p><p align=\"center\">"
                    + Fs.printInMathMLWith_abc_s(data[0], data[1], data[2], data[3])
                    + ".</p></body></html>"); }
         
@@ -51,6 +57,11 @@ public class Page2interface extends TestPageInterface{
         DGuideLabel.setText(lang.getString("Test.p2.DInput"));
         sGuideLabel.setText(lang.getString("Test.p2.sInput"));
         tGuideLabel.setText(lang.getString("Test.p2.tInput"));
+        
+        chEqGuideLabel.setStyle(AppStyles.originalFontStyle());
+        DGuideLabel.setStyle(AppStyles.originalFontStyle());
+        sGuideLabel.setStyle(AppStyles.originalFontStyle());
+        tGuideLabel.setStyle(AppStyles.originalFontStyle());
                 
         
         Label aLabel = new Label("a =");
@@ -62,6 +73,15 @@ public class Page2interface extends TestPageInterface{
         Label t1Label = new Label("T1 =");
         Label t2Label = new Label("T2 =");
         
+        aLabel.setStyle(AppStyles.originalFontStyle());
+        bLabel.setStyle(AppStyles.originalFontStyle());
+        cLabel.setStyle(AppStyles.originalFontStyle());
+        DLabel.setStyle(AppStyles.originalFontStyle());
+        s1Label.setStyle(AppStyles.originalFontStyle());
+        s2Label.setStyle(AppStyles.originalFontStyle());
+        t1Label.setStyle(AppStyles.originalFontStyle());
+        t2Label.setStyle(AppStyles.originalFontStyle());
+        
         aTextField = new TextField();
         bTextField = new TextField();
         cTextField = new TextField();
@@ -70,6 +90,15 @@ public class Page2interface extends TestPageInterface{
         s2TextField = new TextField();
         t1TextField = new TextField();
         t2TextField = new TextField();
+        
+        aTextField.setStyle(AppStyles.originalFontStyle());
+        bTextField.setStyle(AppStyles.originalFontStyle());
+        cTextField.setStyle(AppStyles.originalFontStyle());
+        DTextField.setStyle(AppStyles.originalFontStyle());
+        s1TextField.setStyle(AppStyles.originalFontStyle());
+        s2TextField.setStyle(AppStyles.originalFontStyle());
+        t1TextField.setStyle(AppStyles.originalFontStyle());
+        t2TextField.setStyle(AppStyles.originalFontStyle());
         
         
           // Заполняем поля ввода числами, введенными ранее
@@ -156,20 +185,66 @@ public class Page2interface extends TestPageInterface{
         
         rootLayout = new GridPane();
         rootLayout.setAlignment(Pos.CENTER);
-        rootLayout.add(chEqGuideLabel, 0, 0, 2, 1);
-        rootLayout.add(fsGuideView, 0, 1, 2, 1);
-        rootLayout.add(aLabel, 0, 3);       rootLayout.add(aTextField, 1, 3);
-        rootLayout.add(bLabel, 0, 4);       rootLayout.add(bTextField, 1, 4);
-        rootLayout.add(cLabel, 0, 5);       rootLayout.add(cTextField, 1, 5);
-        rootLayout.add(DGuideLabel, 0, 6, 2, 1);
-        rootLayout.add(DLabel, 0, 7);       rootLayout.add(DTextField, 1, 7);
-        rootLayout.add(sGuideLabel, 0, 8, 2, 1);
-        rootLayout.add(s1Label, 0, 9);      rootLayout.add(s1TextField, 1, 9);
-        rootLayout.add(s2Label, 0, 10);     rootLayout.add(s2TextField, 1, 10);
-        rootLayout.add(tGuideLabel, 0, 11, 2, 1);
-        rootLayout.add(t1Label, 0, 12);     rootLayout.add(t1TextField, 1, 12);
-        rootLayout.add(t2Label, 0, 13);     rootLayout.add(t2TextField, 1, 13);
+        rootLayout.add(chEqGuideLabel, 0, 0, 5, 1);
+        rootLayout.add(fsGuideView, 0, 1, 4, 1);
+        rootLayout.add(aLabel, 1, 2);       rootLayout.add(aTextField, 2, 2);
+        rootLayout.add(bLabel, 1, 3);       rootLayout.add(bTextField, 2, 3);
+        rootLayout.add(cLabel, 1, 4);       rootLayout.add(cTextField, 2, 4);
+        rootLayout.add(DGuideLabel, 0, 5, 4, 1);
+        rootLayout.add(DLabel, 1, 6);       rootLayout.add(DTextField, 2, 6);
+        rootLayout.add(sGuideLabel, 0, 7, 4, 1);
+        rootLayout.add(s1Label, 1, 8);      rootLayout.add(s1TextField, 2, 8);
+        rootLayout.add(s2Label, 1, 9);     rootLayout.add(s2TextField, 2, 9);
+        rootLayout.add(tGuideLabel, 0, 10, 4, 1);
+        rootLayout.add(t1Label, 1, 11);     rootLayout.add(t1TextField, 2, 11);
+        rootLayout.add(t2Label, 1, 12);     rootLayout.add(t2TextField, 2, 12);
         
+        ColumnConstraints col0 = new ColumnConstraints();
+        ColumnConstraints col1 = new ColumnConstraints();
+        ColumnConstraints col2 = new ColumnConstraints();
+        ColumnConstraints col3 = new ColumnConstraints();
+        ColumnConstraints col4 = new ColumnConstraints();
+        
+        col0.setPercentWidth(20);
+        col0.setHalignment(HPos.CENTER);
+        col1.setPercentWidth(5);
+        col1.setHalignment(HPos.RIGHT);
+        col2.setHalignment(HPos.LEFT);
+        col3.setPercentWidth(20);
+        col4.setMaxWidth(200);
+        rootLayout.getColumnConstraints().addAll(col0, col1, col2, col3, col4);
+        
+        RowConstraints rc0 = new RowConstraints();
+        RowConstraints rc1 = new RowConstraints();
+        RowConstraints rc2 = new RowConstraints();
+        RowConstraints rc3 = new RowConstraints();
+        RowConstraints rc4 = new RowConstraints();
+        RowConstraints rc5 = new RowConstraints();
+        RowConstraints rc6 = new RowConstraints();
+        RowConstraints rc7 = new RowConstraints();
+        RowConstraints rc8 = new RowConstraints();
+        RowConstraints rc9 = new RowConstraints();
+        RowConstraints rc10 = new RowConstraints();
+        RowConstraints rc11 = new RowConstraints();
+        RowConstraints rc12 = new RowConstraints();
+        
+        rc0.setPercentHeight(5);
+        rc1.setPercentHeight(25);
+        rc2.setPercentHeight(6);
+        rc3.setPercentHeight(6);
+        rc4.setPercentHeight(6);
+        rc5.setPercentHeight(4);
+        rc6.setPercentHeight(6);
+        rc7.setPercentHeight(4);
+        rc8.setPercentHeight(6);
+        rc9.setPercentHeight(6);
+        rc10.setPercentHeight(4);
+        rc11.setPercentHeight(11);
+        rc12.setPercentHeight(11);
+        
+        
+        rootLayout.getRowConstraints().addAll(rc0, rc1, rc2, rc3, rc4, rc5, 
+                rc6, rc7, rc8, rc9, rc10, rc11, rc12);
     }
     
     /** @return интерфейс 2й страницы режима Тест  */
@@ -197,5 +272,10 @@ public class Page2interface extends TestPageInterface{
         sg.setStudD_p1(DTextField.getText());
         sg.setStudS_p1(s1TextField.getText(), s2TextField.getText());
         sg.setStudT_p1(t1TextField.getText(), t2TextField.getText());
+    }
+    
+    @Override
+    public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
+        
     }
 }
