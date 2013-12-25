@@ -5,10 +5,12 @@ import DemoPack.DemoSystemGenerator;
 import DiffModesCommon.PromptSet;
 import TestPack.TestSystemGenerator;
 import TrainerPack.TrainerControl;
+import TrainerPack.TrainerInterface;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 
 /**
@@ -36,5 +38,21 @@ public class Page5interface extends TestPack.TestPages.Page5sc.Page5interface {
     @Override
     public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
         rootLayout.add(DemoFactory.returnDemoView(4, dsg, lang, ctrl), 0, 0, 3, 8);
+    }
+    
+    @Override
+    public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl) {
+        int pageNumber = 4;
+        super.dataCheck(sg, ctrl);
+//        double auto_k = sg.getFs().getK();
+//        double auto_m = sg.getFs().getA_w().getM();
+//        double auto_n = sg.getFs().getA_w().getN();
+        
+        boolean kRes, mRes, nRes;
+        kRes = TrainerInterface.checkTextValue(pageNumber, "k", sg, kTf, ctrl);
+        mRes = TrainerInterface.checkTextValue(pageNumber, "m", sg, mTf, ctrl);
+        nRes = TrainerInterface.checkTextValue(pageNumber, "n", sg, nTf, ctrl);
+        
+        return (kRes & mRes & nRes);
     }
 }

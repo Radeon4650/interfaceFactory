@@ -147,15 +147,10 @@ public class Page9interface extends TestPageInterface {
     }
     
     @Override
-    public boolean dataCheck(TestSystemGenerator sg)  {
-        try {
-            saveData(sg);
-            sg.checkPage(8);
-            return true;
-        }
-        catch (NumberFormatException nfe) {
-            return false;
-        }
+    public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl)  {
+        saveData(sg);
+        sg.checkPage(8);
+        return true;
     }
     
     @Override

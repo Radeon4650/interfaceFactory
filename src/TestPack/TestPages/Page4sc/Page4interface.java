@@ -27,8 +27,8 @@ import javafx.scene.web.WebView;
 public class Page4interface extends TestPageInterface {
     private final String k, t1, t2;
     
-    private final TextField x1tf, x2tf, x3tf, x4tf;
-    private final TextField kTf, hTf, eTf, mUTf, nUTf, mVTf, nVTf;
+    protected final TextField x1tf, x2tf, x3tf, x4tf;
+    protected final TextField kTf, hTf, eTf, mUTf, nUTf, mVTf, nVTf;
     private final WebView fsView, UwView, VwView;
     
     protected final GridPane rootLayout;
@@ -402,8 +402,22 @@ public class Page4interface extends TestPageInterface {
     }
     
     @Override
-    public boolean dataCheck(TestSystemGenerator sg)  {
+    public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl)  {
         try {
+            Double.parseDouble(kTf.getText());
+            Double.parseDouble(mUTf.getText());
+            Double.parseDouble(nUTf.getText());
+            Double.parseDouble(mVTf.getText());
+            Double.parseDouble(nVTf.getText());
+            Double.parseDouble(hTf.getText());
+            Double.parseDouble(eTf.getText());
+            
+            NumberFormatException nfe = new NumberFormatException();
+            if (x1tf.getText().equals("")) throw nfe;
+            if (x2tf.getText().equals("")) throw nfe;
+            if (x3tf.getText().equals("")) throw nfe;
+            if (x4tf.getText().equals("")) throw nfe;
+            
             saveData(sg);
             sg.checkPage(3);
             return true;

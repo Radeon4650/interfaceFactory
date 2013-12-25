@@ -53,6 +53,14 @@ public class TrainerControl {
         changeDiagnosis("watchedDemo " + pageNum);
     }
     
+    /** Связь с баесовскими сетями
+     * @param studRightInput правильное ли студент ввел значение
+     * @return возможен ли переход на следующую страницу */
+    public boolean checkValueResult(boolean studRightInput) {
+//        changeDiagnosis(null);
+        return studRightInput;
+    }
+    
     private void changeDiagnosis(String hintKey) {
          /**тут сделать связь с баесовской сетью*/
     }

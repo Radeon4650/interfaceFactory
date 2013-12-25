@@ -110,6 +110,23 @@ public class AppStyles {
                 + "-fx-font-size: 16;";
     }
     
+    static public String trainerErrorInputStyle() {
+        return "-fx-background-color: #"
+                + wrongRedColor() + ";";
+    }
+    
+    static public String tooltipStyle() {
+        return "-fx-shape: ” “;" +
+            "-fx-padding: 10;" +
+            "-fx-background-color: white;" + 
+            "-fx-border-color: gray;" +
+            "-fx-effect: dropshadow(three-pass-box, transparent, 0, 0, 0, 0);" 
+            + "-fx-font-family: \'"
+            + readingFont() + "\';"
+            + "-fx-text-fill: #" + gray + ";"
+            + "-fx-font-size: 14;";
+    }
+    
     
     /**Устанавливает стиль для поля ввода коэффициентов:
      * символы становятся красными, если введеноое значение не является числом

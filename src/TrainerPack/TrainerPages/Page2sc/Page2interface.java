@@ -5,6 +5,7 @@ import DemoPack.DemoSystemGenerator;
 import DiffModesCommon.PromptSet;
 import TestPack.TestSystemGenerator;
 import TrainerPack.TrainerControl;
+import TrainerPack.TrainerInterface;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -47,5 +48,32 @@ public class Page2interface extends TestPack.TestPages.Page2sc.Page2interface {
     @Override
     public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
         rootLayout.add(DemoFactory.returnDemoView(1, dsg, lang, ctrl), 0, 0, 5, 13);
+    }
+    
+    @Override
+    public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl) {
+        int pageNumber = 1;
+        super.dataCheck(sg, ctrl);
+//        double auto_a = sg.getFs().getA();
+//        double auto_b = sg.getFs().getB();
+//        double auto_c = sg.getFs().getC();
+//        double auto_D = sg.getFs().getD();
+//        double auto_s1 = sg.getFs().getS1();
+//        double auto_s2 = sg.getFs().getS2();
+//        double auto_t1 = sg.getFs().getT1();
+//        double auto_t2 = sg.getFs().getT2();
+        
+        
+        boolean aRes, bRes, cRes, dRes, s1Res, s2Res, t1Res, t2Res;
+        aRes = TrainerInterface.checkTextValue(pageNumber, "a", sg, aTextField, ctrl);
+        bRes = TrainerInterface.checkTextValue(pageNumber, "b", sg, bTextField, ctrl);
+        cRes = TrainerInterface.checkTextValue(pageNumber, "c", sg, cTextField, ctrl);
+        dRes = TrainerInterface.checkTextValue(pageNumber, "D", sg, DTextField, ctrl);
+        s1Res = TrainerInterface.checkTextValue(pageNumber, "s1", sg, s1TextField, ctrl);
+        s2Res = TrainerInterface.checkTextValue(pageNumber, "s2", sg, s2TextField, ctrl);
+        t1Res = TrainerInterface.checkTextValue(pageNumber, "T1", sg, t1TextField, ctrl);
+        t2Res = TrainerInterface.checkTextValue(pageNumber, "T2", sg, t2TextField, ctrl);
+        
+        return (aRes & bRes & cRes & dRes & s1Res & s2Res &t1Res & t2Res);
     }
 }

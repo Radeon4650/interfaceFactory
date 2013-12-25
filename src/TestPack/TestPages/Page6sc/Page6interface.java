@@ -9,6 +9,7 @@ import TestPack.TestPages.TestPageInterface;
 import TestPack.TestSystemGenerator;
 import TrainerPack.TrainerControl;
 import java.util.ResourceBundle;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
@@ -18,6 +19,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -30,8 +32,8 @@ public class Page6interface extends TestPageInterface {
     private double[] w = {0, 5, 10, 20, 50, 60, 70, 80, 90, 100, 200};
     private double [] A;
     protected final GridPane rootLayout;
-    private final TextField aInp;
-    private final TextField wInp;
+    protected final TextField aInp;
+    protected final TextField wInp;
 
     public Page6interface(TestSystemGenerator sg, final ResourceBundle lang) {
         fillAw(sg);
@@ -59,6 +61,19 @@ public class Page6interface extends TestPageInterface {
             aInp.setText(data[0]);
             wInp.setText(data[1]);
         }
+        
+        aInp.addEventFilter(KeyEvent.KEY_TYPED,new EventHandler<KeyEvent> () {
+            @Override
+            public void handle(KeyEvent t) {
+                AppStyles.styleSetter(aInp);
+            }
+        });
+        wInp.addEventFilter(KeyEvent.KEY_TYPED,new EventHandler<KeyEvent> () {
+            @Override
+            public void handle(KeyEvent t) {
+                AppStyles.styleSetter(wInp);
+            }
+        });
         
         rootLayout = new GridPane();
 //        rootLayout.setGridLinesVisible(true);
@@ -126,15 +141,13 @@ public class Page6interface extends TestPageInterface {
     }
     
     @Override
-    public boolean dataCheck(TestSystemGenerator sg)  {
-        try {
-            saveData(sg);
-            sg.checkPage(5);
-            return true;
-        }
-        catch (NumberFormatException nfe) {
-            return false;
-        }
+    public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl)  {
+        if (aInp.getText().equals("")) return false;
+        if (wInp.getText().equals("")) return false;
+        
+        saveData(sg);
+        sg.checkPage(5);
+        return true;
     }
     
     @Override

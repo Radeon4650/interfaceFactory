@@ -31,9 +31,9 @@ public class Page5interface extends TestPageInterface {
     private double [] w = {0, 5, 10, 20, 50, 60, 70, 80, 90, 100, 200};
     private double [] A;
     
-    private final TextField kTf;
-    private final TextField mTf;
-    private final TextField nTf;
+    protected final TextField kTf;
+    protected final TextField mTf;
+    protected final TextField nTf;
     private final WebView AwView;
     private final WebView tableView;
     protected final GridPane rootLayout;
@@ -242,14 +242,13 @@ public class Page5interface extends TestPageInterface {
     }
     
     @Override
-    public boolean dataCheck(TestSystemGenerator sg)  {
+    public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl)  {
         try {
             Double.parseDouble(kTf.getText());
             Double.parseDouble(mTf.getText());
             Double.parseDouble(nTf.getText());
             saveData(sg);
             sg.checkPage(4);
-
             return true;
         }
         catch (NumberFormatException nfe) {

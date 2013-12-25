@@ -47,11 +47,7 @@ public class Aw {   //A(w)
     /**@param fA_w_count количество значений для построения графика АЧХ*/
     private final int fA_w_count = 11; 
     
-//    /**@param wValue массив значений частоты w для вычисления АЧХ*/
-//    private final double wValue [];
-//    /**@param fA_w табличные значения для построения графика АЧХ*/
-//    private double fA_w [] = new double[getfA_w_count()];
-    private AwStruct awArr [] = new AwStruct[fA_w_count];
+    private AwStruct [] awArr  = new AwStruct[fA_w_count];
     
     /**@param Apr значение полосы пропускания*/
     private double Apr;

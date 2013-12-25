@@ -2,12 +2,12 @@ package TrainerPack;
 
 import DiffModesCommon.AppStyles;
 import TestPack.TestInterface;
+import TestPack.TestSystemGenerator;
 import interfacefactory.InterfaceFactory;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 
 /**
@@ -15,18 +15,20 @@ import javafx.scene.control.Tooltip;
  * @author radeon
  */
 public class TrainerInterface extends TestInterface {
-    private final TrainerControl ctrl;
+    
     
     
     public TrainerInterface(final ResourceBundle lang, final InterfaceFactory ifFact) {    
         super(lang, ifFact);
-        ctrl = new TrainerControl();
+        Tooltip lessonTitleTooltip = new Tooltip(lang.getString("ModeSelectionInterface.trainerBtnHint"));
+        lessonTitleTooltip.setStyle(AppStyles.tooltipStyle()); 
         modeTitle.setText(lang.getString("TrainerInterface.modeTitle"));
-        modeTitle.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.trainerBtnHint")));
+        modeTitle.setTooltip(lessonTitleTooltip);
         lessonTitle.setText(lang.getString("TrainerInterface.lessonTitle")); 
         modeTitle.setStyle(AppStyles.titleFontStyle());
         setCurrentPage(lang, 0);
         tInterface.setCenter(currentPage.getRootLayout());
+        nextStepErrorInfo.setText(lang.getString("TrainerInterface.nextStepError"));
         
         watchDemoBtn.setVisible(true);
         watchDemoBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -35,10 +37,27 @@ public class TrainerInterface extends TestInterface {
                 currentPage.watchDemo(sg, lang, ctrl);
             }
         });
+        
     }
     
     @Override
     protected void setCurrentPage(final ResourceBundle lang, int pageNumber) {
         currentPage = TrainerFactory.returnPage(pageNumber, ctrl, sg, lang);
+        watchDemoBtn.setVisible(true);
+        if (currentPageNumber>7) watchDemoBtn.setDisable(true);
+        else watchDemoBtn.setDisable(false);
+        if (currentPageNumber>8) watchDemoBtn.setVisible(false);
     }
+    
+    
+    public static boolean checkTextValue(final int pageNumber, final String key, 
+            final TestSystemGenerator sg, final TextField inputField, 
+            final TrainerControl ctrl) {
+        
+        boolean rightInput = sg.getStudPassing(pageNumber, key);
+        if (ctrl.checkValueResult(rightInput))
+            return true;
+        else inputField.setStyle(AppStyles.trainerErrorInputStyle());
+        return false;
+    }; 
 }

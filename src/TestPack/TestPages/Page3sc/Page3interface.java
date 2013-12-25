@@ -28,10 +28,10 @@ import javafx.scene.web.WebView;
  */
 public class Page3interface extends TestPageInterface {
     protected final GridPane rootLayout;
-    private final TextField kTextField;
-    private final TextField t1TextField;
-    private final TextField t2TextField;
-    private final ChoiceBox replChBox;
+    protected final TextField kTextField;
+    protected final TextField t1TextField;
+    protected final TextField t2TextField;
+    protected final ChoiceBox replChBox;
     private final WebView fsView;
     private final WebView fjwView;
     
@@ -210,16 +210,14 @@ public class Page3interface extends TestPageInterface {
     }
     
     @Override
-    public boolean dataCheck(TestSystemGenerator sg)  {
-        try {
-            saveData(sg);
-            sg.checkPage(2);
-
-            return true;
-        }
-        catch (NumberFormatException nfe) {
-            return false;
-        }
+    public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl)  {
+        if (kTextField.getText().equals("")) return false;
+        if (t1TextField.getText().equals("")) return false;
+        if (t2TextField.getText().equals("")) return false;        
+        
+        saveData(sg);
+        sg.checkPage(2);
+        return true;
     }
     
     @Override

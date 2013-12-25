@@ -5,6 +5,7 @@ import DemoPack.DemoSystemGenerator;
 import DiffModesCommon.PromptSet;
 import TestPack.TestSystemGenerator;
 import TrainerPack.TrainerControl;
+import TrainerPack.TrainerInterface;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -36,4 +37,24 @@ public class Page1interface extends TestPack.TestPages.Page1sc.Page1interface {
     public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl) {
         grid.add(DemoFactory.returnDemoView(0, dsg, lang, ctrl), 0, 0, 2, 2);
     }
+    
+    @Override
+    public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl) {
+        int pageNumber = 0;
+        super.dataCheck(sg, ctrl);
+//        double auto_k = sg.getFs().getK();
+//        double auto_a = sg.getFs().getA();
+//        double auto_b = sg.getFs().getB();
+//        double auto_c = sg.getFs().getC();
+        
+        boolean kRes, aRes, bRes, cRes;
+        kRes = TrainerInterface.checkTextValue(pageNumber, "k", sg, kTextField, ctrl);
+        aRes = TrainerInterface.checkTextValue(pageNumber, "a", sg, aTextField, ctrl);
+        bRes = TrainerInterface.checkTextValue(pageNumber, "b", sg, bTextField, ctrl);
+        cRes = TrainerInterface.checkTextValue(pageNumber, "c", sg, cTextField, ctrl);
+        
+        return (kRes & aRes & bRes & cRes);
+    }
+    
+
 }

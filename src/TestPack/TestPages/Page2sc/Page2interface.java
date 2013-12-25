@@ -27,14 +27,14 @@ import javafx.scene.web.WebView;
 public class Page2interface extends TestPageInterface{
     // Поля ввода для значений коэффициентов, дискриминанта,
     // корней характеристического уравнения и постоянных времени системы
-    private final TextField aTextField;
-    private final TextField bTextField;
-    private final TextField cTextField;
-    private final TextField DTextField;
-    private final TextField s1TextField;
-    private final TextField s2TextField;
-    private final TextField t1TextField;
-    private final TextField t2TextField;
+    protected final TextField aTextField;
+    protected final TextField bTextField;
+    protected final TextField cTextField;
+    protected final TextField DTextField;
+    protected final TextField s1TextField;
+    protected final TextField s2TextField;
+    protected final TextField t1TextField;
+    protected final TextField t2TextField;
     
     protected final GridPane rootLayout;
 
@@ -254,15 +254,19 @@ public class Page2interface extends TestPageInterface{
     }
     
     @Override
-    public boolean dataCheck(TestSystemGenerator sg) {
-        try {
-            saveData(sg);
-            sg.checkPage(1);
-            return true;
-        }
-        catch (NumberFormatException nfe) {
-            return false;
-        }
+    public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl) {
+        if (aTextField.getText().equals("")) return false;
+        if (bTextField.getText().equals("")) return false;
+        if (cTextField.getText().equals("")) return false;
+        if (DTextField.getText().equals("")) return false;
+        if (s1TextField.getText().equals("")) return false;
+        if (s2TextField.getText().equals("")) return false;
+        if (t1TextField.getText().equals("")) return false;
+        if (t2TextField.getText().equals("")) return false;
+        
+        saveData(sg);
+        sg.checkPage(1);
+        return true;
     }
     
     @Override

@@ -15,8 +15,7 @@ import javafx.scene.web.WebView;
 public class PromptSet {
     
     public static String getPrompt(String param, ResourceBundle lang) {
-        String webContent = ""; //<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
-        //CCFF00
+        String webContent = ""; 
         switch (param) {
             case "formula_Fs":
                 webContent+=formula_Fs(lang);

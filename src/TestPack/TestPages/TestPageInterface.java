@@ -16,7 +16,7 @@ import javafx.scene.Node;
  */
 abstract public class TestPageInterface {    
     abstract public Node getRootLayout();
-    abstract public boolean dataCheck(TestSystemGenerator sg);
+    abstract public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl);
     abstract public void saveData(TestSystemGenerator sg);
     abstract public void watchDemo(final DemoSystemGenerator dsg, final ResourceBundle lang, final TrainerControl ctrl);
 }

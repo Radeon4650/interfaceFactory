@@ -382,6 +382,20 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         prec = new CalcPrecisions();
     }
 
+    /**@return Зачение, введенное студентом на конкретной странице
+     * @param pageNumber номер страницы для поиска* 
+     * @param key ключ для поиска на конкретной странице*/
+    public String getStudValue(int pageNumber, String key) {
+        return this.studData.getP(pageNumber).get(key);
+    }
+    
+    /**@return Правильность решения, введенного студентом на конкретной странице
+     * @param pageNumber номер страницы для поиска* 
+     * @param key ключ для поиска на конкретной странице*/
+    public boolean getStudPassing(int pageNumber, String key) {
+        return this.testPU.getPassed(pageNumber).get(key);
+    }
+    
     /**@return HTML-строку с подробным сообщением о результатах прохождения теста */
     public String printTestResults(ResourceBundle lang) {
         return getTestPU().checkResults(lang);

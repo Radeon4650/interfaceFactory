@@ -174,7 +174,7 @@ public class Page7interface extends TestPageInterface {
     }
     
     @Override
-    public boolean dataCheck(TestSystemGenerator sg)  {
+    public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl)  {
         saveData(sg);
         sg.checkPage(6);
         return valuesCounted;

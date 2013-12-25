@@ -30,10 +30,10 @@ public class Page1interface extends TestPageInterface{
     private VBox rootLayout;
     protected GridPane grid;
     protected GridPane coeffGrid;
-    private final TextField kTextField;
-    private final TextField aTextField;
-    private final TextField bTextField;
-    private final TextField cTextField;
+    protected final TextField kTextField;
+    protected final TextField aTextField;
+    protected final TextField bTextField;
+    protected final TextField cTextField;
     private final Label kLabel;
     private final Label aLabel;
     private final Label bLabel;
@@ -216,15 +216,15 @@ public class Page1interface extends TestPageInterface{
     }
     
     @Override
-    public boolean dataCheck(TestSystemGenerator sg) {
-        try {
-            saveData(sg);
-            sg.checkPage(0);
-            return true;
-        }
-        catch (NumberFormatException nfe) {
-            return false;
-        } 
+    public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl) {
+        if (kTextField.getText().equals("")) return false;
+        if (aTextField.getText().equals("")) return false;
+        if (bTextField.getText().equals("")) return false;
+        if (cTextField.getText().equals("")) return false;
+        
+        saveData(sg);
+        sg.checkPage(0);
+        return true;
     }
     
     @Override

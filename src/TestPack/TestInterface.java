@@ -4,6 +4,7 @@ package TestPack;
 
 import TestPack.TestPages.TestPageInterface;
 import DiffModesCommon.AppStyles;
+import TrainerPack.TrainerControl;
 import interfacefactory.InterfaceFactory;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -44,11 +45,13 @@ public class TestInterface {
     protected final Label lessonTitle;
     protected final Label currentStepLabel;
     protected final Button watchDemoBtn;
+    protected final TrainerControl ctrl;
     
     public TestInterface(final ResourceBundle lang, final InterfaceFactory ifFact) {
         sg = new TestSystemGenerator();
         currentPageNumber = 0;
         resPage = new ResultPage(lang, ifFact);
+        ctrl = new TrainerControl();
         
         tInterface=new BorderPane();
         modeTitle = new Label(lang.getString("TestInterface.modeTitle"));
@@ -161,16 +164,14 @@ public class TestInterface {
     /**Загрузить следующую страницу*/
     private void loadNextPage(final ResourceBundle lang) {
         // При переходе на следующую страницу производится проверка правильности решения
-        if (currentPage.dataCheck(sg)) {
+        if (currentPage.dataCheck(sg, ctrl)) {
         
             if (++currentPageNumber>7) {
               currentPageNumber=8;
               btnResults.setVisible(true);
               btnNextPage.setDisable(true);
-              watchDemoBtn.setDisable(true);
             }
-            else btnNextPage.setDisable(false);
-            
+            else btnNextPage.setDisable(false);   
             btnPrevPage.setDisable(false);
             setCurrentPage(lang, currentPageNumber);
             tInterface.setCenter(currentPage.getRootLayout());
@@ -191,19 +192,16 @@ public class TestInterface {
         else btnPrevPage.setDisable(false);
         
         if (currentPageNumber>7) {
-            btnNextPage.setDisable(true);   
-            watchDemoBtn.setDisable(true);
+            btnNextPage.setDisable(true);
             btnResults.setVisible(true);
         }
         else {
             btnNextPage.setDisable(false);    
-            watchDemoBtn.setDisable(false);
             btnResults.setVisible(false);
         }
         setCurrentPage(lang, currentPageNumber);
         tInterface.setCenter(currentPage.getRootLayout());
         nextStepErrorInfo.setVisible(false);
-        watchDemoBtn.setVisible(true);
         currentStepLabel.setText(lang.getString("TestInterface.step")
                 + String.valueOf(currentPageNumber+1));
     }
@@ -218,8 +216,7 @@ public class TestInterface {
         currentPageNumber = 9;
         currentStepLabel.setText(lang.getString("ResPage.Summary"));
         btnResults.setVisible(false);
-        watchDemoBtn.setVisible(false);
-        currentPage.dataCheck(sg);
+        currentPage.dataCheck(sg, ctrl);
         tInterface.setCenter(resPage.getResultPage(lang, testPU));
     }
 }

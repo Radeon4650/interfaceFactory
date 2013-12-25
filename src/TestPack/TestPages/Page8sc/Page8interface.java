@@ -18,7 +18,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 
 /**
  *
@@ -97,7 +96,7 @@ public class Page8interface extends TestPageInterface {
     
     
     @Override
-    public boolean dataCheck(TestSystemGenerator sg)  {
+    public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl)  {
         return true;
     }
     
