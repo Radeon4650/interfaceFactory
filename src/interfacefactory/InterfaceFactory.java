@@ -4,15 +4,22 @@ import DemoPack.DemoInterface;
 import DiffModesCommon.AppStyles;
 import DiffModesCommon.DataModel.Wd;
 import DiffModesCommon.DataModel.Wk;
+import StartDialogs.FXOptionPane;
+import StartDialogs.Server1;
 import TestPack.TestInterface;
 import TrainerPack.TrainerInterface;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -21,18 +28,44 @@ import javafx.stage.Stage;
 public class InterfaceFactory extends Application {
     /**@param lang набор ресурсов для локализации*/
     private ResourceBundle lang;
+    private final int port= 12671;
     final StackPane root = new StackPane();
+
+    @Override
+    public void init() throws Exception {
+        super.init(); 
+        BayesianNetwork.BayesianNetwork.check_OS();
+    }
     
     @Override
-    public void start(Stage primaryStage) {    
+    public void start(Stage primaryStage) throws InterruptedException {    
         
-    //--------Локализация--------------------
-    // Для выбора языка необходимо при запуске передать программе 
-    // параметр lang со значением текущей локали (ru, ua, en)
-        chooseLang(getParameters());
-    //---------------------------------------
-
-        
+             //-------Проверка открытия нескольких приложений одновременно----------------
+         Server1 myServer=new Server1(port);
+       final Thread myThread=new Thread(myServer);
+        try {
+        myThread.start();
+        Thread.sleep(100);
+        myServer.isStart();
+        //--------Локализация--------------------
+        // Для выбора языка необходимо при запуске передать программе 
+        // параметр lang со значением текущей локали (ru, ua, en)
+                chooseLang(FXOptionPane.showStartDialog(primaryStage, "mass", "infoMessage").toString());
+        } catch (IOException ex) {
+                        FXOptionPane.showMessageDialog(primaryStage, ex.getMessage(), "Халтура");
+            Logger.getLogger(InterfaceFactory.class.getName()).log(Level.SEVERE, null, ex);
+            myThread.interrupt();
+            System.exit(13);
+        }
+       
+     //-------Close MAIN Window---------------------------
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+    @Override
+    public void handle(WindowEvent event) {
+        myThread.interrupt();
+        System.exit(12);
+    }
+        });
     //---------GUI---------------------------
         loadFonts();
         root.setStyle(AppStyles.mainStageRootStyle());
@@ -71,8 +104,7 @@ public class InterfaceFactory extends Application {
     }
     
     /**@return выбор языка для приложения*/
-    private void chooseLang(Parameters parameters) {
-        String locale = (parameters.getNamed().get("lang") == null?"":parameters.getNamed().get("lang"));
+    private void chooseLang(String locale) {
         switch (locale) {
             case ("en"):    //English
             case ("EN"): 

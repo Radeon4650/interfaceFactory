@@ -42,10 +42,6 @@ public class Page1interface extends TestPack.TestPages.Page1sc.Page1interface {
     public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl) {
         int pageNumber = 0;
         super.dataCheck(sg, ctrl);
-//        double auto_k = sg.getFs().getK();
-//        double auto_a = sg.getFs().getA();
-//        double auto_b = sg.getFs().getB();
-//        double auto_c = sg.getFs().getC();
         
         boolean kRes, aRes, bRes, cRes;
         kRes = TrainerInterface.checkTextValue(pageNumber, "k", sg, kTextField, ctrl);
