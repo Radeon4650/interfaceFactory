@@ -40,7 +40,7 @@ public class Server1 implements Runnable{
             isOpen=true;
 	while ( true ) {
                         
-
+Thread.sleep(1000);
 //	    try {
 //		clientSocket = echoServer.accept();
 //		Server1Connection oneconnection = new Server1Connection(clientSocket, this);
@@ -53,6 +53,8 @@ public class Server1 implements Runnable{
         } catch (IOException ex) {
             isOpen=false;
                 Logger.getLogger(Server1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Server1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     }
