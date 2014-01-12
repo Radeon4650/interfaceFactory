@@ -35,7 +35,7 @@ public class Page1interface extends DemoPageInterface {
         wv.getEngine().loadContent("<html><body><font face=\"" 
                 + AppStyles.readingFont()
                 + "\">"
-                + "<table><tr><td align = \"center\">"
+                + "<table><tr height=\"60%\"><td align = \"center\">"
                 + "<p><b>"
                 + lang.getString("Demo.p1.structSheme")
                 + "</b></p>"
@@ -50,12 +50,12 @@ public class Page1interface extends DemoPageInterface {
                 + sg.getWd3().printInMathML()
                 + ";<br>"
                 + sg.getWd4().printInMathML()
-                + ".</td></tr><tr><td align = \"center\"><p><b>"
+                + ".</td></tr><tr height=\"40%\" valign=\"top\"><td align = \"center\"><p><b>"
                 + lang.getString("Demo.p1.transFuncGetting")
                 + "</b></p>"
                 + PromptSet.fsEquation() + ";<br>"
                 + sg.getFs().printInMathMLWith_abc_s()
-                + ".</td><td valign=\"top\">"
+                + ".</td><td>"
                 + PromptSet.getPrompt("formula_Fs", lang)
                 + "</td></tr></table>"
                 + "</font></body></html>");

@@ -158,7 +158,7 @@ public class Page6interface extends TestPageInterface {
     public final LineChart<Number, Number> getChart (final ResourceBundle lang) {
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("ω");
+        xAxis.setLabel("ω, 1/c");
         yAxis.setLabel("A");
         final LineChart<Number, Number> lineChart = 
                 new LineChart<>(xAxis, yAxis);

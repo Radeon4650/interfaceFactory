@@ -4,6 +4,7 @@ package DemoPack;
 import DiffModesCommon.AppStyles;
 import DiffModesCommon.DataModel.Wd;
 import DiffModesCommon.DataModel.Wk;
+import StartDialogs.FXOptionPane;
 import interfacefactory.InterfaceFactory;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.SwipeEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 /**
@@ -54,6 +56,13 @@ public class DemoInterface {
         createInterface(lang, ifFact); 
     }
     
+    /**Попытка указать сборщику мусора, что эта копия демо-режима больше не нужна*/
+    private void clearDemoMemory() {
+        sg = null;
+        dInterface.getChildren().clear();
+        dInterface = null;
+    }
+    
     /**Создание общего интерфейса для Демо-режима*/
     private void createInterface(final ResourceBundle lang, final InterfaceFactory ifFact) {
         final Pagination pgnCtrl = new Pagination(8, 0);
@@ -78,6 +87,7 @@ public class DemoInterface {
             @Override 
             public void handle(ActionEvent e) {
                 ifFact.loadInitialInterface();
+                clearDemoMemory();
             }
         });
         

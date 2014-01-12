@@ -50,23 +50,20 @@ public class PromptSet {
     /**@return подсказку для вычисления передаточной функции Ф(s)
      замкнутой системы по задающему воздействию */
     private static String formula_Fs(ResourceBundle lang) {
-         return "<font face=\"" + AppStyles.readingFont()
-                 + "\" color=\"" + AppStyles.infoBlueColor()
-                 + "\"><p align=\"center\">" 
+         return "<p align=\"center\">" + StructScheme.getFormulaScheme(lang)
+                 + "</p><font face=\"" + AppStyles.readingFont()
+                 + "\" color=\"" + AppStyles.infoBlueColor() + "\">"
+                 + "<p align=\"center\">" 
                  + lang.getString("PromptSet.formulaFS")
                  + "</p></font>"
                 + "<p align=\"center\">" 
                 + "<math xmlns=\"http://www.w3.org/1998/Math/MathML\">\n" 
                     + "<mrow><mi>Ф</mi><mfenced><mi>s</mi></mfenced>"
                     + "<mo>=</mo><mfrac><mrow>"
-                    + "<msub><mi>Y</mi><mi>"
-                    + lang.getString("PromptSet.formFsOut")
-                    + "</mi></msub>"
+                    + "<mi>Y</mi>"
                     + "<mfenced><mi>s</mi>"
                     + "</mfenced></mrow><mrow>"
-                    + "<msub><mi>Y</mi><mi>"
-                    + lang.getString("PromptSet.formFsInp")
-                    + "</mi></msub>"
+                    + "<mi>G</mi>"
                     + "<mfenced><mi>s</mi></mfenced>"
                     + "</mrow></mfrac><mo>=</mo>"
                     + "<mfrac><mrow>"

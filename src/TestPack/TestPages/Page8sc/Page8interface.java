@@ -65,8 +65,8 @@ public class Page8interface extends TestPageInterface {
     private LineChart<Number, Number> getChart (TestSystemGenerator sg, ResourceBundle lang) {
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("U");
-        yAxis.setLabel("jV");
+        xAxis.setLabel("U(ω)");
+        yAxis.setLabel("V(ω)");
         final LineChart<Number, Number> lineChart = 
                 new LineChart<>(xAxis, yAxis);
         lineChart.setTitle(lang.getString("Test.p8.ChartTitle"));

@@ -108,6 +108,7 @@ public class ModeSelectionInterface {
     /**@return содержимое вкладки перехода к Демо-режиму*/
     private Node demoTabContent(final ResourceBundle lang, final InterfaceFactory ifFact) {
         VBox layout = new VBox();
+        layout.setStyle(AppStyles.mainStageRootStyle());
         
         Button btnDemo = new Button(lang.getString("ModeSelectionInterface.demoBtnTitle")+ " >");
         btnDemo.setTooltip(new Tooltip(lang.getString("ModeSelectionInterface.demoBtnHint")));
@@ -133,6 +134,8 @@ public class ModeSelectionInterface {
         TitledPane mainPane = new TitledPane(lang.getString("ModeSelectionInterface.demoMainPaneTitle"), layout);
         mainPane.setExpanded(true);
         mainPane.setStyle(AppStyles.originalFontStyle());
+        
+        
         
         final Accordion accordion = new Accordion ();
         accordion.getPanes().addAll(mainPane, settingsPane);
@@ -235,6 +238,7 @@ public class ModeSelectionInterface {
         final GridPane grid = new GridPane();
         grid.setAlignment(Pos.CENTER);
         grid.setPrefSize(800, 600);
+        grid.setStyle(AppStyles.mainStageRootStyle());
         
         final Label addPaneInfoLabel = new Label(lang.getString("ModeSelectionInterface.settingsPaneInfo"));
         addPaneInfoLabel.setWrapText(true);

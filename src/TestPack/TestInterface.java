@@ -4,6 +4,7 @@ package TestPack;
 
 import TestPack.TestPages.TestPageInterface;
 import DiffModesCommon.AppStyles;
+import StartDialogs.FXOptionPane;
 import TrainerPack.TrainerControl;
 import interfacefactory.InterfaceFactory;
 import java.util.ResourceBundle;
@@ -19,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 /**
  *
@@ -26,7 +28,7 @@ import javafx.scene.layout.VBox;
  */
 public class TestInterface {
     /**  Главный layout режима "Тест" */
-    protected final BorderPane tInterface;
+    protected BorderPane tInterface;
     /** Класс для преверки правильности решения задачи студентом */
     protected TestSystemGenerator sg;
     /** Текущий номер страницы режима */
@@ -45,7 +47,7 @@ public class TestInterface {
     protected final Label lessonTitle;
     protected final Label currentStepLabel;
     protected final Button watchDemoBtn;
-    protected final TrainerControl ctrl;
+    protected TrainerControl ctrl;
     
     public TestInterface(final ResourceBundle lang, final InterfaceFactory ifFact) {
         sg = new TestSystemGenerator();
@@ -81,7 +83,14 @@ public class TestInterface {
         btnBack.setOnAction(new EventHandler<ActionEvent>() {
             @Override 
             public void handle(ActionEvent e) {
-                ifFact.loadInitialInterface();
+                String message, title;
+                title = lang.getString("TestInterface.btnBackMessageTitle");
+                message = lang.getString("TestInterface.btnBackMessage");
+                if (FXOptionPane.showConfirmDialog(new Stage(), message, title, lang)==FXOptionPane.Response.YES)
+                {   
+                    ifFact.loadInitialInterface();
+                    clearTestMemory();
+                }
             }
         });
         HBox topBox = new HBox();
@@ -157,6 +166,15 @@ public class TestInterface {
         tInterface.setBottom(bottomBox);
     }
 
+    protected void clearTestMemory() {
+        tInterface.getChildren().clear();
+        tInterface=null;
+        sg=null;
+        resPage=null;
+        ctrl=null;
+    }
+    
+    
     protected void setCurrentPage(final ResourceBundle lang, int pageNumber) {
         currentPage = TestFactory.returnPage(pageNumber, sg, lang);
     }

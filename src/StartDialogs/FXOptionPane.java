@@ -1,5 +1,6 @@
 package StartDialogs;
 
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -82,20 +83,20 @@ static class Message extends Text {
     }
 }
 
-public static Response showConfirmDialog( Stage owner, String message, String title ) {
+public static Response showConfirmDialog( Stage owner, String message, String title, final ResourceBundle lang) {
     VBox vb = new VBox();
     Scene scene = new Scene( vb );
     final Dialog dial = new Dialog( title, owner, scene, "res/Confirm.png" );
     vb.setPadding( new Insets(10, 10, 10, 10) );
     vb.setSpacing( 10);
-    Button yesButton = new Button( "Yes" );
+    Button yesButton = new Button(lang.getString("MessageBox.Yes"));
     yesButton.setOnAction( new EventHandler<ActionEvent>() {
         @Override public void handle( ActionEvent e ) {
             dial.close();
             buttonSelected = Response.YES;
         }
     } );
-    Button noButton = new Button( "No" );
+    Button noButton = new Button(lang.getString("MessageBox.No"));
     noButton.setOnAction( new EventHandler<ActionEvent>() {
         @Override public void handle( ActionEvent e ) {
             dial.close();

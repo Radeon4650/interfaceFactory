@@ -16,8 +16,8 @@ public class ChartCreation_page8 {
     public static LineChart<Number, Number> getChart (DemoSystemGenerator sg, String title) {
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("U");
-        yAxis.setLabel("jV");
+        xAxis.setLabel("U(ω)");
+        yAxis.setLabel("V(ω)");
         final LineChart<Number, Number> lineChart = 
                 new LineChart<>(xAxis, yAxis);
         lineChart.setTitle(title);

@@ -2,6 +2,7 @@
 package DemoPack.DemoPages.Page6sc;
 
 import DiffModesCommon.DataModel.Aw;
+import javafx.geometry.Side;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -16,7 +17,7 @@ public class ChartCreation_page6 {
     public static LineChart<Number, Number> getChart (Aw a_w, String title) {
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
-        xAxis.setLabel("ω");
+        xAxis.setLabel("ω, 1/c");
         yAxis.setLabel("A");
         final LineChart<Number, Number> lineChart = 
                 new LineChart<>(xAxis, yAxis);

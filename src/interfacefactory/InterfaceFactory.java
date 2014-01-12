@@ -29,6 +29,7 @@ public class InterfaceFactory extends Application {
     /**@param lang набор ресурсов для локализации*/
     private ResourceBundle lang;
     private final int port= 12671;
+    private Scene scene;
     final StackPane root = new StackPane();
 
     @Override
@@ -72,7 +73,7 @@ public class InterfaceFactory extends Application {
         
         loadInitialInterface();
         
-        Scene scene = new Scene(root, 1010, 650);
+        scene = new Scene(root, 1010, 650);
         
         primaryStage.setMinHeight(600);
         primaryStage.setMinWidth(800);
