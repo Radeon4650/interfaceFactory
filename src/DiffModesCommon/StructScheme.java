@@ -566,13 +566,18 @@ public class StructScheme {
     
     
     public static String getFormulaScheme(final ResourceBundle lang) {
-        return "<svg xmlns=\"http://www.w3.org/2000/svg\" "
+        return "<style type=\"text/css\">\n" +
+                "\n" +
+                "svg{\n" +
+                "width: 70%;\n" +
+                "height: 70%;\n" +
+                "}\n" +
+                "\n" +
+                "  </style><svg xmlns=\"http://www.w3.org/2000/svg\" "
                 + "xmlns:xlink=\"http://www.w3.org/1999/xlink\" "
                 + "xmlns:ev=\"http://www.w3.org/2001/xml-events\"\n" +
-"xmlns:v=\"http://schemas.microsoft.com/visio/2003/SVGExtensions/\" "
-                + "width=\"300\" height=\"130\"\n" +
-                "preserveAspectRatio\"x200Y200 meet\"\n"+
-"viewBox=\"0 0 {width} {height}\" xml:space=\"preserve\" "
+"xmlns:v=\"http://schemas.microsoft.com/visio/2003/SVGExtensions/\" "+
+"viewBox=\"0 0 300 130\" xml:space=\"preserve\" "
                 + "color-interpolation-filters=\"sRGB\" class=\"st9\">\n" +
 "<v:documentProperties v:langID=\"1049\" v:metric=\"true\" v:viewMarkup=\"false\">\n" +
 "<v:userDefs>\n" +
@@ -810,7 +815,7 @@ public class StructScheme {
 "<v:textRect cx=\"24.0945\" cy=\"139.717\" width=\"48.19\" height=\"12\"/>\n" +
 "<rect x=\"0\" y=\"133.717\" width=\"48.189\" height=\"12\" class=\"st7\"/>\n" +
 "<text x=\"2\" y=\"143.92\" class=\"st2\" v:langID=\"1033\"><v:paragraph/><v:tabList/>Y(s)</text></g>\n" +
-"</g></svg>";
+"</g></svg></style>";
     }
     
 }

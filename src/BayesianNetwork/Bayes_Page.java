@@ -1,9 +1,11 @@
 
 package BayesianNetwork;
 
+import java.util.Iterator;
 import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.text.html.HTMLDocument;
 
 
 /**
@@ -54,25 +56,29 @@ private int deepIndex;
     }
     
     /**
-     * Установка значения для звена модели (Refinding)
-     * true -- true Answer_Hint;
-     * true -- false Answer_noHint;
-     * false -- true noAnswer_Hint;
-     * false -- false noAnswer_noHint;
-     * @param Answer - правильность ответа
-     * @param Hint - использование подсказки
+     * Установка значения для последнего звена модели (Model)
+     * true -- диагностическая модель включена;
+     * false -- диагностическая модель выключена;
+     * @param Model - правильность ответа
      */
-    public void setModelEvidence(boolean Answer,boolean Hint){
-        if(Answer && Hint)
-              getLastParamNetwork().setNodeEvidence("Refining", "Answer_Hint");
-        if(Answer && !Hint)
-              getLastParamNetwork().setNodeEvidence("Refining", "Answer_noHint");
-        if(!Answer && Hint)
-              getLastParamNetwork().setNodeEvidence("Refining", "noAnswer_Hint");
-        if(!Answer && !Hint)
-              getLastParamNetwork().setNodeEvidence("Refining", "noAnswer_noHint");
-
+    public void setModelEvidence(boolean Model){
+        if(Model)
+              getLastParamNetwork().setNodeEvidence("Model", "on");
+        else getLastParamNetwork().setNodeEvidence("Model", "off");
     }
+    
+     /**
+     * Установка значения для последнего звена ответа (Refinding)
+     * true -- Верно;
+     * false -- Не правильный ответ;
+     * @param ref - правильность ответа
+     */
+    public void setRefindingEvidance(boolean ref){
+        if(ref)
+              getLastParamNetwork().setNodeEvidence("Refining", "Answer");
+        else getLastParamNetwork().setNodeEvidence("Refining", "noAnswer");
+    }
+    
     public void createSubnetwork(){
     try {
         BayesianNetwork newNetwork=new BayesianNetwork(param_Name, ++deepIndex);
@@ -92,4 +98,23 @@ private int deepIndex;
     public BayesianNetwork getLastParamNetwork(){
  return networks.peek();
 }
+    
+        /**
+     * 
+     * @return указатель на стек сетей
+     */
+    public Stack<BayesianNetwork> getNetworks(){
+        return networks;
+}
+    
+    public double[] getNetworkChart() {   
+        double[] chartValues = new double[networks.size()+1];
+        int i = 0;
+        chartValues[i] = networks.firstElement().getInputNodeValue()[0];  
+        Iterator<BayesianNetwork> it=networks.iterator();
+        for (int j = 0; j < chartValues.length-1; j++) {
+            chartValues[j+1] = networks.elementAt(j).getOutputNodeValue()[0];
+        }
+        return chartValues;
+    }
 }

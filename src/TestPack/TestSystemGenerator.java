@@ -1,10 +1,12 @@
 package TestPack;
 
+import BayesianNetwork.BayesianNetworkComponents;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
+import javafx.scene.chart.LineChart;
 
 /**
  *
@@ -372,16 +374,21 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
     private StudentData studData;
     private TestPassingUnit testPU;
     private CalcPrecisions prec;
+    private BayesianNetworkComponents b_net;
     
 
     public TestSystemGenerator() {
         super();
-    //        setStudentsFs_p0(0, 0, 0, 0);
         testPU = new TestPassingUnit(0.01);      
         studData = new StudentData();
         prec = new CalcPrecisions();
+        b_net = new BayesianNetworkComponents();
     }
 
+    public LineChart<Number, Number> getBayesianChart(final ResourceBundle lang) {
+        return this.b_net.getLearningChart(lang);
+    }
+    
     /**@return Зачение, введенное студентом на конкретной странице
      * @param pageNumber номер страницы для поиска* 
      * @param key ключ для поиска на конкретной странице*/
@@ -547,8 +554,13 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         estimate(prevRes, currentRes, incMark, decMark);
     }
     
+    /**Внесение изменений в баесовскую сеть для конкретного значения*/
+    private void bayesianChange(String netName, boolean answerRight, boolean diagnosisApproved) {
+        this.b_net.changeNetworkElement(netName, answerRight, diagnosisApproved);
+    }
     
-     private void checkDoubleValue(int pageNumber, String key, double autoValue, double studValue) {
+     private void checkDoubleValue(int pageNumber, String key, double autoValue, 
+             double studValue, String netName, boolean diagnosisApproved) {
          boolean prevRes, currRes;
          double precision = this.prec.getPrecision(key+"_"+String.valueOf(pageNumber));
          prevRes = studData.getP_rightInput(pageNumber).get(key);                               //Узнаем, было ли ранее введено правильное решение
@@ -558,9 +570,12 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
             studData.getP_rightInput(pageNumber).put(key, currRes);
          }
          estimate(prevRes, currRes);                                                            //Выставляем оценку
+         
+         bayesianChange(netName, currRes, diagnosisApproved);
      }
      
-     private void checkStringValue(int pageNumber, String key, String autoValue, String studValue) {
+     private void checkStringValue(int pageNumber, String key, String autoValue, 
+             String studValue) {
          boolean prevRes, currRes;
          prevRes = studData.getP_rightInput(pageNumber).get(key);
          currRes = getTestPU().checkValues(pageNumber, key, autoValue, studValue);
@@ -587,16 +602,18 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
     private void checkPage0() {
         double k, a, b, c;
         int pageNumber = 0;
+        String netName = "TransferFunction";
+        boolean diagnosisApproved = false;
         
         k = tryParce(pageNumber, "k");
         a = tryParce(pageNumber, "a");
         b = tryParce(pageNumber, "b");
         c = tryParce(pageNumber, "c");
         
-        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k);
-        checkDoubleValue(pageNumber, "a", this.getFs().getA(), a);
-        checkDoubleValue(pageNumber, "b", this.getFs().getB(), b);
-        checkDoubleValue(pageNumber, "c", this.getFs().getC(), c);                                    
+        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "a", this.getFs().getA(), a, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "b", this.getFs().getB(), b, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "c", this.getFs().getC(), c, netName, diagnosisApproved);                                    
     }
     
     
@@ -605,6 +622,8 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
     private void checkPage1() {
         double a, b, c, D, s1, s2, T1, T2;
         int pageNumber = 1;
+        String netName = "SquareEquation";
+        boolean diagnosisApproved = false;
         
         a = tryParce(pageNumber, "a");
         b = tryParce(pageNumber, "b");
@@ -615,14 +634,14 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         T1 = tryParce(pageNumber, "T1");
         T2 = tryParce(pageNumber, "T2");
         
-        checkDoubleValue(pageNumber, "a", this.getFs().getA(), a);
-        checkDoubleValue(pageNumber, "b", this.getFs().getB(), b);
-        checkDoubleValue(pageNumber, "c", this.getFs().getC(), c); 
-        checkDoubleValue(pageNumber, "D", this.getFs().getD(), D);
-        checkDoubleValue(pageNumber, "s1", this.getFs().getS1(), s1);
-        checkDoubleValue(pageNumber, "s2", this.getFs().getS2(), s2);
-        checkDoubleValue(pageNumber, "T1", this.getFs().getT1(), T1);
-        checkDoubleValue(pageNumber, "T2", this.getFs().getT2(), T2);
+        checkDoubleValue(pageNumber, "a", this.getFs().getA(), a, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "b", this.getFs().getB(), b, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "c", this.getFs().getC(), c, netName, diagnosisApproved); 
+        checkDoubleValue(pageNumber, "D", this.getFs().getD(), D, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "s1", this.getFs().getS1(), s1, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "s2", this.getFs().getS2(), s2, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "T1", this.getFs().getT1(), T1, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "T2", this.getFs().getT2(), T2, netName, diagnosisApproved);
         
     }
     
@@ -632,14 +651,16 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
     private void checkPage2() {
         double k, T1, T2;
         int pageNumber = 2;
+        String netName = "FrequencyCharacteristic";
+        boolean diagnosisApproved = false;
         
         k = tryParce(pageNumber, "k");
         T1 = tryParce(pageNumber, "T1");
         T2 = tryParce(pageNumber, "T2");
         
-        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k);
-        checkDoubleValue(pageNumber, "T1", this.getFs().getT1(), T1);
-        checkDoubleValue(pageNumber, "T2", this.getFs().getT2(), T2);
+        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "T1", this.getFs().getT1(), T1, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "T2", this.getFs().getT2(), T2, netName, diagnosisApproved);
         checkStringValue(pageNumber, "rep", "1", studData.getP(2).get("rep"));
     }
     
@@ -649,6 +670,9 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
     private void checkPage3() {
         double k, mU, nU, mV, nV, h, e, x1, x2, x3, x4;
         int pageNumber = 3;
+        String netName = "U(w)";
+        
+        boolean diagnosisApproved = false;
         
         k = tryParce(pageNumber, "k");
         mU = tryParce(pageNumber, "mU");
@@ -662,17 +686,21 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         x3 = tryParce(pageNumber, "x3");
         x4 = tryParce(pageNumber, "x4");
         
-        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k);
-        checkDoubleValue(pageNumber, "mU", this.getFs().getU_w().getM(), mU);
-        checkDoubleValue(pageNumber, "nU", this.getFs().getU_w().getN(), nU);
-        checkDoubleValue(pageNumber, "mV", this.getFs().getV_w().getM(), mV);
-        checkDoubleValue(pageNumber, "nV", this.getFs().getV_w().getN(), nV);
-        checkDoubleValue(pageNumber, "h", this.getFs().getU_w().getH(), h);
-        checkDoubleValue(pageNumber, "e", this.getFs().getV_w().getE(), e);
-        checkDoubleValue(pageNumber, "x1", -this.getFs().getT1(), x1);
-        checkDoubleValue(pageNumber, "x2", -this.getFs().getT2(), x2);
-        checkDoubleValue(pageNumber, "x3", -this.getFs().getT1(), x3);
-        checkDoubleValue(pageNumber, "x4", -this.getFs().getT2(), x4);
+        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "mU", this.getFs().getU_w().getM(), mU, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "nU", this.getFs().getU_w().getN(), nU, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "h", this.getFs().getU_w().getH(), h, netName, diagnosisApproved);
+        
+        checkDoubleValue(pageNumber, "x1", -this.getFs().getT1(), x1, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "x3", -this.getFs().getT1(), x3, netName, diagnosisApproved);
+        
+        netName = "V(w)";
+        checkDoubleValue(pageNumber, "mV", this.getFs().getV_w().getM(), mV, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "nV", this.getFs().getV_w().getN(), nV, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "e", this.getFs().getV_w().getE(), e, netName, diagnosisApproved);  
+        
+        checkDoubleValue(pageNumber, "x2", -this.getFs().getT2(), x2, netName, diagnosisApproved);  
+        checkDoubleValue(pageNumber, "x4", -this.getFs().getT2(), x4, netName, diagnosisApproved);
     }
     
     
@@ -681,14 +709,16 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
     private void checkPage4() {
         double k, m, n;
         int pageNumber = 4;
+        String netName = "A(w)";
+        boolean diagnosisApproved = false;
         
         k = tryParce(pageNumber, "k");
         m = tryParce(pageNumber, "m");
         n = tryParce(pageNumber, "n");
         
-        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k);
-        checkDoubleValue(pageNumber, "m", this.getFs().getA_w().getM(), m);
-        checkDoubleValue(pageNumber, "n", this.getFs().getA_w().getN(), n);
+        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "m", this.getFs().getA_w().getM(), m, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "n", this.getFs().getA_w().getN(), n, netName, diagnosisApproved);
     }
     
     
@@ -697,12 +727,15 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
     private void checkPage5() {
         int pageNumber = 5;
         double a, w;
+        String netName = "A(w_pb)";
+        
+        boolean diagnosisApproved = false;
         
         a = tryParce(pageNumber, "Apb");
         w = tryParce(pageNumber, "wpb");
         
-        checkDoubleValue(pageNumber, "Apb", this.getFs().getA_w().getApr(), a);
-        checkDoubleValue(pageNumber, "wpb", this.getFs().getA_w().getwPr(), w);
+        checkDoubleValue(pageNumber, "Apb", this.getFs().getA_w().getApr(), a, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "wpb", this.getFs().getA_w().getwPr(), w, netName, diagnosisApproved);
     }
     
     

@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -132,7 +133,7 @@ public class TestInterface {
         btnResults.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                loadResults(lang, sg.getTestPU());
+                loadResults(lang, sg.getTestPU(), sg.getBayesianChart(lang));
                 }
         });
         
@@ -230,11 +231,11 @@ public class TestInterface {
     }
     
     /**Загрузить страницу результатов*/
-    private void loadResults(final ResourceBundle lang, final TestPassingUnit testPU) {      
+    private void loadResults(final ResourceBundle lang, final TestPassingUnit testPU, final Node chart) {      
         currentPageNumber = 9;
         currentStepLabel.setText(lang.getString("ResPage.Summary"));
         btnResults.setVisible(false);
         currentPage.dataCheck(sg, ctrl);
-        tInterface.setCenter(resPage.getResultPage(lang, testPU));
+        tInterface.setCenter(resPage.getResultPage(lang, testPU, chart));
     }
 }

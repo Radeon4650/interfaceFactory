@@ -17,8 +17,9 @@ public class BayesianNetwork {
     private final int id;
     private final String paramName;
     private double[] aCalculate_parameter=new double[]{0.5, 0.5};
-    private double[] aRefining=new double[]{0.01, 0.97, 0.01, 0.01, 0.4, 0.5, 0.99, 0.01};
-    private double[] aOutput= new double[]{1, 0, 0.4, 0.6, 1, 0, 0.7, 0.3, 1, 0, 0.2, 0.8, 1, 0, 0.3, 0.7}; 
+    private double[] aRefining=new double[]{0.9, 0.1, 0.1, 0.9};
+    private double[] aModel=new double[]{0.1, 0.9, 0.2, 0.8};
+    private double[] aOutput= new double[]{1, 0, 0.6, 0.4, 1, 0, 0.6, 0.4, 0.6, 0.4, 0, 1, 0.7, 0.3, 0, 1}; 
     private static String OS = System.getProperty("os.name").toLowerCase();
     private static String OS_arch = System.getProperty("os.arch");
     
@@ -35,7 +36,7 @@ public class BayesianNetwork {
         this.id=id;
         this.paramName=paramName;
         try {
-//            check_OS();
+            check_OS();
             net = new Network();
             createNetwork();
         } catch (SMILEException ex) {
@@ -71,6 +72,8 @@ public class BayesianNetwork {
 
     /**
      * создание сети из трёх узлов
+     *           /Model--------\
+     *          /               \
      * Calculate---------------->Output
      *          \               /
      *           \Refining----/
@@ -80,6 +83,7 @@ public class BayesianNetwork {
 
         final String Calculate = "Calculate_" + paramName + "_" + id;
         final String Refining = "Refining_" + paramName + "_" + id;
+        final String Model = "Model_" + paramName + "_" + id;
         final String Output = "Output_" + paramName + "_" + id;
 
         net.addNode(Network.NodeType.Cpt, Calculate);
@@ -87,13 +91,15 @@ public class BayesianNetwork {
         net.setOutcomeId(Calculate, 1, "mistake");
 //Узел отвечающий за уточнение вычисления проверяемого параметра
         net.addNode(Network.NodeType.Cpt, Refining);
-        net.setOutcomeId(Refining, 0, "Answer_Hint");
-        net.setOutcomeId(Refining, 1, "Answer_noHint");
-        net.addOutcome(Refining, "noAnswer_Hint");
-        net.addOutcome(Refining, "noAnswer_noHint");
+        net.setOutcomeId(Refining, 0, "Answer");
+        net.setOutcomeId(Refining, 1, "noAnswer");
+//Диагностическая модель
+        net.addNode(Network.NodeType.Cpt, Model);
+        net.setOutcomeId(Model, 0, "on");
+        net.setOutcomeId(Model, 1, "off");
         
 
-//Узел содержит результат выполнения подсети
+        //Узел содержит результат выполнения подсети
         net.addNode(Network.NodeType.Cpt, Output);
         net.setOutcomeId(Output, 0, "passed");
         net.setOutcomeId(Output, 1, "not_pass");
@@ -101,25 +107,33 @@ public class BayesianNetwork {
         //добавление связи от  "Calculate" -> "Refining" -> "Output":
         net.addArc(Calculate, Refining);
         net.addArc(Refining, Output);
+        net.addArc(Calculate, Model);
+        net.addArc(Model, Output);
         net.addArc(Calculate, Output);
         // Заполнение условного распределения для узла "Calculate_".
         // вероятности:
-        // P("Calculate" = right) = 0.5       >>
-        // P("Calculate" = mistake) = 0.5     >> та табличка которая в Genie
-        net.setNodeDefinition(Calculate, aCalculate_parameter); //заполняем табличку
+        // P("Calculate" = right) = 0.5       
+        // P("Calculate" = mistake) = 0.5     
+        net.setNodeDefinition(Calculate, aCalculate_parameter);
 
-        // Учитывая связи узла "Refining".  
-        // Вероятности его состояния:
-        // P("Refining" = Answer_Hint | "Calculate" = right) = 0.01
-        // P("Refining" = Answer_noHint | "Calculate" = right) = 0.97
-        // P("Refining" = noAnswer_Hint | "Calculate" = right) = 0.01
-        // P("Refining" = noAnswer_noHint | "Calculate" = right) = 0.01
-        // P("Refining" = Answer_Hint | "Calculate" = mistake) = 0.4
-        // P("Refining" = Answer_noHint | "Calculate" = mistake) = 0.5
-        // P("Refining" = noAnswer_Hint | "Calculate" = mistake) = 0.99
-        // P("Refining" = noAnswer_noHint | "Calculate" = mistake) = 0.01
         net.setNodeDefinition(Refining, aRefining);
+        net.setNodeDefinition(Model, aModel);
+        net.setNodeDefinition(Output, aOutput);
 
+        
+        //***************************************************************************************************//
+        net.setNodeDefinition(Output, aOutput); //заполняем табличку
+        net.setNodeBgColor(Output, Color.GREEN);
+        net.setNodePosition(1, 20, 20, 40, 50);
+        // Изменение пространственных и визуальных атрибутов узлов:
+        net.setNodePosition(Calculate, 20, 20, 80, 30);
+        net.setNodeBgColor(Calculate, Color.red);
+        net.setNodeTextColor(Calculate, Color.white);
+        net.setNodeBorderColor(Calculate, Color.GREEN);
+        net.setNodeBorderWidth(Calculate, 2);
+        net.setNodePosition(Refining, 30, 100, 60, 30);
+// запись сети в файл:
+//            net.writeFile("tutorial_a.xdsl");
     }
 
     /**
@@ -150,6 +164,15 @@ public class BayesianNetwork {
         return ret;
     }
 
+   /**
+     * Возвращает значения состояний узла Calculate
+     * @return {passed, not_pass}
+     */
+    public double[] getInputNodeValue() {
+        double ret[]={getNodeValue("Calculate_" + paramName + "_" + id, "right"),getNodeValue("Calculate_" + paramName + "_" + id, "mistake")};
+        return ret;
+    }
+    
     public double getNodeValue(String nodeName, String outcomeName) {
         // Getting the index of the "nodeName" outcome:
         int outcomeIndex;
@@ -238,7 +261,12 @@ public class BayesianNetwork {
     public void setaRefining(double[] aRefining) {
         this.aRefining = aRefining;
     }
-
+    /**
+     * @param aModel the aModel to set
+     */
+    public void setaModel(double[] aModel) {
+        this.aModel = aModel;
+    }
     /**
      * @param aOutput the aOutput to set
      */
