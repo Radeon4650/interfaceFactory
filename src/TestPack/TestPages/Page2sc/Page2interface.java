@@ -255,6 +255,9 @@ public class Page2interface extends TestPageInterface{
     
     @Override
     public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl) {
+        saveData(sg);
+        sg.checkPage(1);
+        
         if (aTextField.getText().equals("")) return false;
         if (bTextField.getText().equals("")) return false;
         if (cTextField.getText().equals("")) return false;
@@ -264,8 +267,6 @@ public class Page2interface extends TestPageInterface{
         if (t1TextField.getText().equals("")) return false;
         if (t2TextField.getText().equals("")) return false;
         
-        saveData(sg);
-        sg.checkPage(1);
         return true;
     }
     

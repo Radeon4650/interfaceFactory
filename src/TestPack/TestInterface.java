@@ -133,7 +133,7 @@ public class TestInterface {
         btnResults.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                loadResults(lang, sg.getTestPU(), sg.getBayesianChart(lang));
+                    loadResults(lang, sg.getTestPU(), sg.getBayesianChart(lang), sg.recomend(lang));
                 }
         });
         
@@ -188,10 +188,11 @@ public class TestInterface {
             if (++currentPageNumber>7) {
               currentPageNumber=8;
               btnResults.setVisible(true);
+              btnPrevPage.setDisable(true);         //!!!
               btnNextPage.setDisable(true);
             }
-            else btnNextPage.setDisable(false);   
-            btnPrevPage.setDisable(false);
+            else {  btnNextPage.setDisable(false);   
+            btnPrevPage.setDisable(false); }
             setCurrentPage(lang, currentPageNumber);
             tInterface.setCenter(currentPage.getRootLayout());
             nextStepErrorInfo.setVisible(false);
@@ -231,11 +232,11 @@ public class TestInterface {
     }
     
     /**Загрузить страницу результатов*/
-    private void loadResults(final ResourceBundle lang, final TestPassingUnit testPU, final Node chart) {      
+    private void loadResults(final ResourceBundle lang, final TestPassingUnit testPU, final Node chart, String recDet) {      
         currentPageNumber = 9;
         currentStepLabel.setText(lang.getString("ResPage.Summary"));
         btnResults.setVisible(false);
         currentPage.dataCheck(sg, ctrl);
-        tInterface.setCenter(resPage.getResultPage(lang, testPU, chart));
+        tInterface.setCenter(resPage.getResultPage(lang, testPU, chart, recDet));
     }
 }

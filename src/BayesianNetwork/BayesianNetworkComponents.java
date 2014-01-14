@@ -52,8 +52,7 @@ public class BayesianNetworkComponents {
     
     /**
      * @return график изменений уровня владения компонентами знаний и умений 
-     * студента
-     */
+     * студента */
     public LineChart<Number, Number> getLearningChart(final ResourceBundle lang) {
         final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis(0, 1, 0.1);
@@ -74,7 +73,28 @@ public class BayesianNetworkComponents {
         
         lineChart.setLegendVisible(true);
         lineChart.setPrefHeight(600);
-//        lineChart.setCreateSymbols(false);
         return lineChart;
+    }
+    
+    public String recommend(final ResourceBundle lang) {
+        String output="";
+        for(String key : components.keySet()) {
+            int downCounter=0;
+            double[] seriesData = components.get(key).getNetworkChart();
+            for (int i = 1; i < seriesData.length; i++) 
+                if (seriesData[i-1] > seriesData[i])
+                    downCounter++;
+            if (downCounter>=2) {                   // Если отрицательная динамика наблюдается 2 или более раз, необходимо это учесть!
+                if (!output.equals(""))
+                    output += "; ";
+                output += lang.getString("ResPage."+key);
+            }         
+        }
+        if (output.equals("")) output = lang.getString("ResPage.noRec");
+        else { output += "."; 
+        output = lang.getString("ResPage.necessaryRecs") + output;
+        }
+        output = lang.getString("ResPage.recIntro") + output;
+        return output;
     }
 }

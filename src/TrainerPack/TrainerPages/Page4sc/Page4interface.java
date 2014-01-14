@@ -19,7 +19,7 @@ import javafx.scene.control.Tooltip;
 public class Page4interface extends TestPack.TestPages.Page4sc.Page4interface {
     private Button abrPromptBtn;
 
-    public Page4interface(TestSystemGenerator sg, final ResourceBundle lang, final TrainerControl ctrl) {
+    public Page4interface(final TestSystemGenerator sg, final ResourceBundle lang, final TrainerControl ctrl) {
         super(sg, lang);
         abrPromptBtn = new Button("< " + lang.getString("TrainerInterface.promptBtnTitle"));
         abrPromptBtn.setTooltip(new Tooltip(lang.getString("Trainer.p4.abrPromptBtn")));
@@ -27,6 +27,7 @@ public class Page4interface extends TestPack.TestPages.Page4sc.Page4interface {
             @Override
             public void handle(ActionEvent t) {
                 PromptSet.putPrompt(lang, ctrl, "abridgedMulFormula", rootLayout, 1, 5, 2, 2);
+                sg.hintWatchScore();
             }
         });
         

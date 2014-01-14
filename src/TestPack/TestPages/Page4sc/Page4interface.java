@@ -404,6 +404,9 @@ public class Page4interface extends TestPageInterface {
     @Override
     public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl)  {
         try {
+            saveData(sg);
+            sg.checkPage(3);
+            
             Double.parseDouble(kTf.getText());
             Double.parseDouble(mUTf.getText());
             Double.parseDouble(nUTf.getText());
@@ -418,8 +421,6 @@ public class Page4interface extends TestPageInterface {
             if (x3tf.getText().equals("")) throw nfe;
             if (x4tf.getText().equals("")) throw nfe;
             
-            saveData(sg);
-            sg.checkPage(3);
             return true;
         }
         catch (NumberFormatException nfe) {

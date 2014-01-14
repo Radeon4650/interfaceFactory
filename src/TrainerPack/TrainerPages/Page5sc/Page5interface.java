@@ -10,7 +10,6 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 
 /**
@@ -21,7 +20,7 @@ import javafx.scene.control.Tooltip;
 public class Page5interface extends TestPack.TestPages.Page5sc.Page5interface {
     private Button apcPromptBtn;
 
-    public Page5interface(TestSystemGenerator sg, final ResourceBundle lang, final TrainerControl ctrl) {
+    public Page5interface(final TestSystemGenerator sg, final ResourceBundle lang, final TrainerControl ctrl) {
         super(sg, lang);
         apcPromptBtn = new Button("< " + lang.getString("TrainerInterface.promptBtnTitle"));
         apcPromptBtn.setTooltip(new Tooltip(lang.getString("Trainer.p5.apcPromptBtn")));
@@ -29,6 +28,7 @@ public class Page5interface extends TestPack.TestPages.Page5sc.Page5interface {
             @Override
             public void handle(ActionEvent t) {
                 PromptSet.putPrompt(lang, ctrl, "formula_Aw", rootLayout, 1, 1, 2, 1);
+                sg.hintWatchScore();
             }
         });
         

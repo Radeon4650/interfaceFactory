@@ -34,7 +34,8 @@ public class TrainerInterface extends TestInterface {
         watchDemoBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
-                currentPage.watchDemo(sg, lang, ctrl);
+                currentPage.watchDemo(sg, lang, ctrl);      // показали пользователю страничку, которую он хотел видеть
+                sg.demoWatchScore();                        // и сделали пометку, что он списал, а не решил самостоятельно
             }
         });
         
@@ -54,9 +55,11 @@ public class TrainerInterface extends TestInterface {
             final TestSystemGenerator sg, final TextField inputField, 
             final TrainerControl ctrl) {
         
+        
         boolean rightInput = sg.getStudPassing(pageNumber, key);
         if (ctrl.checkValueResult(rightInput))
-            return true;
+        {   inputField.setStyle(AppStyles.testRightTextFieldInputStyle());
+            return true; }
         else inputField.setStyle(AppStyles.trainerErrorInputStyle());
         return false;
     }; 

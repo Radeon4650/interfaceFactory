@@ -21,7 +21,7 @@ import javafx.scene.control.Tooltip;
 public class Page6interface extends TestPack.TestPages.Page6sc.Page6interface {
     private Button apbPromptBtn;
 
-    public Page6interface(TestSystemGenerator sg, final ResourceBundle lang, final TrainerControl ctrl) {
+    public Page6interface(final TestSystemGenerator sg, final ResourceBundle lang, final TrainerControl ctrl) {
         super(sg, lang);
         final Tooltip ttip = new Tooltip("tooltip");
         
@@ -31,6 +31,7 @@ public class Page6interface extends TestPack.TestPages.Page6sc.Page6interface {
             @Override
             public void handle(ActionEvent t) {
                 PromptSet.putPrompt(lang, ctrl, "formula_passband", rootLayout, 1, 0, 2, 1);
+                sg.hintWatchScore();
             }
         });
         

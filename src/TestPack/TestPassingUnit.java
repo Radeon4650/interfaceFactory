@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
  * @author radeon
  */
 public class TestPassingUnit {
+    private int demoWatching;
     private int score;
     private final double autoPrecision = 0.01; 
     
@@ -30,6 +31,7 @@ public class TestPassingUnit {
 
     /**@param calcPrecision точность совпадения решения студента и данных, вычисленных автоматически*/
     public TestPassingUnit(double calcPrecision) {
+        demoWatching = 0;
         score = 0;
         
         p0Passed = new HashMap();
@@ -115,6 +117,18 @@ public class TestPassingUnit {
         else return false;
     }
     
+    /**Если пользователь слишком часто подглядывает в режим "Демо",
+     * его нужно наказывать */
+    public void watchDemo() {
+        this.demoWatching++;
+        this.decreaseScore(10);
+    }
+    
+    /**Если пользователь слишком часто подглядывает в подсказки,
+     * его нужно наказывать */
+    public void watchHint() {
+        this.decreaseScore(2);
+    }
     
     /**Установить значение
      * @param pageNumber номер страницы
@@ -137,6 +151,38 @@ public class TestPassingUnit {
         boolean checkResult = checkDoubleValues(autoVal, studVal);
         setValue(pageNumber, key, checkResult);
         return checkResult;
+    }
+    
+    /**Для тех мест, где возникают спорные вопросы о том, кто не прав и что делать*/
+    public boolean[] checkDeniable(int pageNumber, String key1, String key2,
+            double autoVal1, double autoVal2, double studVal1, double studVal2, double precision) {
+        
+        boolean[] results = new boolean[2];
+        setPrecision(precision);
+        
+        boolean A, B, C, D;
+        A = checkDoubleValues(autoVal1, studVal1);
+        B = checkDoubleValues(autoVal1, studVal2);
+        C = checkDoubleValues(autoVal2, studVal1);
+        D = checkDoubleValues(autoVal2, studVal2);
+        
+        if ((A&D)|(B&C)) {
+            results[0] = true; 
+            results[1] = true;
+        }
+        else {   
+            if ((A|C)) {
+                results[0] = true;
+                results[1] = false;
+            }
+            else {
+                results[0] = false;
+                results[1] = B|D;
+            }
+        }
+        setValue(pageNumber, key1, results[0]);
+        setValue(pageNumber, key2, results[1]);
+        return results;
     }
     
     /**@return результат сравнения двух строк: 
@@ -198,6 +244,14 @@ public class TestPassingUnit {
         return results;
     }
     
+    private String watchDemoResults (final ResourceBundle lang) {
+        if (this.demoWatching>0) 
+            return "<p>" + lang.getString("TPU.watchDemo")
+                + String.valueOf(this.demoWatching)
+                + ".</p>";
+        return "";
+    }
+    
     
     /**@return HTML-строку с подробным сообщением о результатах прохождения теста */
     public String checkResults(final ResourceBundle lang) {
@@ -215,6 +269,7 @@ public class TestPassingUnit {
                 + pageResults(6, lang)
                 + pageResults(7, lang)
                 + pageResults(8, lang)
+                + watchDemoResults(lang)
                 + "</body></html>";
     }
 

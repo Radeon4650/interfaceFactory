@@ -20,7 +20,7 @@ public class Page3interface extends TestPack.TestPages.Page3sc.Page3interface {
     Button tfPromptBtn;
     Button replPromptBtn;
     
-    public Page3interface(TestSystemGenerator sg, final ResourceBundle lang, final TrainerControl ctrl) {
+    public Page3interface(final TestSystemGenerator sg, final ResourceBundle lang, final TrainerControl ctrl) {
         super(sg, lang);
         tfPromptBtn = new Button("< " + lang.getString("TrainerInterface.promptBtnTitle"));
         replPromptBtn = new Button("< " + lang.getString("TrainerInterface.promptBtnTitle"));
@@ -32,12 +32,14 @@ public class Page3interface extends TestPack.TestPages.Page3sc.Page3interface {
             @Override
             public void handle(ActionEvent t) {
                 PromptSet.putPrompt(lang, ctrl, "formula_Fs_t1t2", rootLayout, 1, 4, 2, 1);
+                sg.hintWatchScore();
             }
         });
         replPromptBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent t) {
                 PromptSet.putPrompt(lang, ctrl, "replacementSjw", rootLayout, 1, 7, 2, 1);
+                sg.hintWatchScore();
             }
         });
         

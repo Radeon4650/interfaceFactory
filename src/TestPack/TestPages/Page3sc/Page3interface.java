@@ -211,12 +211,13 @@ public class Page3interface extends TestPageInterface {
     
     @Override
     public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl)  {
+        saveData(sg);
+        sg.checkPage(2);
+        
         if (kTextField.getText().equals("")) return false;
         if (t1TextField.getText().equals("")) return false;
         if (t2TextField.getText().equals("")) return false;        
         
-        saveData(sg);
-        sg.checkPage(2);
         return true;
     }
     

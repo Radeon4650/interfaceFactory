@@ -1,7 +1,6 @@
 package StartDialogs;
 
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -13,7 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.image.Image;
+import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -111,7 +110,8 @@ public static Response showConfirmDialog( Stage owner, String message, String ti
     bp.setCenter( buttons );
     HBox msg = new HBox();
     msg.setSpacing(5);
-    msg.getChildren().addAll( icon, new Message( message ) );
+//    msg.getChildren().addAll( icon, new Message( message ) );
+    msg.getChildren().addAll(new Message( message ));
     vb.getChildren().addAll( msg, bp );
     dial.showDialog();
     return buttonSelected;
@@ -144,28 +144,31 @@ public static void showMessageDialog( Stage owner, Node message, String title ) 
 
 public static langResponse showStartDialog( Stage owner, String message, String title ) {
     VBox vb = new VBox();
+    vb.setAlignment(Pos.CENTER_RIGHT);
     Scene scene = new Scene( vb );
     final startDialog dial = new startDialog( title, owner, scene, "res/Confirm.png" );
     vb.setPadding( new Insets(10, 10, 10, 10) );
     vb.setSpacing( 10);
     final Button continueButton = new Button( "Продолжить" );
     ChoiceBox cb=new ChoiceBox(FXCollections.observableArrayList("Русский","Українська","English"));
+    cb.setPrefWidth(170);
+    continueButton.setPrefWidth(170);
     cb.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
 
         @Override
         public void changed(ObservableValue<? extends Number> ov, Number t, Number t1) {
-switch(ov.getValue().intValue()){
-    case 0: langSelected=langResponse.RU;
-        continueButton.setText("Продолжить");
-        break;
-    case 1: langSelected=langResponse.UA;
-    continueButton.setText("Продовжити");
-        break;
-    case 2: langSelected=langResponse.EN;
-    continueButton.setText("Continue");
-        break;
-    default: langSelected=langResponse.RU;
-}
+        switch(ov.getValue().intValue()){
+            case 0: langSelected=langResponse.RU;
+                continueButton.setText("Продолжить");
+                break;
+            case 1: langSelected=langResponse.UA;
+            continueButton.setText("Продовжити");
+                break;
+            case 2: langSelected=langResponse.EN;
+            continueButton.setText("Continue");
+                break;
+            default: langSelected=langResponse.RU;
+        }
         }
     });
     cb.getSelectionModel().select(0);
@@ -175,11 +178,12 @@ switch(ov.getValue().intValue()){
         }
     } );
         
-    BorderPane bp = new BorderPane();
-    HBox msg = new HBox();
-    msg.setSpacing(5);
-    msg.getChildren().addAll( icon, new Message( message ) );
-    vb.getChildren().addAll( msg, cb, continueButton );
+    Label msgLab = new Label(message);
+    HBox hb = new HBox();
+    hb.setSpacing(5);
+    hb.setAlignment(Pos.CENTER);
+    hb.getChildren().addAll(msgLab, cb);
+    vb.getChildren().addAll( hb, continueButton );
     dial.showDialog();
     return langSelected;
 }

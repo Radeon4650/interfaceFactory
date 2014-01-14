@@ -142,11 +142,12 @@ public class Page6interface extends TestPageInterface {
     
     @Override
     public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl)  {
+        saveData(sg);
+        sg.checkPage(5);
+        
         if (aInp.getText().equals("")) return false;
         if (wInp.getText().equals("")) return false;
         
-        saveData(sg);
-        sg.checkPage(5);
         return true;
     }
     

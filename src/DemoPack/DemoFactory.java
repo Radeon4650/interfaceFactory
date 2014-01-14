@@ -82,7 +82,9 @@ public class DemoFactory {
         col0.setHalignment(HPos.CENTER);
         col0.setPercentWidth(100);
         demoView.getColumnConstraints().add(col0);
-        demoView.setStyle(AppStyles.mainStageRootStyle());
+        demoView.setStyle(AppStyles.mainStageRootStyle()
+                + "-fx-border-color: #" + AppStyles.wrongRedColor() + ";"
+                + "-fx-border-width: 2px;");
 
         ctrl.watchDemo(String.valueOf(pageNumber+1)); //Сообщаем диагностической модели, что студент подсмотрел в демо-режим
         return demoView;

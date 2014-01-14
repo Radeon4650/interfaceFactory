@@ -244,11 +244,13 @@ public class Page5interface extends TestPageInterface {
     @Override
     public boolean dataCheck(TestSystemGenerator sg, final TrainerControl ctrl)  {
         try {
+            saveData(sg);
+            sg.checkPage(4);
+            
             Double.parseDouble(kTf.getText());
             Double.parseDouble(mTf.getText());
             Double.parseDouble(nTf.getText());
-            saveData(sg);
-            sg.checkPage(4);
+            
             return true;
         }
         catch (NumberFormatException nfe) {

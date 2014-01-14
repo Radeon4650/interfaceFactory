@@ -28,6 +28,7 @@ public class Page1interface extends TestPack.TestPages.Page1sc.Page1interface {
             @Override
             public void handle(ActionEvent t) {
                 PromptSet.putPrompt(lang, ctrl, "formula_Fs", coeffGrid, 0, 5, 2, 1);
+                sg.hintWatchScore();
             }
         });
  

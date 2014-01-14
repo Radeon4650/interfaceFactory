@@ -46,14 +46,14 @@ public class InterfaceFactory extends Application {
        final Thread myThread=new Thread(myServer);
         try {
         myThread.start();
-        Thread.sleep(100);
+        Thread.sleep(300);
         myServer.isStart();
         //--------Локализация--------------------
         // Для выбора языка необходимо при запуске передать программе 
         // параметр lang со значением текущей локали (ru, ua, en)
-                chooseLang(FXOptionPane.showStartDialog(primaryStage, "mass", "infoMessage").toString());
+                chooseLang(FXOptionPane.showStartDialog(primaryStage, "Выберите язык:", "Вход").toString());
         } catch (IOException ex) {
-                        FXOptionPane.showMessageDialog(primaryStage, ex.getMessage(), "Халтура");
+                        FXOptionPane.showMessageDialog(primaryStage, "Обучающая программа уже запущена!", "Действие отменено");
             Logger.getLogger(InterfaceFactory.class.getName()).log(Level.SEVERE, null, ex);
             myThread.interrupt();
             System.exit(13);

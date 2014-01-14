@@ -324,10 +324,10 @@ class CalcPrecisions {
         precision.put("nV_3", 0.001);
         precision.put("h_3", 0.01);
         precision.put("e_3", 0.01);
-        precision.put("x1_3", 0.001);
-        precision.put("x2_3", 0.001);
-        precision.put("x3_3", 0.001);
-        precision.put("x4_3", 0.001);
+        precision.put("x1_3", 0.01);
+        precision.put("x2_3", 0.01);
+        precision.put("x3_3", 0.01);
+        precision.put("x4_3", 0.01);
         
         precision.put("k_4", 0.01);
         precision.put("m_4", 0.001);
@@ -387,6 +387,10 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
 
     public LineChart<Number, Number> getBayesianChart(final ResourceBundle lang) {
         return this.b_net.getLearningChart(lang);
+    }
+    
+    public String recomend(final ResourceBundle lang) {
+        return this.b_net.recommend(lang);
     }
     
     /**@return Зачение, введенное студентом на конкретной странице
@@ -514,6 +518,16 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         }
     }
     
+    /**Вызывать при каждом обращении к Демо-режиму*/
+    public void demoWatchScore() {
+        this.testPU.watchDemo();
+    }
+    
+    /**Вызывать при каждом использовании подсказок*/
+    public void hintWatchScore() {
+        this.testPU.watchHint();
+    }
+    
     /**Выполняет изменение оценки обучающегося на данном этапе,
      * основываясь на предыдущем решении и текущем введенном значении 
      * @param prevRes правильность предыдущего решения
@@ -559,19 +573,38 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         this.b_net.changeNetworkElement(netName, answerRight, diagnosisApproved);
     }
     
-     private void checkDoubleValue(int pageNumber, String key, double autoValue, 
+    /**Процедура для использования в процедурах типа "Check" */
+    private void checkProcedure(int pageNumber, String key, boolean prevRes, boolean currRes, 
+            String netName, boolean diagnosisApproved) {
+        if ((!prevRes) & currRes)                              
+            studData.getP_rightInput(pageNumber).put(key, currRes);
+         estimate(prevRes, currRes);                                                            
+         bayesianChange(netName, currRes, diagnosisApproved);
+    }
+    
+    private void checkDoubleValue(int pageNumber, String key, double autoValue, 
              double studValue, String netName, boolean diagnosisApproved) {
          boolean prevRes, currRes;
          double precision = this.prec.getPrecision(key+"_"+String.valueOf(pageNumber));
          prevRes = studData.getP_rightInput(pageNumber).get(key);                               //Узнаем, было ли ранее введено правильное решение
          currRes = getTestPU().checkValues(pageNumber, key, autoValue, studValue, precision);   //Проверяем правильность текущего решения
-         if ((!prevRes) & currRes) {                                                            //Если текущее решение правильно - делаем пометку
-            studData.getP_rightInput(pageNumber).remove(key);
-            studData.getP_rightInput(pageNumber).put(key, currRes);
-         }
-         estimate(prevRes, currRes);                                                            //Выставляем оценку
+         checkProcedure(pageNumber, key, prevRes, currRes, netName, diagnosisApproved);
+     }
+     
+     private void checkDeniableValues(int pageNumber, String key1, String key2, double autoValue1, double autoValue2,
+             double studValue1, double studValue2, String netName, boolean diagnosisApproved) {
+         boolean [] results;
+         boolean prevRes, currRes;
+         double precision = this.prec.getPrecision(key1+"_"+String.valueOf(pageNumber));
+         results = getTestPU().checkDeniable(pageNumber, key1, key2, autoValue1,
+                 autoValue2, studValue1, studValue2, precision);
          
-         bayesianChange(netName, currRes, diagnosisApproved);
+         prevRes = studData.getP_rightInput(pageNumber).get(key1);                               
+         currRes = results[0];
+         checkProcedure(pageNumber, key1, prevRes, currRes, netName, diagnosisApproved);
+         prevRes = studData.getP_rightInput(pageNumber).get(key2);                               
+         currRes = results[1];
+         checkProcedure(pageNumber, key2, prevRes, currRes, netName, diagnosisApproved);
      }
      
      private void checkStringValue(int pageNumber, String key, String autoValue, 
@@ -638,10 +671,14 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         checkDoubleValue(pageNumber, "b", this.getFs().getB(), b, netName, diagnosisApproved);
         checkDoubleValue(pageNumber, "c", this.getFs().getC(), c, netName, diagnosisApproved); 
         checkDoubleValue(pageNumber, "D", this.getFs().getD(), D, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "s1", this.getFs().getS1(), s1, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "s2", this.getFs().getS2(), s2, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "T1", this.getFs().getT1(), T1, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "T2", this.getFs().getT2(), T2, netName, diagnosisApproved);
+        checkDeniableValues(pageNumber, "s1", "s2", this.getFs().getS1(), 
+                this.getFs().getS2(), s1, s2, netName, diagnosisApproved);
+        checkDeniableValues(pageNumber, "T1", "T2", this.getFs().getT1(), 
+                this.getFs().getT2(), T1, T2, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "s1", this.getFs().getS1(), s1, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "s2", this.getFs().getS2(), s2, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "T1", this.getFs().getT1(), T1, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "T2", this.getFs().getT2(), T2, netName, diagnosisApproved);
         
     }
     
@@ -659,8 +696,10 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         T2 = tryParce(pageNumber, "T2");
         
         checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "T1", this.getFs().getT1(), T1, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "T2", this.getFs().getT2(), T2, netName, diagnosisApproved);
+        checkDeniableValues(pageNumber, "T1", "T2", this.getFs().getT1(), 
+                this.getFs().getT2(), T1, T2, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "T1", this.getFs().getT1(), T1, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "T2", this.getFs().getT2(), T2, netName, diagnosisApproved);
         checkStringValue(pageNumber, "rep", "1", studData.getP(2).get("rep"));
     }
     
@@ -687,20 +726,23 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         x4 = tryParce(pageNumber, "x4");
         
         checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "mU", this.getFs().getU_w().getM(), mU, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "nU", this.getFs().getU_w().getN(), nU, netName, diagnosisApproved);
         checkDoubleValue(pageNumber, "h", this.getFs().getU_w().getH(), h, netName, diagnosisApproved);
-        
-        checkDoubleValue(pageNumber, "x1", -this.getFs().getT1(), x1, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "x3", -this.getFs().getT1(), x3, netName, diagnosisApproved);
+        checkDeniableValues(pageNumber, "mU", "nU", this.getFs().getU_w().getM(), this.getFs().getU_w().getN(), mU, nU, netName, diagnosisApproved);
+        checkDeniableValues(pageNumber, "x1", "x2", -this.getFs().getT1(), -this.getFs().getT2(), x1, x2, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "mU", this.getFs().getU_w().getM(), mU, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "nU", this.getFs().getU_w().getN(), nU, netName, diagnosisApproved);       
+//        checkDoubleValue(pageNumber, "x1", -this.getFs().getT1(), x1, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "x2", -this.getFs().getT2(), x2, netName, diagnosisApproved);
         
         netName = "V(w)";
-        checkDoubleValue(pageNumber, "mV", this.getFs().getV_w().getM(), mV, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "nV", this.getFs().getV_w().getN(), nV, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "e", this.getFs().getV_w().getE(), e, netName, diagnosisApproved);  
+        checkDoubleValue(pageNumber, "e", this.getFs().getV_w().getE(), e, netName, diagnosisApproved); 
+        checkDeniableValues(pageNumber, "mV", "nV", this.getFs().getU_w().getM(), this.getFs().getU_w().getN(), mV, nV, netName, diagnosisApproved);
+        checkDeniableValues(pageNumber, "x3", "x4", -this.getFs().getT1(), -this.getFs().getT2(), x3, x4, netName, diagnosisApproved);
         
-        checkDoubleValue(pageNumber, "x2", -this.getFs().getT2(), x2, netName, diagnosisApproved);  
-        checkDoubleValue(pageNumber, "x4", -this.getFs().getT2(), x4, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "mV", this.getFs().getV_w().getM(), mV, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "nV", this.getFs().getV_w().getN(), nV, netName, diagnosisApproved);  
+//        checkDoubleValue(pageNumber, "x3", -this.getFs().getT1(), x3, netName, diagnosisApproved);  
+//        checkDoubleValue(pageNumber, "x4", -this.getFs().getT2(), x4, netName, diagnosisApproved);
     }
     
     
@@ -717,8 +759,10 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         n = tryParce(pageNumber, "n");
         
         checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "m", this.getFs().getA_w().getM(), m, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "n", this.getFs().getA_w().getN(), n, netName, diagnosisApproved);
+        checkDeniableValues(pageNumber, "m", "n", this.getFs().getA_w().getM(), 
+                this.getFs().getA_w().getN(), m, n, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "m", this.getFs().getA_w().getM(), m, netName, diagnosisApproved);
+//        checkDoubleValue(pageNumber, "n", this.getFs().getA_w().getN(), n, netName, diagnosisApproved);
     }
     
     
