@@ -1,9 +1,11 @@
 package BayesianNetwork;
 
+import StartDialogs.FXOptionPane;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.stage.Stage;
 import smile.Network;
 import smile.SMILEException;
 
@@ -42,6 +44,8 @@ public class BayesianNetwork {
         } catch (SMILEException ex) {
             Logger.getLogger(BayesianNetwork.class.getName()).log(Level.SEVERE, null, ex);
         }
+        catch (UnsatisfiedLinkError el){
+            FXOptionPane.showMessageDialog(new Stage(), "Plaese include jSmile libraries\n into ./lib folder", "Library Error");}
     }
 
     /**

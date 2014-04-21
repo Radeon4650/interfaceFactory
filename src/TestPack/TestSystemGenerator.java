@@ -1,6 +1,18 @@
 package TestPack;
 
 import BayesianNetwork.BayesianNetworkComponents;
+import DiffModesCommon.DMpackage.A_Wpb_DM;
+import DiffModesCommon.DMpackage.FrecFuncDM.Uw_hCoeff_DM;
+import DiffModesCommon.DMpackage.FrecFuncDM.Vw_eCoeff_DM;
+import DiffModesCommon.DMpackage.MathDM.Accuracy_DM;
+import DiffModesCommon.DMpackage.MathDM.Rounding_DM;
+import DiffModesCommon.DMpackage.MathDM.SignLoss_DM;
+import DiffModesCommon.DMpackage.SqEqDM.Discriminant_DM;
+import DiffModesCommon.DMpackage.SqEqDM.SqEqRoots_DM;
+import DiffModesCommon.DMpackage.TransFuncDM.AcoeffTF_DM;
+import DiffModesCommon.DMpackage.TransFuncDM.BcoeffTF_DM;
+import DiffModesCommon.DMpackage.TransFuncDM.CcoeffTF_DM;
+import DiffModesCommon.DMpackage.TransFuncDM.KcoeffTF_DM;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -376,6 +388,10 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
     private CalcPrecisions prec;
     private BayesianNetworkComponents b_net;
     
+    private final Rounding_DM rndDM;
+    private final Accuracy_DM accDM;
+    private final SignLoss_DM sgnDM;
+
 
     public TestSystemGenerator() {
         super();
@@ -383,6 +399,10 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         studData = new StudentData();
         prec = new CalcPrecisions();
         b_net = new BayesianNetworkComponents();
+        
+        rndDM = new Rounding_DM();
+        accDM = new Accuracy_DM();
+        sgnDM = new SignLoss_DM();
     }
 
     public LineChart<Number, Number> getBayesianChart(final ResourceBundle lang) {
@@ -629,24 +649,78 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
          try { return Double.parseDouble(studData.getP(pageNumber).get(key)); }
          catch (NumberFormatException ex) { return getUnwrittedValue(); }
      }
-    
-    
+     
+     private boolean check3diag (double autoValue, double studValue, double calcPrecision) {
+         double [] inputData = new double [1];
+         inputData[0] = autoValue;
+         boolean diagnosisApproved = rndDM.checkDiagnosis(inputData, studValue, calcPrecision);
+         diagnosisApproved = diagnosisApproved | accDM.checkDiagnosis(inputData, studValue, calcPrecision);
+         diagnosisApproved = diagnosisApproved | sgnDM.checkDiagnosis(inputData, studValue, calcPrecision);
+         return diagnosisApproved;
+     }
+   
     /**Проверка правильности решения для страницы 1 [0]*/
     private void checkPage0() {
         double k, a, b, c;
         int pageNumber = 0;
+        double precision = 0.00001;
         String netName = "TransferFunction";
-        boolean diagnosisApproved = false;
         
+        // DM check:        
         k = tryParce(pageNumber, "k");
         a = tryParce(pageNumber, "a");
         b = tryParce(pageNumber, "b");
         c = tryParce(pageNumber, "c");
         
-        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "a", this.getFs().getA(), a, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "b", this.getFs().getB(), b, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "c", this.getFs().getC(), c, netName, diagnosisApproved);                                    
+        boolean k_diagnosisApproved = check3diag(this.getFs().getK(), k, precision);
+        boolean a_diagnosisApproved = check3diag(this.getFs().getA(), a, precision);
+        boolean b_diagnosisApproved = check3diag(this.getFs().getB(), b, precision);
+        boolean c_diagnosisApproved = check3diag(this.getFs().getC(), c, precision);
+        
+        if (!k_diagnosisApproved) 
+        {
+            final KcoeffTF_DM kDM = new KcoeffTF_DM();
+            double [] inputData = {
+                this.getWk1().getK(), this.getWk2().getK(),
+                this.getWd3().getK(), this.getWk5().getK(), this.getWk6().getK()
+            };
+            k_diagnosisApproved = kDM.checkDiagnosis(inputData, k, precision);
+        }
+        if (!a_diagnosisApproved) 
+        {
+            final AcoeffTF_DM aDM = new AcoeffTF_DM();
+            double [] inputData = {
+                this.getWd3().getT1(), this.getWd3().getT2(),
+                this.getWk1().getK(), this.getWk2().getK(),
+                this.getWd3().getK(), this.getWk5().getK(), this.getWk6().getK()
+            };
+            a_diagnosisApproved = aDM.checkDiagnosis(inputData, a, precision);
+        }
+        if (!b_diagnosisApproved) 
+        {
+            final BcoeffTF_DM bDM = new BcoeffTF_DM();
+            double [] inputData = {
+                this.getWd3().getT1(), this.getWd3().getT2(),
+                this.getWk1().getK(), this.getWk2().getK(),
+                this.getWd3().getK(), this.getWk5().getK(), this.getWk6().getK()
+            };
+            b_diagnosisApproved = bDM.checkDiagnosis(inputData, b, precision);
+        }
+        if (!c_diagnosisApproved) 
+        {
+            final CcoeffTF_DM cDM = new CcoeffTF_DM();
+            double [] inputData = {
+                this.getWk1().getK(), this.getWk2().getK(),
+                this.getWd3().getK(), this.getWk5().getK(), this.getWk6().getK()
+            };
+            c_diagnosisApproved = cDM.checkDiagnosis(inputData, c, precision);
+        }
+        
+        
+        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, k_diagnosisApproved);
+        checkDoubleValue(pageNumber, "a", this.getFs().getA(), a, netName, a_diagnosisApproved);
+        checkDoubleValue(pageNumber, "b", this.getFs().getB(), b, netName, b_diagnosisApproved);
+        checkDoubleValue(pageNumber, "c", this.getFs().getC(), c, netName, c_diagnosisApproved);                                    
     }
     
     
@@ -654,9 +728,9 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
     /**Проверка правильности решения для страницы 2 [1]*/
     private void checkPage1() {
         double a, b, c, D, s1, s2, T1, T2;
+        double precision = 0.000001;
         int pageNumber = 1;
         String netName = "SquareEquation";
-        boolean diagnosisApproved = false;
         
         a = tryParce(pageNumber, "a");
         b = tryParce(pageNumber, "b");
@@ -667,18 +741,41 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         T1 = tryParce(pageNumber, "T1");
         T2 = tryParce(pageNumber, "T2");
         
-        checkDoubleValue(pageNumber, "a", this.getFs().getA(), a, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "b", this.getFs().getB(), b, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "c", this.getFs().getC(), c, netName, diagnosisApproved); 
-        checkDoubleValue(pageNumber, "D", this.getFs().getD(), D, netName, diagnosisApproved);
+        boolean a_diagnosisApproved = check3diag(this.getFs().getA(), a, precision);
+        boolean b_diagnosisApproved = check3diag(this.getFs().getB(), b, precision);
+        boolean c_diagnosisApproved = check3diag(this.getFs().getC(), c, precision);
+        boolean D_diagnosisApproved = check3diag(this.getFs().getD(), D, precision);
+        boolean s1s2_diagnosisApproved = check3diag(this.getFs().getS1(), s1, precision);
+        s1s2_diagnosisApproved = s1s2_diagnosisApproved | check3diag(this.getFs().getS2(), s2, precision);
+        boolean T1T2_diagnosisApproved = check3diag(this.getFs().getT1(), T1, precision);
+        T1T2_diagnosisApproved = T1T2_diagnosisApproved | check3diag(this.getFs().getT2(), T2, precision);
+        
+        
+        if (!D_diagnosisApproved) {
+            final Discriminant_DM dm = new Discriminant_DM();
+            double [] inputData = {
+                this.getFs().getA(), this.getFs().getB(), this.getFs().getC()
+            };
+            D_diagnosisApproved = dm.checkDiagnosis(inputData, D, precision);
+        }
+        if (!s1s2_diagnosisApproved) {
+            final SqEqRoots_DM dm = new SqEqRoots_DM();
+            double [] inputData = {
+                this.getFs().getA(), this.getFs().getB(), 
+                this.getFs().getC(), this.getFs().getD()
+            };
+            s1s2_diagnosisApproved = dm.checkDiagnosis(inputData, s1, precision);
+            s1s2_diagnosisApproved = s1s2_diagnosisApproved | dm.checkDiagnosis(inputData, s2, precision);
+        }
+        
+        checkDoubleValue(pageNumber, "a", this.getFs().getA(), a, netName, a_diagnosisApproved);
+        checkDoubleValue(pageNumber, "b", this.getFs().getB(), b, netName, b_diagnosisApproved);
+        checkDoubleValue(pageNumber, "c", this.getFs().getC(), c, netName, c_diagnosisApproved); 
+        checkDoubleValue(pageNumber, "D", this.getFs().getD(), D, netName, D_diagnosisApproved);
         checkDeniableValues(pageNumber, "s1", "s2", this.getFs().getS1(), 
-                this.getFs().getS2(), s1, s2, netName, diagnosisApproved);
+                this.getFs().getS2(), s1, s2, netName, s1s2_diagnosisApproved);
         checkDeniableValues(pageNumber, "T1", "T2", this.getFs().getT1(), 
-                this.getFs().getT2(), T1, T2, netName, diagnosisApproved);
-//        checkDoubleValue(pageNumber, "s1", this.getFs().getS1(), s1, netName, diagnosisApproved);
-//        checkDoubleValue(pageNumber, "s2", this.getFs().getS2(), s2, netName, diagnosisApproved);
-//        checkDoubleValue(pageNumber, "T1", this.getFs().getT1(), T1, netName, diagnosisApproved);
-//        checkDoubleValue(pageNumber, "T2", this.getFs().getT2(), T2, netName, diagnosisApproved);
+                this.getFs().getT2(), T1, T2, netName, T1T2_diagnosisApproved);
         
     }
     
@@ -689,17 +786,19 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         double k, T1, T2;
         int pageNumber = 2;
         String netName = "FrequencyCharacteristic";
-        boolean diagnosisApproved = false;
+        double precision = 0.00001;
         
         k = tryParce(pageNumber, "k");
         T1 = tryParce(pageNumber, "T1");
         T2 = tryParce(pageNumber, "T2");
         
-        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, diagnosisApproved);
+        boolean k_diagnosisApproved = check3diag(this.getFs().getK(), k, precision);
+        boolean T_diagnosisApproved = check3diag(this.getFs().getT1(), T1, precision);
+        T_diagnosisApproved = T_diagnosisApproved | check3diag(this.getFs().getT2(), T2, precision);
+        
+        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, k_diagnosisApproved);
         checkDeniableValues(pageNumber, "T1", "T2", this.getFs().getT1(), 
-                this.getFs().getT2(), T1, T2, netName, diagnosisApproved);
-//        checkDoubleValue(pageNumber, "T1", this.getFs().getT1(), T1, netName, diagnosisApproved);
-//        checkDoubleValue(pageNumber, "T2", this.getFs().getT2(), T2, netName, diagnosisApproved);
+                this.getFs().getT2(), T1, T2, netName, T_diagnosisApproved);
         checkStringValue(pageNumber, "rep", "1", studData.getP(2).get("rep"));
     }
     
@@ -709,9 +808,8 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
     private void checkPage3() {
         double k, mU, nU, mV, nV, h, e, x1, x2, x3, x4;
         int pageNumber = 3;
+        double precision = 0.00001;
         String netName = "U(w)";
-        
-        boolean diagnosisApproved = false;
         
         k = tryParce(pageNumber, "k");
         mU = tryParce(pageNumber, "mU");
@@ -725,24 +823,39 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         x3 = tryParce(pageNumber, "x3");
         x4 = tryParce(pageNumber, "x4");
         
-        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, diagnosisApproved);
-        checkDoubleValue(pageNumber, "h", this.getFs().getU_w().getH(), h, netName, diagnosisApproved);
-        checkDeniableValues(pageNumber, "mU", "nU", this.getFs().getU_w().getM(), this.getFs().getU_w().getN(), mU, nU, netName, diagnosisApproved);
-        checkDeniableValues(pageNumber, "x1", "x2", -this.getFs().getT1(), -this.getFs().getT2(), x1, x2, netName, diagnosisApproved);
-//        checkDoubleValue(pageNumber, "mU", this.getFs().getU_w().getM(), mU, netName, diagnosisApproved);
-//        checkDoubleValue(pageNumber, "nU", this.getFs().getU_w().getN(), nU, netName, diagnosisApproved);       
-//        checkDoubleValue(pageNumber, "x1", -this.getFs().getT1(), x1, netName, diagnosisApproved);
-//        checkDoubleValue(pageNumber, "x2", -this.getFs().getT2(), x2, netName, diagnosisApproved);
+        boolean k_diagnosisApproved = check3diag(this.getFs().getK(), k, precision);
+        boolean mnU_diagnosisApproved = check3diag(this.getFs().getU_w().getM(), mU, precision);
+        mnU_diagnosisApproved = mnU_diagnosisApproved | check3diag(this.getFs().getU_w().getN(), nU, precision);
+        boolean x12_diagnosisApproved = check3diag(-this.getFs().getT1(), x1, precision);
+        x12_diagnosisApproved = x12_diagnosisApproved | check3diag(-this.getFs().getT2(), x2, precision);
+        boolean h_diagnosisApproved = check3diag(this.getFs().getU_w().getH(), h, precision);
+        if (!h_diagnosisApproved) {
+            final Uw_hCoeff_DM dm = new Uw_hCoeff_DM();
+            double [] inputData = { this.getFs().getT1(), this.getFs().getT2() };
+            h_diagnosisApproved = dm.checkDiagnosis(inputData, h, precision);
+        }
+        
+        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, k_diagnosisApproved);
+        checkDoubleValue(pageNumber, "h", this.getFs().getU_w().getH(), h, netName, h_diagnosisApproved);
+        checkDeniableValues(pageNumber, "mU", "nU", this.getFs().getU_w().getM(), this.getFs().getU_w().getN(), mU, nU, netName, mnU_diagnosisApproved);
+        checkDeniableValues(pageNumber, "x1", "x2", -this.getFs().getT1(), -this.getFs().getT2(), x1, x2, netName, x12_diagnosisApproved);
+        
+        boolean mnV_diagnosisApproved = check3diag(this.getFs().getU_w().getM(), mV, precision);
+        mnV_diagnosisApproved = mnV_diagnosisApproved | check3diag(this.getFs().getU_w().getN(), nV, precision);
+        boolean x34_diagnosisApproved = check3diag(-this.getFs().getT1(), x3, precision);
+        x34_diagnosisApproved = x34_diagnosisApproved | check3diag(-this.getFs().getT2(), x4, precision);
+        boolean e_diagnosisApproved = check3diag(this.getFs().getV_w().getE(), e, precision);
+        if (!e_diagnosisApproved) {
+            final Vw_eCoeff_DM dm = new Vw_eCoeff_DM();
+            double [] inputData = { this.getFs().getT1(), this.getFs().getT2(),
+            this.getFs().getK() };
+            e_diagnosisApproved = dm.checkDiagnosis(inputData, h, precision);
+        }
         
         netName = "V(w)";
-        checkDoubleValue(pageNumber, "e", this.getFs().getV_w().getE(), e, netName, diagnosisApproved); 
-        checkDeniableValues(pageNumber, "mV", "nV", this.getFs().getU_w().getM(), this.getFs().getU_w().getN(), mV, nV, netName, diagnosisApproved);
-        checkDeniableValues(pageNumber, "x3", "x4", -this.getFs().getT1(), -this.getFs().getT2(), x3, x4, netName, diagnosisApproved);
-        
-//        checkDoubleValue(pageNumber, "mV", this.getFs().getV_w().getM(), mV, netName, diagnosisApproved);
-//        checkDoubleValue(pageNumber, "nV", this.getFs().getV_w().getN(), nV, netName, diagnosisApproved);  
-//        checkDoubleValue(pageNumber, "x3", -this.getFs().getT1(), x3, netName, diagnosisApproved);  
-//        checkDoubleValue(pageNumber, "x4", -this.getFs().getT2(), x4, netName, diagnosisApproved);
+        checkDoubleValue(pageNumber, "e", this.getFs().getV_w().getE(), e, netName, e_diagnosisApproved); 
+        checkDeniableValues(pageNumber, "mV", "nV", this.getFs().getU_w().getM(), this.getFs().getU_w().getN(), mV, nV, netName, mnV_diagnosisApproved);
+        checkDeniableValues(pageNumber, "x3", "x4", -this.getFs().getT1(), -this.getFs().getT2(), x3, x4, netName, x34_diagnosisApproved);
     }
     
     
@@ -752,17 +865,19 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         double k, m, n;
         int pageNumber = 4;
         String netName = "A(w)";
-        boolean diagnosisApproved = false;
+        double precision = 0.00001;
         
         k = tryParce(pageNumber, "k");
         m = tryParce(pageNumber, "m");
         n = tryParce(pageNumber, "n");
         
-        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, diagnosisApproved);
+        boolean k_diagnosisApproved = check3diag(this.getFs().getK(), k, precision);
+        boolean mn_diagnosisApproved = check3diag(this.getFs().getA_w().getM(), m, precision);
+        mn_diagnosisApproved = mn_diagnosisApproved | check3diag(this.getFs().getA_w().getN(), n, precision);
+        
+        checkDoubleValue(pageNumber, "k", this.getFs().getK(), k, netName, k_diagnosisApproved);
         checkDeniableValues(pageNumber, "m", "n", this.getFs().getA_w().getM(), 
-                this.getFs().getA_w().getN(), m, n, netName, diagnosisApproved);
-//        checkDoubleValue(pageNumber, "m", this.getFs().getA_w().getM(), m, netName, diagnosisApproved);
-//        checkDoubleValue(pageNumber, "n", this.getFs().getA_w().getN(), n, netName, diagnosisApproved);
+                this.getFs().getA_w().getN(), m, n, netName, mn_diagnosisApproved);
     }
     
     
@@ -772,11 +887,17 @@ public class TestSystemGenerator extends DemoPack.DemoSystemGenerator {
         int pageNumber = 5;
         double a, w;
         String netName = "A(w_pb)";
-        
-        boolean diagnosisApproved = false;
-        
+        double precision = 0.00001;
+
         a = tryParce(pageNumber, "Apb");
         w = tryParce(pageNumber, "wpb");
+        
+        boolean diagnosisApproved = check3diag(this.getFs().getA_w().getApr(), a, precision);
+        if (!diagnosisApproved) {
+            final A_Wpb_DM dm = new A_Wpb_DM();
+            double [] inputData = { this.getFs().getA_w().getfA_w(0) };
+            diagnosisApproved = dm.checkDiagnosis(inputData, a, precision);
+        }
         
         checkDoubleValue(pageNumber, "Apb", this.getFs().getA_w().getApr(), a, netName, diagnosisApproved);
         checkDoubleValue(pageNumber, "wpb", this.getFs().getA_w().getwPr(), w, netName, diagnosisApproved);

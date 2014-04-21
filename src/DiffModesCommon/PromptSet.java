@@ -90,7 +90,7 @@ public class PromptSet {
                 // D
                     + "<mrow><mi>D</mi><mo>=</mo>"
                     + "<msup><mi>b</mi><mn>2</mn></msup>"
-                    + "<mo>+</mo><mn>4</mn>"
+                    + "<mo>-</mo><mn>4</mn>"
                     + "<mi>a</mi><mi>c</mi>"
                     + "</mrow></math>;"
                // s1
